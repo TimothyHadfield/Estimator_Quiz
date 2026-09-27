@@ -1,7 +1,7 @@
 {
   "rules": {
     ".read": true,
-    ".write": false,
+    ".write": "auth != null && auth.token.email == 'timhadfield7@gmail.com' && auth.token.email_verified == true",
 
     "questions": {
       "$q": {

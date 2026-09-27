@@ -8,6 +8,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
     <style>
         * {
@@ -2298,19 +2299,6 @@ Population of Tokyo?, 13960000"></textarea>
         <span id="login-btn-text">Operator Login</span>
     </button>
 
-    <!-- Login Modal -->
-    <div class="login-modal" id="login-modal">
-        <div class="login-modal-content">
-            <h3>Operator Login</h3>
-            <div class="login-error" id="login-error">Incorrect password</div>
-            <input type="password" id="operator-password" placeholder="Enter operator password" onkeypress="if(event.key==='Enter')attemptLogin()">
-            <div class="login-modal-buttons">
-                <button class="btn btn-primary" onclick="attemptLogin()">Login</button>
-                <button class="btn btn-secondary" onclick="closeLoginModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Report Modal -->
     <div class="report-modal" id="report-modal">
         <div class="report-modal-content">
@@ -2387,10 +2375,11 @@ Population of Tokyo?, 13960000"></textarea>
             totalAnswers: 0
         };
 
-        // Operator login state
+        // Operator login state (Google sign-in; the database rules check the same email)
         let isOperator = false;
-        // IMPORTANT: Change this password to your own secret password!
-        const OPERATOR_PASSWORD = 'admin123';
+        const OPERATOR_EMAIL = 'timhadfield7@gmail.com';
+        const auth = firebase.auth();
+        let loginRequested = false;
 
         // Report system state
         let currentReportQuestionId = null;
@@ -2419,56 +2408,74 @@ Population of Tokyo?, 13960000"></textarea>
                 // Already logged in - log out
                 logoutOperator();
             } else {
-                // Show login modal
-                document.getElementById('login-modal').classList.add('show');
-                document.getElementById('operator-password').value = '';
-                document.getElementById('login-error').classList.remove('show');
-                document.getElementById('operator-password').focus();
+                attemptLogin();
             }
-        }
-
-        function closeLoginModal() {
-            document.getElementById('login-modal').classList.remove('show');
         }
 
         function attemptLogin() {
-            const password = document.getElementById('operator-password').value;
+            loginRequested = true;
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.setCustomParameters({ prompt: 'select_account' });
+            auth.signInWithPopup(provider).catch(err => {
+                const code = err && err.code;
+                if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment') {
+                    // Popups blocked (e.g. iPhone home-screen app): use a full-page redirect instead
+                    try { sessionStorage.setItem('estimatorQuizLoginRedirect', '1'); } catch (e) {}
+                    return auth.signInWithRedirect(provider);
+                }
+                loginRequested = false;
+                if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
+                    console.warn('Sign-in failed:', err);
+                    showNotification('Sign-in failed', 'error');
+                }
+            });
+        }
 
-            if (password === OPERATOR_PASSWORD) {
-                isOperator = true;
-                document.body.classList.add('operator-mode');
-                document.getElementById('login-btn-text').textContent = 'Logout';
-                closeLoginModal();
-                localStorage.setItem('estimatorQuizOperator', 'true');
-                showNotification('Logged in as operator', 'success');
-
-                // Switch to Questions tab since it's now visible
-                switchTab('questions');
-            } else {
-                document.getElementById('login-error').classList.add('show');
-                document.getElementById('operator-password').value = '';
-                document.getElementById('operator-password').focus();
-            }
+        function setOperatorMode(on) {
+            isOperator = on;
+            document.body.classList.toggle('operator-mode', on);
+            document.getElementById('login-btn-text').textContent = on ? 'Logout' : 'Operator Login';
         }
 
         function logoutOperator() {
-            isOperator = false;
-            document.body.classList.remove('operator-mode');
-            document.getElementById('login-btn-text').textContent = 'Operator Login';
-            localStorage.removeItem('estimatorQuizOperator');
-            showNotification('Logged out', 'info');
-
-            // Switch to Test tab since admin tabs are now hidden
-            switchTab('test');
+            auth.signOut().then(() => showNotification('Logged out', 'info'));
         }
 
         function checkOperatorSession() {
-            const saved = localStorage.getItem('estimatorQuizOperator');
-            if (saved === 'true') {
-                isOperator = true;
-                document.body.classList.add('operator-mode');
-                document.getElementById('login-btn-text').textContent = 'Logout';
-            }
+            try {
+                if (sessionStorage.getItem('estimatorQuizLoginRedirect')) {
+                    sessionStorage.removeItem('estimatorQuizLoginRedirect');
+                    loginRequested = true;
+                }
+            } catch (e) {}
+            auth.getRedirectResult().catch(err => {
+                console.warn('Sign-in redirect failed:', err);
+                showNotification('Sign-in failed', 'error');
+            });
+            auth.onAuthStateChanged(user => {
+                const wasOperator = isOperator;
+                const requested = loginRequested;
+                loginRequested = false;
+                if (user && user.email === OPERATOR_EMAIL && user.emailVerified) {
+                    setOperatorMode(true);
+                    if (requested) {
+                        showNotification('Logged in as operator', 'success');
+                        // Switch to Questions tab since it's now visible
+                        switchTab('questions');
+                    }
+                } else {
+                    if (user) {
+                        // Signed in with someone else's Google account
+                        auth.signOut();
+                        showNotification('Only the quiz owner can use operator mode', 'error');
+                    }
+                    setOperatorMode(false);
+                    if (wasOperator) {
+                        // Switch to Test tab since admin tabs are now hidden
+                        switchTab('test');
+                    }
+                }
+            });
         }
 
         // ===== REPORT SYSTEM =====
