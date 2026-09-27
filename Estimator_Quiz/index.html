@@ -2518,15 +2518,17 @@ Population of Tokyo?, 13960000"></textarea>
                     question.reports = [];
                 }
 
-                question.reports.push({
+                const report = {
                     id: Date.now().toString(),
                     reasons: selectedReasons,
                     comment: comment,
                     date: Date.now(),
                     playerName: testState.playerName
-                });
+                };
+                question.reports.push(report);
 
-                saveData();
+                // Append just this report under the question (never rewrite the question list)
+                dbWrite(questionRef(question).child('reports').push(report));
                 showNotification('Report submitted. Thank you for your feedback!', 'success');
             }
 
@@ -2542,7 +2544,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (!confirm(`Clear all ${question.reports.length} report(s) for this question?`)) return;
 
             question.reports = [];
-            saveData();
+            dbWrite(questionRef(question).child('reports').remove());
             renderQuestions();
             showNotification('Reports cleared', 'success');
         }
@@ -2626,6 +2628,8 @@ Population of Tokyo?, 13960000"></textarea>
             const lines = data.split('\n').filter(line => line.trim());
             let imported = 0;
             let skipped = 0;
+            const updates = {};
+            let categoriesChanged = false;
 
             for (const line of lines) {
                 // Try different separators: tab, comma, semicolon
@@ -2660,9 +2664,10 @@ Population of Tokyo?, 13960000"></textarea>
                 // Add category if it doesn't exist and is specified
                 if (categoryText && !categories.includes(categoryText)) {
                     categories.push(categoryText);
+                    categoriesChanged = true;
                 }
 
-                questions.push({
+                const newQuestion = {
                     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
                     text: questionText,
                     answer: answer,
@@ -2671,13 +2676,17 @@ Population of Tokyo?, 13960000"></textarea>
                     multiplier: 1,
                     avgPoints: 0,
                     avgCount: 0
-                });
+                };
+                const key = newQuestionKey();
+                updates['questions/' + key] = newQuestion;
+                questions.push({ ...newQuestion, _key: key });
 
                 imported++;
             }
 
             if (imported > 0) {
-                saveData();
+                if (categoriesChanged) updates['categories'] = categories;
+                dbWrite(database.ref().update(updates));
                 renderAll();
                 pasteArea.value = '';
                 showNotification(`Imported ${imported} question${imported !== 1 ? 's' : ''}${skipped > 0 ? ` (${skipped} skipped)` : ''}`, 'success');
@@ -2727,7 +2736,7 @@ Population of Tokyo?, 13960000"></textarea>
             categories.push(name);
             selectedCategory = name; // Auto-select the new category
             input.value = '';
-            saveData();
+            dbWrite(database.ref('categories').set(categories));
             renderAll();
             updateCurrentCategoryBanner();
             showNotification(`Category "${name}" created and selected!`, 'success');
@@ -2735,7 +2744,6 @@ Population of Tokyo?, 13960000"></textarea>
 
         function selectCategory(name) {
             selectedCategory = name;
-            saveData();
             renderCategoryCards();
             updateCurrentCategoryBanner();
             showNotification(`Now adding questions to "${name || 'Uncategorized'}"`, 'info');
@@ -2754,11 +2762,13 @@ Population of Tokyo?, 13960000"></textarea>
             if (!confirm(message)) return;
 
             categories = categories.filter(c => c !== name);
+            const updates = { categories: categories };
 
-            // Remove category from questions
+            // Remove category from questions (only their category field)
             questions.forEach(q => {
                 if (q.category === name) {
                     q.category = '';
+                    updates['questions/' + q._key + '/category'] = '';
                 }
             });
 
@@ -2767,7 +2777,7 @@ Population of Tokyo?, 13960000"></textarea>
                 selectedCategory = '';
             }
 
-            saveData();
+            dbWrite(database.ref().update(updates));
             renderAll();
             updateCurrentCategoryBanner();
             showNotification(`Category "${name}" deleted`, 'info');
@@ -2786,9 +2796,13 @@ Population of Tokyo?, 13960000"></textarea>
 
             if (!confirm(`Delete all ${questionsInCategory} question${questionsInCategory !== 1 ? 's' : ''} from "${categoryLabel}"?`)) return;
 
+            const updates = {};
+            questions.filter(q => q.category === name).forEach(q => {
+                updates['questions/' + q._key] = null;
+            });
             questions = questions.filter(q => q.category !== name);
 
-            saveData();
+            dbWrite(database.ref().update(updates));
             renderAll();
             showNotification(`Cleared ${questionsInCategory} question${questionsInCategory !== 1 ? 's' : ''} from "${categoryLabel}"`, 'success');
         }
@@ -2821,6 +2835,7 @@ Population of Tokyo?, 13960000"></textarea>
                     question.text = text;
                     question.answer = answer;
                     // Keep category as-is when editing
+                    dbWrite(questionRef(question).update({ text, answer }));
                     showNotification('Question updated!', 'success');
                 }
                 cancelQuestionEdit();
@@ -2836,12 +2851,13 @@ Population of Tokyo?, 13960000"></textarea>
                     avgPoints: 0,         // Running total of points for this question
                     avgCount: 0           // Number of times answered (resets after multiplier adjustment)
                 };
-                questions.push(newQuestion);
+                const key = newQuestionKey();
+                dbWrite(database.ref('questions/' + key).set(newQuestion));
+                questions.push({ ...newQuestion, _key: key });
                 showNotification(`Question added to "${selectedCategory || 'Uncategorized'}"!`, 'success');
             }
 
             clearQuestionForm();
-            saveData();
             renderAll();
         }
 
@@ -2881,8 +2897,8 @@ Population of Tokyo?, 13960000"></textarea>
 
             if (!confirm('Delete this question?')) return;
 
+            dbWrite(questionRef(question).remove());
             questions = questions.filter(q => q.id !== questionId);
-            saveData();
             renderQuestions();
             showNotification('Question deleted', 'info');
         }
@@ -2998,13 +3014,19 @@ Population of Tokyo?, 13960000"></textarea>
                 if (originalQuestion.avgCount >= 5) {
                     adjustQuestionMultiplier(originalQuestion);
                 }
+
+                // Save only this question's three stat fields
+                dbWrite(questionRef(originalQuestion).update({
+                    avgPoints: originalQuestion.avgPoints,
+                    avgCount: originalQuestion.avgCount,
+                    multiplier: originalQuestion.multiplier
+                }));
             }
 
             // Update true average tracking
             trueAverageData.totalPoints += points;
             trueAverageData.totalAnswers++;
-            saveTrueAverage();
-            saveData();
+            recordTrueAverage(points);
 
             testState.answers.push({
                 question: question.text,
@@ -3118,7 +3140,7 @@ Population of Tokyo?, 13960000"></textarea>
             records.push(newRecord);
             records.sort((a, b) => b.score - a.score); // Higher score is better
             records = records.slice(0, 100);
-            saveData();
+            dbWrite(database.ref('records').push(newRecord));
 
             document.getElementById('test-question-container').style.display = 'none';
             document.getElementById('final-results').style.display = 'block';
@@ -3191,7 +3213,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (!confirm(`Are you sure you want to delete all ${records.length} record${records.length !== 1 ? 's' : ''}? This cannot be undone.`)) return;
 
             records = [];
-            saveData();
+            dbWrite(database.ref('records').remove());
             renderRecords();
             updateCategorySelects();
             showNotification('All records have been reset', 'success');
@@ -3498,10 +3520,9 @@ Population of Tokyo?, 13960000"></textarea>
             question.multiplier = Math.round(question.multiplier * 100) / 100; // Round to 2 decimals
 
             // Reset the question's average tracking for the next cycle
+            // (the caller saves these fields)
             question.avgPoints = 0;
             question.avgCount = 0;
-
-            saveData();
         }
 
         function getTrueAverage() {
@@ -3525,7 +3546,11 @@ Population of Tokyo?, 13960000"></textarea>
             question.avgPoints = 0;
             question.avgCount = 0;
 
-            saveData();
+            dbWrite(questionRef(question).update({
+                multiplier: question.multiplier,
+                avgPoints: 0,
+                avgCount: 0
+            }));
             renderQuestions();
             showNotification(`Multiplier updated to ${question.multiplier}`, 'success');
         }
@@ -3643,29 +3668,43 @@ Population of Tokyo?, 13960000"></textarea>
 
         // ===== FIREBASE DATA FUNCTIONS =====
 
-        function saveData() {
-            // Save questions
-            database.ref('questions').set(questions);
-            // Save categories
-            database.ref('categories').set(categories);
-            // Save records
-            database.ref('records').set(records);
+        // Every write targets only the path that changed. Nothing ever rewrites
+        // a whole list, so one page can't wipe or overwrite everyone's data.
+        // Security rules (database.rules.json) enforce the same thing server-side.
+
+        function dbWrite(promise) {
+            return promise.catch(err => {
+                console.error('Firebase write failed:', err);
+                showNotification('Could not save (permission denied)', 'error');
+            });
         }
 
-        function saveQuestions() {
-            database.ref('questions').set(questions);
+        // Each question remembers its database key in _key (set by the listener)
+        function questionRef(question) {
+            return database.ref('questions/' + question._key);
         }
 
-        function saveCategories() {
-            database.ref('categories').set(categories);
+        function newQuestionKey() {
+            return database.ref('questions').push().key;
         }
 
-        function saveRecords() {
-            database.ref('records').set(records);
+        // Add one answer to the shared average atomically
+        function recordTrueAverage(points) {
+            dbWrite(database.ref('trueAverage').transaction(current => {
+                const cur = current || { totalPoints: 0, totalAnswers: 0 };
+                return {
+                    totalPoints: (cur.totalPoints || 0) + points,
+                    totalAnswers: (cur.totalAnswers || 0) + 1
+                };
+            }));
         }
 
-        function saveTrueAverage() {
-            database.ref('trueAverage').set(trueAverageData);
+        // Firebase returns lists as arrays or keyed objects (with gaps as null)
+        function listFromSnapshot(data) {
+            if (!data) return [];
+            return Object.entries(data)
+                .filter(([, v]) => v !== null && v !== undefined)
+                .map(([k, v]) => (typeof v === 'object' ? Object.assign(v, { _key: k }) : v));
         }
 
         // Asked questions are kept local (per device) - this is intentional
@@ -3680,8 +3719,11 @@ Population of Tokyo?, 13960000"></textarea>
                 try {
                     askedQuestionIds = JSON.parse(saved);
                     // Clean up: remove IDs for questions that no longer exist
-                    const validIds = questions.map(q => q.id);
-                    askedQuestionIds = askedQuestionIds.filter(id => validIds.includes(id));
+                    // (only once questions have loaded, or it would wipe the list)
+                    if (questions.length > 0) {
+                        const validIds = questions.map(q => q.id);
+                        askedQuestionIds = askedQuestionIds.filter(id => validIds.includes(id));
+                    }
                 } catch (e) {
                     askedQuestionIds = [];
                 }
@@ -3693,18 +3735,16 @@ Population of Tokyo?, 13960000"></textarea>
             // Listen for questions changes
             database.ref('questions').on('value', (snapshot) => {
                 const data = snapshot.val();
-                if (data) {
-                    questions = Array.isArray(data) ? data : Object.values(data);
-                    // Migration: ensure all questions have required fields
-                    questions.forEach(q => {
-                        if (q.category === undefined) q.category = '';
-                        if (q.multiplier === undefined) q.multiplier = 1;
-                        if (q.avgPoints === undefined) q.avgPoints = 0;
-                        if (q.avgCount === undefined) q.avgCount = 0;
-                    });
-                } else {
-                    questions = [];
-                }
+                questions = listFromSnapshot(data).filter(q => typeof q === 'object');
+                // Migration: ensure all questions have required fields
+                questions.forEach(q => {
+                    if (q.category === undefined) q.category = '';
+                    if (q.multiplier === undefined) q.multiplier = 1;
+                    if (q.avgPoints === undefined) q.avgPoints = 0;
+                    if (q.avgCount === undefined) q.avgCount = 0;
+                    if (q.reports && !Array.isArray(q.reports)) q.reports = Object.values(q.reports);
+                    if (q.reports) q.reports = q.reports.filter(Boolean);
+                });
                 renderQuestions();
                 renderCategoryCheckboxes();
                 renderCompareCategoryCheckboxes();
@@ -3713,28 +3753,22 @@ Population of Tokyo?, 13960000"></textarea>
             // Listen for categories changes
             database.ref('categories').on('value', (snapshot) => {
                 const data = snapshot.val();
-                if (data) {
-                    categories = Array.isArray(data) ? data : Object.values(data);
-                } else {
-                    categories = [];
-                }
-                renderCategories();
+                categories = data ? Object.values(data).filter(Boolean) : [];
+                renderCategoryCards();
                 updateCategorySelects();
             });
 
             // Listen for records changes
             database.ref('records').on('value', (snapshot) => {
                 const data = snapshot.val();
-                if (data) {
-                    records = Array.isArray(data) ? data : Object.values(data);
-                    // Migration: ensure all records have categories field
-                    records.forEach(r => {
-                        if (!r.categories) r.categories = ['all'];
-                        if (!r.categoryKey) r.categoryKey = r.categories.sort().join('|');
-                    });
-                } else {
-                    records = [];
-                }
+                records = listFromSnapshot(data);
+                // Migration: ensure all records have categories field
+                records.forEach(r => {
+                    if (!r.categories) r.categories = ['all'];
+                    if (!r.categoryKey) r.categoryKey = r.categories.sort().join('|');
+                });
+                records.sort((a, b) => b.score - a.score); // Higher score is better
+                records = records.slice(0, 100);
                 renderRecords();
             });
 
@@ -3751,11 +3785,8 @@ Population of Tokyo?, 13960000"></textarea>
             // Listen for compare records changes
             database.ref('compareRecords').on('value', (snapshot) => {
                 const data = snapshot.val();
-                if (data) {
-                    compareRecords = Array.isArray(data) ? data : Object.values(data);
-                } else {
-                    compareRecords = [];
-                }
+                compareRecords = listFromSnapshot(data);
+                compareRecords.sort((a, b) => b.percentage - a.percentage || b.correct - a.correct);
                 renderCompareRecords();
             });
         }
@@ -4107,7 +4138,7 @@ Population of Tokyo?, 13960000"></textarea>
 
             compareRecords.push(record);
             compareRecords.sort((a, b) => b.percentage - a.percentage || b.correct - a.correct);
-            saveCompareRecords();
+            dbWrite(database.ref('compareRecords').push(record));
         }
 
         function resetCompareTest() {
@@ -4171,10 +4202,6 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         // Compare Records Functions
-        function saveCompareRecords() {
-            database.ref('compareRecords').set(compareRecords);
-        }
-
         function loadCompareRecords() {
             // Data is loaded via Firebase listener in setupFirebaseListeners()
             // This function is kept for compatibility but does nothing now
@@ -4229,7 +4256,7 @@ Population of Tokyo?, 13960000"></textarea>
                 return;
             }
             compareRecords = [];
-            saveCompareRecords();
+            dbWrite(database.ref('compareRecords').remove());
             renderCompareRecords();
             showNotification('All compare records have been reset', 'success');
         }
