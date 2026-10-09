@@ -17,6 +17,15 @@
           ".write": true,
           ".validate": "newData.isNumber() && newData.val() >= 0.3 && newData.val() <= 3 && newData.parent().child('text').exists()"
         },
+        "goodMarks": {
+          "$g": {
+            ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
+            ".validate": "newData.hasChildren(['date']) && newData.child('date').isNumber() && (!newData.child('playerName').exists() || (newData.child('playerName').isString() && newData.child('playerName').val().length <= 200))",
+            "date": { ".validate": true },
+            "playerName": { ".validate": true },
+            "$other": { ".validate": false }
+          }
+        },
         "reports": {
           "$r": {
             ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",

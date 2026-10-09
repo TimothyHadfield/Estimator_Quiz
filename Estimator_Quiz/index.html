@@ -725,6 +725,27 @@
             background: rgba(255, 152, 0, 0.4);
         }
 
+        .good-btn {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+
+        .good-btn:hover {
+            background: rgba(76, 175, 80, 0.4);
+        }
+
+        .good-btn.marked {
+            background: #4caf50;
+            color: #fff;
+            cursor: default;
+        }
+
         .report-modal {
             display: none;
             position: fixed;
@@ -2177,6 +2198,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <div class="result-display" id="result-display">
                     <div class="correct-answer">Correct Answer: <span id="correct-answer-value">0</span></div>
                     <div class="points-earned" id="points-earned">+0 points</div>
+                    <button class="good-btn" id="good-question-btn" onclick="markGoodQuestion()">Good question</button>
                     <button class="report-btn" onclick="openReportModal()">Report Question</button>
                 </div>
             </div>
@@ -2540,6 +2562,32 @@ Population of Tokyo?, 13960000"></textarea>
             }
 
             closeReportModal();
+        }
+
+        // ===== GOOD QUESTION MARKS =====
+
+        // Question ids marked good in this visit (so the button stays marked)
+        const markedGoodIds = new Set();
+
+        function updateGoodButton(question) {
+            const btn = document.getElementById('good-question-btn');
+            const marked = !!question && markedGoodIds.has(question.id);
+            btn.classList.toggle('marked', marked);
+            btn.textContent = marked ? '✓ Good question' : 'Good question';
+        }
+
+        function markGoodQuestion() {
+            const question = testState.shuffledQuestions[testState.currentIndex];
+            if (!question || markedGoodIds.has(question.id)) return;
+
+            markedGoodIds.add(question.id);
+            updateGoodButton(question);
+
+            // Append just this mark under the question (never rewrite the question list)
+            dbWrite(questionRef(question).child('goodMarks').push({
+                date: Date.now(),
+                playerName: testState.playerName
+            }));
         }
 
         function clearQuestionReports(questionId, event) {
@@ -2989,6 +3037,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('next-question-btn').style.display = 'none';
             document.getElementById('result-display').classList.remove('show');
             document.getElementById('test-answer').disabled = false;
+            updateGoodButton(question);
         }
 
         function submitAnswer() {
