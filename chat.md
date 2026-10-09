@@ -23,3 +23,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** backup `backups/db-full-2026-10-09-before-pass2.json`, deleted the 15 keys with `firebase database:update` (PowerShell), appended them to `docs/removed-questions-2026-10-09.csv` with reason "designed to surprise or trick".
 - **Verified how:** re-download: 1,337 left (Science 287, History 188, Industry 327, Fine Arts 181, Entertainment 354), 0 removed keys present, 0 kept keys changed, other nodes equal. phone-view WebKit 393px: a 20-question test starts, no overflow. No answers submitted.
 - **Open:** whether Tim wants new questions written in his style (recommended; thinnest categories are Fine Arts 181 and History 188); year-question scoring.
+
+## 2026-10-09 · "Good question" button (same chat)
+- **Asked:** "build something in the cite that helps us calebrate what a good questions is by just adding a button at the bottom that says "good question"… I'm gonna calibrate it for a bit by finding the good questions and then you can let me know what type of questions we should look for."
+- **Decided (Claude):** button in the Estimation result box beside Report Question; green pill matching the existing report pill; one tap, no popup, no undo; marks saved under the question with player name (D8). Estimation mode only.
+- **Built:** `.good-btn` CSS, button, `markGoodQuestion()` / `updateGoodButton()` in `Estimator_Quiz/index.html`; `goodMarks` rule in `database.rules.json`, deployed with `firebase deploy --only database`.
+- **Verified how:** before the rules deploy an anonymous mark write was denied; after it, phone-view WebKit 393px and `--desktop` 1440px on a local server: double-clicking the button saved exactly one mark `{date, playerName: "claude-test"}` (read back from the database), no exceptions, no overflow. Anonymous probes still denied: extra field, mark on a missing question, write at root, deleting marks. The two test marks were deleted and those questions read back intact. Result box was forced open by script, no answers submitted.
+- **Open:** Tim calibrates, then Claude reads the marks and reports the pattern. Year-question scoring.

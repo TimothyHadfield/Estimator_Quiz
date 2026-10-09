@@ -7,7 +7,7 @@ _Last updated 2026-10-09. For Claude only; Tim doesn't read this. Catch-up autho
 3. Skim the last 3 entries of `chat.md`. Older history: `docs/archive/` (none yet).
 
 ## Goal right now
-Improve the question set ("The most important thing with this app are the questions"). Two removal passes done 2026-10-09: 2,500 → 1,352 → 1,337 live questions. Tim then described what a good question looks like (Standing instructions). Likely next ask: new questions in that style (NOT authorized yet). Also waiting on the year-question scoring issue (see Traps).
+Improve the question set ("The most important thing with this app are the questions"). Two removal passes done 2026-10-09: 2,500 → 1,352 → 1,337 live questions. **Now: Tim is calibrating.** He plays and taps the new "Good question" button; when he comes back, read the marks (see Map: "Good-question marks") and tell him what type of questions to look for. Do not add, reword or remove questions from the marks without his go. Also waiting on the year-question scoring issue (see Traps).
 
 ## Status
 | Area | State | Notes |
@@ -18,6 +18,7 @@ Improve the question set ("The most important thing with this app are the questi
 | Local folder / repo | done 2026-10-09 | own repo, clean, in sync with `origin/main` |
 | Handoff files | done 2026-10-09 | `progress.md`, `chat.md` |
 | Question cull | done 2026-10-09 | Pass 1: 1,148 removed. Pass 2: 15 more ("designed to surprise or trick"). 1,337 left: Science 287, History 188, Industry 327, Fine Arts 181, Entertainment 354. List with a reason per question (1,163 rows): `docs/removed-questions-2026-10-09.csv` |
+| "Good question" button | live 2026-10-09 | Estimation mode only, in the result box next to Report Question (shows after an answer). One tap saves `questions/<key>/goodMarks/<pushId> = {date, playerName}`; turns solid green "✓ Good question"; no undo; one mark per question per page visit. Rules deployed 2026-10-09 |
 | Year-question scoring | waiting on Tim | 63 "What year…" questions remain and score ~1000 for any sensible guess (see Traps) |
 
 ## Authorized next steps
@@ -27,6 +28,7 @@ Improve the question set ("The most important thing with this app are the questi
 - "The most important thing with this app are the questions. There are too many questions that are either too similar or there's a word or reference in the question that the average person would have no idea what it's referring to." (2026-10-09)
 - Questions Tim likes (2026-10-09): "How many people die from snake bite deaths in India every year?" · "Population of South America" · "On average, how many new people try Minecraft for the first time every day?" · "How many chickens are consumed every year in the US?" · "Botswana (country in Africa) has the most elephants in the world. How many does it have?" Then: "Looking back on these, I'm not sure these are incredible because some of them are specifically designed to trick you so you're surprised by the answer. In general, I think the question should be pretty arbitrary and not designed to surprise or trick the user."
   - Claude's reading: a good question is a plain real-world quantity about a subject everyone recognises, with a short clarifier in brackets when a name needs it, big enough to be a real estimate, and not a "fun fact" whose point is that the answer is unexpected. His examples show the style, not a topic list.
+- "build something in the cite that helps us calebrate what a good questions is by just adding a button at the bottom that says "good question" and that lets us know what the good questions are. I'm gonna calibrate it for a bit by finding the good questions and then you can let me know what type of questions we should look for." (2026-10-09)
 - "make sure to create md files to track our progress and everything and so that reseting the chat is easy." (2026-10-09)
 - Global `~/.claude/CLAUDE.md` rules apply (commit and push each finished change, $0, verify at 390px and laptop, never touch live user data without his go).
 
@@ -50,6 +52,7 @@ Improve the question set ("The most important thing with this app are the questi
 - D2 · 2026-10-09 · This folder became its own repo (`git init` + existing remote) rather than using the parent repo, per the one-repo-per-project rule.
 - D3 · 2026-10-09 · Kept the nested `Estimator_Quiz/index.html` layout to keep the live URL working.
 - D5 · 2026-10-09 · Cull rules (Claude's, under Tim's go): remove near-duplicates and keep one; thin big look-alike clusters to the recognisable few (species counts, chromosome counts, city populations by year, dynasty lengths, battle troop counts, "how many X did composer Y write", nutrient contents, statue heights, mineral tonnages); remove jargon and names an average person wouldn't know; remove unknowable or made-up-sounding figures ("how many types of sushi exist"); remove wrong answers and garbled wording; remove trick, zero-answer, BCE-year and answer-in-the-question items and pure maths-recall. Kept famous year questions despite the scoring flaw.
+- D8 · 2026-10-09 · Good-question marks are stored as create-only push entries under each question (like reports) so anyone playing can mark but nobody can delete or edit; player name is saved so Tim's marks can be told apart from other players'. Not added to Which is Bigger? mode and no operator-screen display (kept to what he asked; flagged to him).
 - D7 · 2026-10-09 · Pass 2 removed 15 "gotcha" questions after Tim's "not designed to surprise or trick" (banana DNA, octopus hearts, giraffe neck bones, heat lost through the head, states with no natural lakes, Amazon oxygen, snail teeth, planets with rings, Hundred Years' War length, War of 1812 length, last guillotine year, kings named Henry, wasabi/horseradish, extra virgin olive oil, pomegranate seeds). Backup: `backups/db-full-2026-10-09-before-pass2.json`.
 - D6 · 2026-10-09 · Removed questions were hard-deleted from Firebase (not hidden), with a local full backup and a committed CSV as the undo path. README counts changed to "about 1,350".
 - D4 · 2026-10-09 · Committed `question-banks/` to the public repo (question text is already publicly readable from the database; no private data in them).
@@ -58,7 +61,8 @@ Improve the question set ("The most important thing with this app are the questi
 - Pass 2 caught only the clear gotchas; milder "fun fact" questions may remain among the 1,337.
 - Answers of the 1,337 kept questions were not fact-checked one by one; only ones that looked wrong on a read-through were removed. Many "as of 2024" figures will age.
 - `question-banks/*.csv` now differ from the live set (they still hold all 2,500 originals); not reconciled.
-- Whether the deployed database rules match `database.rules.json` in the repo · needs `firebase database:get`-style check or the console.
+- The Good question button on a real answered question (checks forced the result box open instead of submitting, to avoid writing live stats) and on Tim's iPhone. On a phone the result box needs a small scroll after answering (same as Report Question, pre-existing).
+- A failed mark save still shows "✓ Good question" (the button changes before the save returns).
 - Playing a full test end to end, submitting a record, operator login · only the home screen and the Estimation button were loaded headlessly on 2026-10-09.
 - Real iPhone behaviour (notch, address bar) · needs Tim's phone.
 
@@ -67,7 +71,8 @@ Improve the question set ("The most important thing with this app are the questi
 
 ## Map
 - `Estimator_Quiz/index.html` · the whole app, 4,275 lines: CSS lines 13–1867, HTML 1870–2300, JS 2330–4273. Firebase compat SDK 9.22.0 from the CDN. Tabs: `info`, `categories` (operator), `questions` (operator), `test`, `records` via `switchTab()`.
-- `database.rules.json` · Realtime Database rules. `firebase.json`, `.firebaserc` (project `estimator-quiz`) · Firebase CLI config.
+- Good-question marks: download `https://estimator-quiz-default-rtdb.firebaseio.com/questions.json` and list entries that have `goodMarks` (each mark has `date`, `playerName`). Ask Tim which player name he used if several appear. Code: `markGoodQuestion()` / `updateGoodButton()` in index.html, `.good-btn` CSS.
+- `database.rules.json` · Realtime Database rules (deployed copy matches the repo as of 2026-10-09, when it was redeployed). `firebase.json`, `.firebaserc` (project `estimator-quiz`) · Firebase CLI config.
 - `question-banks/` · 26 source files. The five 500-question CSVs (`"Question","Answer"`) match the live categories; the 50-question topic CSVs and `estimation_questions*` are earlier drafts.
 - `README.md`, `docs/screenshots/` · public showcase page for the repo.
 - Tests: no test suite. Checks run 2026-10-09: live page byte-identical to `HEAD` (curl + diff); phone-view (WebKit, iPhone 15, 393px) and `--desktop` (1440px): no console errors, no failed requests, no horizontal overflow.
