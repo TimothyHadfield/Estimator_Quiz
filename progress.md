@@ -7,7 +7,7 @@ _Last updated 2026-10-09. For Claude only; Tim doesn't read this. Catch-up autho
 3. Skim the last 3 entries of `chat.md`. Older history: `docs/archive/` (none yet).
 
 ## Goal right now
-Improve the question set ("The most important thing with this app are the questions"). First cull done 2026-10-09: 2,500 → 1,352 live questions. Waiting on Tim's reaction to the cull and on the year-question scoring issue (see Traps).
+Improve the question set ("The most important thing with this app are the questions"). Two removal passes done 2026-10-09: 2,500 → 1,352 → 1,337 live questions. Tim then described what a good question looks like (Standing instructions). Likely next ask: new questions in that style (NOT authorized yet). Also waiting on the year-question scoring issue (see Traps).
 
 ## Status
 | Area | State | Notes |
@@ -17,7 +17,7 @@ Improve the question set ("The most important thing with this app are the questi
 | Firebase Realtime Database | live | project `estimator-quiz`, free plan. Holds questions, stats, leaderboards |
 | Local folder / repo | done 2026-10-09 | own repo, clean, in sync with `origin/main` |
 | Handoff files | done 2026-10-09 | `progress.md`, `chat.md` |
-| Question cull | done 2026-10-09 | 1,148 removed from the live database, 1,352 left: Science 295, History 192, Industry 327, Fine Arts 184, Entertainment 354. List with a reason per question: `docs/removed-questions-2026-10-09.csv` |
+| Question cull | done 2026-10-09 | Pass 1: 1,148 removed. Pass 2: 15 more ("designed to surprise or trick"). 1,337 left: Science 287, History 188, Industry 327, Fine Arts 181, Entertainment 354. List with a reason per question (1,163 rows): `docs/removed-questions-2026-10-09.csv` |
 | Year-question scoring | waiting on Tim | 63 "What year…" questions remain and score ~1000 for any sensible guess (see Traps) |
 
 ## Authorized next steps
@@ -25,6 +25,8 @@ Improve the question set ("The most important thing with this app are the questi
 
 ## Standing instructions (Tim's words)
 - "The most important thing with this app are the questions. There are too many questions that are either too similar or there's a word or reference in the question that the average person would have no idea what it's referring to." (2026-10-09)
+- Questions Tim likes (2026-10-09): "How many people die from snake bite deaths in India every year?" · "Population of South America" · "On average, how many new people try Minecraft for the first time every day?" · "How many chickens are consumed every year in the US?" · "Botswana (country in Africa) has the most elephants in the world. How many does it have?" Then: "Looking back on these, I'm not sure these are incredible because some of them are specifically designed to trick you so you're surprised by the answer. In general, I think the question should be pretty arbitrary and not designed to surprise or trick the user."
+  - Claude's reading: a good question is a plain real-world quantity about a subject everyone recognises, with a short clarifier in brackets when a name needs it, big enough to be a real estimate, and not a "fun fact" whose point is that the answer is unexpected. His examples show the style, not a topic list.
 - "make sure to create md files to track our progress and everything and so that reseting the chat is easy." (2026-10-09)
 - Global `~/.claude/CLAUDE.md` rules apply (commit and push each finished change, $0, verify at 390px and laptop, never touch live user data without his go).
 
@@ -36,7 +38,7 @@ Improve the question set ("The most important thing with this app are the questi
 - **Database rules are deployed separately**: editing `database.rules.json` does nothing until `firebase deploy --only database` (CLI 15.24.0 is installed and logged in as timhadfield7@gmail.com, checked 2026-10-09).
 - **Year questions are nearly free points.** Scoring is ratio-based (`calculatePoints`, index.html ~line 3075: `1000*exp(-(ln(guess/answer))^2/B^2)`), so guessing 1900 for 1989 scores ~998. Not fixed: a scoring change is Tim's call. Same formula makes answer 0 all-or-nothing and negative answers awkward, so those questions were removed (only Mars temperature and absolute zero remain negative).
 - **Percentage scoring keys off the word "percentage"** in the question text (100-point scale). Keep that word in any percentage question.
-- **Question keys are sparse now.** `/questions` is still an array-shaped node with gaps (keys 0–2499, 1,352 present). The app handles gaps (`listFromSnapshot`). Never rewrite the whole node from a dense list; update by key.
+- **Question keys are sparse now.** `/questions` is still an array-shaped node with gaps (keys 0–2499, 1,337 present). The app handles gaps (`listFromSnapshot`). Never rewrite the whole node from a dense list; update by key.
 - **Restoring removed questions:** full pre-cull database copy is in `backups/db-full-2026-10-09-before-question-cull.json` (gitignored, local only, has player names). The committed CSV has every removed question with its key, id and stats. Restore one with `firebase database:update /questions <file>` from PowerShell (Git Bash mangles the leading `/`).
 - **Headless test flow:** `--do "click:.test-mode-option.selected" --do "fill:#player-name=claude-test" --do "click:text=Start Test"`. `click:text=Estimation` hits the wrong element. Don't submit answers in checks: each one writes to live stats.
 - **`question-banks/` is not what the app reads.** The app reads questions from Firebase. The CSVs are source material; whether they match the database exactly is unchecked (see NOT verified).
@@ -48,11 +50,13 @@ Improve the question set ("The most important thing with this app are the questi
 - D2 · 2026-10-09 · This folder became its own repo (`git init` + existing remote) rather than using the parent repo, per the one-repo-per-project rule.
 - D3 · 2026-10-09 · Kept the nested `Estimator_Quiz/index.html` layout to keep the live URL working.
 - D5 · 2026-10-09 · Cull rules (Claude's, under Tim's go): remove near-duplicates and keep one; thin big look-alike clusters to the recognisable few (species counts, chromosome counts, city populations by year, dynasty lengths, battle troop counts, "how many X did composer Y write", nutrient contents, statue heights, mineral tonnages); remove jargon and names an average person wouldn't know; remove unknowable or made-up-sounding figures ("how many types of sushi exist"); remove wrong answers and garbled wording; remove trick, zero-answer, BCE-year and answer-in-the-question items and pure maths-recall. Kept famous year questions despite the scoring flaw.
+- D7 · 2026-10-09 · Pass 2 removed 15 "gotcha" questions after Tim's "not designed to surprise or trick" (banana DNA, octopus hearts, giraffe neck bones, heat lost through the head, states with no natural lakes, Amazon oxygen, snail teeth, planets with rings, Hundred Years' War length, War of 1812 length, last guillotine year, kings named Henry, wasabi/horseradish, extra virgin olive oil, pomegranate seeds). Backup: `backups/db-full-2026-10-09-before-pass2.json`.
 - D6 · 2026-10-09 · Removed questions were hard-deleted from Firebase (not hidden), with a local full backup and a committed CSV as the undo path. README counts changed to "about 1,350".
 - D4 · 2026-10-09 · Committed `question-banks/` to the public repo (question text is already publicly readable from the database; no private data in them).
 
 ## NOT verified
-- Answers of the 1,352 kept questions were not fact-checked one by one; only ones that looked wrong on a read-through were removed. Many "as of 2024" figures will age.
+- Pass 2 caught only the clear gotchas; milder "fun fact" questions may remain among the 1,337.
+- Answers of the 1,337 kept questions were not fact-checked one by one; only ones that looked wrong on a read-through were removed. Many "as of 2024" figures will age.
 - `question-banks/*.csv` now differ from the live set (they still hold all 2,500 originals); not reconciled.
 - Whether the deployed database rules match `database.rules.json` in the repo · needs `firebase database:get`-style check or the console.
 - Playing a full test end to end, submitting a record, operator login · only the home screen and the Estimation button were loaded headlessly on 2026-10-09.
