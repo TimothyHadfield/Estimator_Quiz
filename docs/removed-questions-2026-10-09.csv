@@ -1,0 +1,1149 @@
+key,category,reason,question,answer,id,createdAt,multiplier,avgPoints,avgCount
+16,"Science","obscure reference or jargon","How many olfactory receptors does the human nose contain?",400,"17656684376949tsn2hm0p",1765668437694,1,0,0
+32,"Science","obscure reference or jargon","How many photoreceptor cells are in the human retina?",130000000,"1765668437694le92hdhbt",1765668437694,1,0,0
+35,"Science","obscure reference or jargon","What percentage of the human genome consists of protein-coding genes?",1.5,"1765668437694g8px3zj88",1765668437694,1,0,0
+36,"Science","obscure reference or jargon","How many different amino acids are used to build proteins in living organisms?",20,"1765668437694ldn3cm7ap",1765668437694,1,997.6,1
+38,"Science","too similar to another question","How many species of coral exist in the world's oceans?",6000,"176566843769490r3b7fgl",1765668437694,1,0,0
+40,"Science","obscure reference or jargon","How many synapses are in the human brain?",100000000000000,"1765668437694tq1nr3a1w",1765668437694,1,0,0
+41,"Science","too similar to another question","What is the gestation period in days for an African elephant?",645,"1765668437694gwhu2lg9c",1765668437694,1,0,0
+72,"Science","wrong answer or broken wording","How many craters larger than 0.6 miles in diameter are on the Moon's surface?",5185,"1765668437694ultktnhps",1765668437694,1,117.5,1
+74,"Science","too similar to another question","How many pounds does a 150-pound person weigh on Mars?",57,"1765668437694ok20uq6yq",1765668437694,1,0,0
+89,"Science","trick, giveaway or not an estimate","What percentage of the sky can be seen from any single point on Earth?",50,"1765668437694xz7hkk7zt",1765668437694,1,0,0
+91,"Science","obscure reference or jargon","What is the depth in miles of the largest canyon on Mars (Valles Marineris)?",6,"1765668437694hr8zrqoci",1765668437694,1,0,0
+93,"Science","wrong answer or broken wording","What is the orbital period in Earth days for the International Space Station to circle Earth?",0.0625,"1765668437694wdaelh58g",1765668437694,1,0,0
+97,"Science","too similar to another question","What percentage of visible matter in the universe is hydrogen?",75,"1765668437694clpr2tcd0",1765668437694,1,0,0
+108,"Science","too similar to another question","How many miles is the diameter of Earth at the equator?",7926,"17656684376949rznh8z0a",1765668437694,1,0,0
+111,"Science","too similar to another question","What is the average depth in feet of the Pacific Ocean?",14040,"17656684376946jlvhlrvs",1765668437694,1,0,0
+117,"Science","trick, giveaway or not an estimate","What is the elevation in feet of the Dead Sea (the lowest point on land)?",-1412,"1765668437694ylmt8nlpa",1765668437694,1,0,0
+118,"Science","vague or unknowable figure","How many rivers flow north in the United States?",48,"1765668437694z5nqnrk4w",1765668437694,1,0,0
+122,"Science","wrong answer or broken wording","How many miles long is the Amazon River basin?",4000,"1765668437694yb4ytsdhj",1765668437694,1,0,0
+127,"Science","wrong answer or broken wording","What percentage of Earth's land is habitable for humans?",29,"1765668437694b94fv27po",1765668437694,1,0,0
+131,"Science","wrong answer or broken wording","What percentage of the world's rainforests are in Brazil?",60,"176566843769465sytosol",1765668437694,1,0,0
+134,"Science","vague or unknowable figure","How many countries have coastlines on both the Atlantic and Pacific Oceans?",14,"1765668437694jff4xne7j",1765668437694,1,0,0
+142,"Science","too similar to another question","How many countries does the Mekong River flow through?",6,"17656684376943qc6fbw9s",1765668437694,1,0,0
+146,"Science","vague or unknowable figure","How many capital cities are located on islands?",12,"1765668437694tg2sa0o79",1765668437694,1,0,0
+148,"Science","vague or unknowable figure","How many U.S. states have volcanoes that have erupted in the past 200 years?",4,"17656684376956u0bpy0b5",1765668437695,1,0,0
+151,"Science","vague or unknowable figure","What percentage of Earth's coral reefs have been bleached or damaged?",50,"17656684376950f6fv568b",1765668437695,1,0,0
+158,"Science","wrong answer or broken wording","How many tons of garbage does the average American produce per year?",1.5,"1765668437695ssietxkes",1765668437695,1,0,0
+161,"Science","vague or unknowable figure","What is the thickness in feet that Arctic ice has decreased since 1979?",6.5,"17656684376952tpm6ri5g",1765668437695,1,0,0
+165,"Science","trick, giveaway or not an estimate","What is the pH level of current ocean water (normal seawater is 8.1)?",8.05,"1765668437695tqnzpufn2",1765668437695,1,0,0
+168,"Science","obscure reference or jargon","How many gigatons of ice does Greenland lose per year?",270,"1765668437695zcf4m30r6",1765668437695,1,0,0
+170,"Science","obscure reference or jargon","How many species are on the IUCN Red List of threatened species?",44000,"1765668437695psa9cimhx",1765668437695,1,0,0
+173,"Science","vague or unknowable figure","What is the concentration of microplastics in parts per trillion in ocean surface water?",10000,"17656684376952kbi0rgyp",1765668437695,1,0,0
+177,"Science","vague or unknowable figure","What is the average temperature increase in degrees Fahrenheit in the Arctic compared to the global average?",7,"1765668437695xcx7r6mpb",1765668437695,1,0,0
+179,"Science","vague or unknowable figure","What percentage of vehicles on the road contribute to urban air pollution?",75,"1765668437695xqi8zf3pz",1765668437695,1,0,0
+181,"Science","trick, giveaway or not an estimate","What is the depth in feet of the ozone hole at its maximum extent?",0,"1765668437695mpbnsay39",1765668437695,1,0,0
+184,"Science","vague or unknowable figure","How many migratory species are threatened with extinction globally?",360,"1765668437695m6ro40gh0",1765668437695,1,0,0
+186,"Science","vague or unknowable figure","How many lakes in the United States are too polluted for swimming or fishing?",46000,"176566843769572nelslb7",1765668437695,1,0,0
+188,"Science","obscure reference or jargon","How many tons of nitrogen fertilizer are used globally per year (in millions)?",110,"1765668437695k2km6xajj",1765668437695,1,0,0
+189,"Science","vague or unknowable figure","What is the average depth in feet that permafrost is thawing per decade?",1.5,"17656684376959nthqj3mz",1765668437695,1,0,0
+190,"Science","vague or unknowable figure","How many major oil spills (over 700 tons) occurred worldwide in 2023?",3,"1765668437695fsydabbd2",1765668437695,1,0,0
+193,"Science","too similar to another question","What is the average global ocean temperature increase in degrees Fahrenheit since 1900?",1.5,"1765668437695921tqlhen",1765668437695,1,618.5,1
+196,"Science","obscure reference or jargon","How many tons of CO2 do forests absorb globally per year (in gigatons)?",7.6,"1765668437695mk2896821",1765668437695,1,0,0
+197,"Science","vague or unknowable figure","What is the estimated cost in trillions of dollars of climate change damage by 2100?",23,"1765668437695coh6xm8d5",1765668437695,1,0,0
+198,"Science","vague or unknowable figure","How many feet has global sea ice decreased in thickness since 1980?",6,"17656684376950fr90zaca",1765668437695,1,0,0
+208,"Science","too similar to another question","How many eggs can a queen ant lay per day?",1500,"1765668437695j48es6fo8",1765668437695,1,0,0
+232,"Science","obscure reference or jargon","How many ommatidia (individual visual units) are in a dragonfly's compound eye?",30000,"1765668437695ydlkbg6tq",1765668437695,1,0,0
+233,"Science","vague or unknowable figure","What percentage of a sloth's diet consists of leaves?",99,"1765668437695l3pehnqk9",1765668437695,1,0,0
+243,"Science","wrong answer or broken wording","What percentage of their body weight can leafcutter ants carry?",50,"1765668437695cnrj9mx1z",1765668437695,1,0,0
+247,"Science","too similar to another question","What is the dive depth in feet a leatherback sea turtle can reach?",3937,"17656684376958kbbq4hb5",1765668437695,1,0,0
+252,"Science","too similar to another question","How many gallons of blood are pumped by the heart per day?",2000,"17656684376958e5maznf6",1765668437695,1,0,0
+253,"Science","too similar to another question","What is the length in feet of the small intestine in an adult?",22,"1765668437695garqrt2ml",1765668437695,1,0,0
+254,"Science","too similar to another question","How many taste receptors does the average human tongue have?",10000,"1765668437695p4chlsnt6",1765668437695,1,0,0
+260,"Science","vague or unknowable figure","How many neurons fire in the brain when you have a single thought?",100000000,"1765668437695us8pv4u9t",1765668437695,1,0,0
+264,"Science","vague or unknowable figure","How many muscles are used to take a single step?",200,"1765668437695drf12umxp",1765668437695,1,0,0
+265,"Science","too similar to another question","What is the length in miles of capillaries in the human body?",25000,"1765668437695r6rrl5y2b",1765668437695,1,0,0
+267,"Science","obscure reference or jargon","What percentage of the human body is made up of hydrogen by number of atoms?",60,"17656684376957ay14k444",1765668437695,1,1.1,1
+268,"Science","too similar to another question","How many times does the average heart beat in one year?",35000000,"17656684376952j4l7rl8d",1765668437695,1,0,0
+270,"Science","too similar to another question","How many ounces does the average adult human brain weigh?",48,"1765668437695vzs3khzzq",1765668437695,1,0,0
+272,"Science","obscure reference or jargon","How many nerve cells are in the human spinal cord?",13500000,"17656684376959vmltjakw",1765668437695,1,0,0
+274,"Science","vague or unknowable figure","How many feet of hair does the human body grow in a lifetime?",590,"176566843769504tb3fxgb",1765668437695,1,0,0
+275,"Science","obscure reference or jargon","What percentage of the human body is carbon by mass?",18,"17656684376959ww14uorb",1765668437695,1,0,0
+277,"Science","too similar to another question","What is the average resting heart rate in beats per minute for an adult?",72,"176566843769526t1rqtl6",1765668437695,1,0,0
+282,"Science","wrong answer or broken wording","How many facial muscles does it take to smile?",17,"17656684376951vpy48cgf",1765668437695,1,0,0
+283,"Science","too similar to another question","What percentage of the human body is water in newborn babies?",78,"1765668437695ltrxke3fo",1765668437695,1,0,0
+284,"Science","too similar to another question","How many cells are replaced in the human body every second?",3800000,"17656684376953t7koag07",1765668437695,1,0,0
+286,"Science","too similar to another question","How many bones does a human baby have at birth?",270,"1765668437695sbkqg6973",1765668437695,1,0,0
+291,"Science","vague or unknowable figure","What percentage of sneezes exceed 100 miles per hour in velocity?",40,"1765668437696tmvyk5uk2",1765668437696,1,0,0
+293,"Science","too similar to another question","What is the average age in years when humans reach peak bone mass?",30,"1765668437696pchghfi0r",1765668437696,1,0,0
+295,"Science","too similar to another question","What percentage of oxygen intake is used by the brain?",20,"17656684376965p2gn6jze",1765668437696,1,0,0
+298,"Science","wrong answer or broken wording","How many fingernails grow in inches per year?",1.5,"1765668437696kil572ds6",1765668437696,1,0,0
+301,"Science","trick, giveaway or not an estimate","What is the value of Euler's number (e) rounded to four decimal places?",2.7183,"1765668437696u8g8p1kuy",1765668437696,1,0,0
+303,"Science","trick, giveaway or not an estimate","What is the golden ratio (phi) rounded to five decimal places?",1.61803,"1765668437696b6xw1mkyh",1765668437696,1,0,0
+306,"Science","obscure reference or jargon","How many faces does a dodecahedron have?",12,"176566843769664ekyhshf",1765668437696,1,0,0
+307,"Science","trick, giveaway or not an estimate","What is the square root of 2 rounded to four decimal places?",1.4142,"1765668437696szip0nkad",1765668437696,1,0,0
+308,"Science","trick, giveaway or not an estimate","How many possible combinations exist for a standard 6-sided Rubik's Cube (written in scientific notation as X times 10 to the 19th power where X is)?",4.33,"1765668437696fw406qw5d",1765668437696,1,0,0
+309,"Science","trick, giveaway or not an estimate","What is the value of the mathematical constant tau (2π) rounded to four decimal places?",6.2832,"1765668437696kxrx1rtx7",1765668437696,1,0,0
+312,"Science","obscure reference or jargon","How many sides does a hectogon have?",100,"1765668437696c1eymocln",1765668437696,1,0,0
+313,"Science","trick, giveaway or not an estimate","What is the cube root of 27?",3,"176566843769639i7wmy87",1765668437696,1,0,0
+315,"Science","obscure reference or jargon","What is the value of log base 10 of 1000?",3,"1765668437696gwajcknej",1765668437696,1,0,0
+316,"Science","obscure reference or jargon","How many vertices does an icosahedron have?",12,"1765668437696yh733ubk2",1765668437696,1,0,0
+319,"Science","trick, giveaway or not an estimate","What is the value of pi squared rounded to two decimal places?",9.87,"17656684376961isuplt4e",1765668437696,1,0,0
+323,"Science","trick, giveaway or not an estimate","What is the natural logarithm of 10 rounded to three decimal places?",2.303,"17656684376962qo9itqsz",1765668437696,1,0,0
+328,"Science","obscure reference or jargon","How many twin prime pairs exist between 1 and 100?",8,"1765668437696096y5kd0j",1765668437696,1,0,0
+330,"Science","obscure reference or jargon","How many triangular numbers exist between 1 and 100?",13,"17656684376962v1zi34eh",1765668437696,1,0,0
+331,"Science","trick, giveaway or not an estimate","What is the cosine of 60 degrees expressed as a decimal?",0.5,"1765668437696smkh4sv8j",1765668437696,1,0,0
+333,"Science","obscure reference or jargon","What is the smallest perfect number (a number equal to the sum of its proper divisors)?",6,"1765668437696abt2cafp8",1765668437696,1,0,0
+334,"Science","obscure reference or jargon","How many platonic solids exist?",5,"17656684376964pmt36r8s",1765668437696,1,0,1
+335,"Science","trick, giveaway or not an estimate","What is the tangent of 45 degrees?",1,"1765668437696nqlny1wr0",1765668437696,1,0,0
+337,"Science","obscure reference or jargon","What is the value of the integral of x from 0 to 4?",8,"1765668437696nx5hrznpg",1765668437696,1,0,0
+338,"Science","obscure reference or jargon","How many unique ways can you partition the number 7 into positive integers?",15,"17656684376968by1czhq9",1765668437696,1,0,1
+339,"Science","trick, giveaway or not an estimate","What is the perimeter of a regular hexagon with side length 6?",36,"176566843769639ro914kx",1765668437696,1,0,0
+340,"Science","obscure reference or jargon","How many abundant numbers (numbers where the sum of proper divisors exceeds the number) exist below 50?",9,"17656684376969ikxncgw1",1765668437696,1,0,0
+341,"Science","obscure reference or jargon","What is the determinant of a 2x2 identity matrix?",1,"1765668437696agsi6vpqh",1765668437696,1,0,0
+342,"Science","obscure reference or jargon","How many different standard magic squares of order 3 exist (not counting rotations and reflections)?",1,"1765668437696xgan4q881",1765668437696,1,0,0
+344,"Science","obscure reference or jargon","How many permutations of 4 items taken 4 at a time exist?",24,"1765668437696jyl55ro3e",1765668437696,1,0,0
+345,"Science","obscure reference or jargon","What is the derivative of x cubed when x equals 5?",75,"1765668437696p4w591w8n",1765668437696,1,0,0
+346,"Science","obscure reference or jargon","How many vertices does a truncated icosahedron (soccer ball shape) have?",60,"1765668437696ubebpj6ur",1765668437696,1,0,0
+348,"Science","trick, giveaway or not an estimate","How many odd numbers exist between 1 and 200?",100,"1765668437696ps3rz4f09",1765668437696,1,0,0
+349,"Science","trick, giveaway or not an estimate","What is the greatest common divisor of 84 and 120?",12,"17656684376968lk1yk6s8",1765668437696,1,0,0
+352,"Science","too similar to another question","How many species of viruses have been identified by scientists?",9000,"1765668437696cq7b8cpua",1765668437696,1,40.3,1
+353,"Science","too similar to another question","What percentage of the human genome is shared with mice?",85,"1765668437696cm4hnwyi9",1765668437696,1,0,0
+354,"Science","vague or unknowable figure","How many taste bud cells are replaced every two weeks in humans?",50,"17656684376962sjn6m1b7",1765668437696,1,0,0
+356,"Science","too similar to another question","How many earthquakes of magnitude 6 or greater occur per year on average?",150,"176566843769606v2nnk3l",1765668437696,1,0,0
+357,"Science","too similar to another question","What percentage of ocean species remain undiscovered according to estimates?",91,"1765668437696x40jkznfp",1765668437696,1,0,0
+358,"Science","vague or unknowable figure","How many nerve endings are in the human fingertip per square centimeter?",2500,"1765668437696g18goh13m",1765668437696,1,0,0
+359,"Science","obscure reference or jargon","What is the diameter in miles of the largest known star (UY Scuti)?",1516000000,"1765668437696oqm72yjbs",1765668437696,1,0,0
+361,"Science","wrong answer or broken wording","What percentage of the Sun's energy reaches Earth's surface?",5e-8,"1765668437696ex40uqyyw",1765668437696,1,0,0
+362,"Science","wrong answer or broken wording","How many atoms are in a grain of sand (approximately in quintillions)?",43,"1765668437696navzdhe2x",1765668437696,1,0,0
+366,"Science","too similar to another question","How many species of lichens exist worldwide?",20000,"1765668437696i55j1arpq",1765668437696,1,0,0
+368,"Science","obscure reference or jargon","How many different blood types exist in dogs?",13,"1765668437696tdr7dzf0o",1765668437696,1,0,0
+369,"Science","obscure reference or jargon","What percentage of freshwater fish species are found in the Amazon basin?",15,"1765668437696iswz3napc",1765668437696,1,0,0
+371,"Science","obscure reference or jargon","What is the wavelength in nanometers of red light?",700,"176566843769605ew97lci",1765668437696,1,0,0
+372,"Science","too similar to another question","How many species of seabirds exist worldwide?",350,"17656684376965dnehb2c0",1765668437696,1,0,0
+373,"Science","obscure reference or jargon","What percentage of the brain's neurons are in the cerebellum?",80,"1765668437696723n1ke99",1765668437696,1,0,0
+376,"Science","too similar to another question","How many species of algae exist on Earth?",72500,"1765668437696hc104994v",1765668437696,1,0,0
+377,"Science","trick, giveaway or not an estimate","What percentage of identical twins have different fingerprints?",100,"17656684376964jxjzhjjj",1765668437696,1,0,0
+378,"Science","too similar to another question","How many chromosomes does a potato have?",48,"1765668437696njdwn8tbg",1765668437696,1,0,0
+379,"Science","vague or unknowable figure","What is the average depth in feet of soil on Earth?",5,"1765668437696ek2tu3e1s",1765668437696,1,0,0
+380,"Science","too similar to another question","How many species of mosses exist worldwide?",12000,"1765668437696hn4nj8twz",1765668437696,1,0,0
+381,"Science","vague or unknowable figure","What percentage of the human body's atoms are replaced every year?",98,"1765668437696pihqxa5ef",1765668437696,1,0,0
+383,"Science","too similar to another question","What is the speed in miles per hour of a nerve impulse?",268,"17656684376964meb5tj2k",1765668437696,1,0,0
+384,"Science","too similar to another question","How many bones fuse together as humans age from birth to adulthood?",64,"1765668437696zak9fuj8i",1765668437696,1,951.4,1
+385,"Science","too similar to another question","What percentage of global photosynthesis occurs in the ocean?",50,"1765668437696oldcv2px3",1765668437696,1,0,0
+386,"Science","too similar to another question","How many species of ferns exist on Earth?",10500,"1765668437696h1iomsxs7",1765668437696,1,0,0
+389,"Science","too similar to another question","What percentage of human body heat is lost through the head?",10,"17656684376962paksnbk4",1765668437696,1,0,0
+391,"Science","wrong answer or broken wording","What is the radius in miles of the observable universe (in billions)?",46,"1765668437696pd3f3lvao",1765668437696,1,0,0
+392,"Science","too similar to another question","How many chromosomes does a goldfish have?",94,"1765668437696qg543un48",1765668437696,1,0,0
+398,"Science","too similar to another question","How many bones are in the human hand and wrist combined?",27,"176566843769644lmd2k6g",1765668437696,1,0,0
+399,"Science","obscure reference or jargon","What is the distance in astronomical units from the Sun to Neptune?",30,"1765668437696qm11ye02q",1765668437696,1,0,0
+400,"Science","too similar to another question","How many species of mollusks exist on Earth?",85000,"1765668437696m9gvz8hqr",1765668437696,1,0,0
+401,"Science","wrong answer or broken wording","What percentage of all lightning strikes occur over land?",25,"1765668437696ix4hy6aqe",1765668437696,1,0,0
+402,"Science","too similar to another question","How many chromosomes does a honeybee have?",32,"1765668437696ydlwtz3c5",1765668437696,1,0,0
+403,"Science","obscure reference or jargon","What is the acceleration due to gravity in feet per second squared on Earth?",32.2,"17656684376962gtipi3kn",1765668437696,1,0,0
+404,"Science","too similar to another question","How many species of crustaceans exist worldwide?",67000,"1765668437696hwt89dvxx",1765668437696,1,0,0
+406,"Science","too similar to another question","How many teeth does an adult alligator have?",80,"1765668437696xcl7yd6et",1765668437696,1,0,0
+407,"Science","vague or unknowable figure","What is the distance in miles of the Earth's magnetic field extending into space?",40000,"17656684376965ui5k80ca",1765668437696,1,0,0
+408,"Science","too similar to another question","How many species of flowering plants exist on Earth?",350000,"17656684376962u65b4bdj",1765668437696,1,0,0
+410,"Science","too similar to another question","How many genes do bananas share with humans as a percentage?",60,"17656684376965ai344aom",1765668437696,1,0,0
+412,"Science","too similar to another question","How many species of worms (annelids) exist on Earth?",22000,"1765668437696alg5687wj",1765668437696,1,0,0
+413,"Science","obscure reference or jargon","What percentage of the atmosphere is argon?",0.93,"1765668437696r4qsk1fzm",1765668437696,1,0,0
+414,"Science","obscure reference or jargon","How many types of cone cells are in the human eye for color vision?",3,"1765668437696uo07mc7h9",1765668437696,1,0,0
+415,"Science","too similar to another question","What is the rotation period in hours of Saturn?",10.7,"1765668437696znxty9sin",1765668437696,1,0,0
+416,"Science","too similar to another question","How many species of jellyfish exist worldwide?",2000,"1765668437696kpj4i72ou",1765668437696,1,0,0
+417,"Science","vague or unknowable figure","What percentage of Earth's species live in soil?",25,"1765668437696ym7v5hkik",1765668437696,1,0,0
+421,"Science","too similar to another question","What percentage of DNA is identical between humans and cabbage?",40,"1765668437696p3mtrfxad",1765668437696,1,0,0
+425,"Science","trick, giveaway or not an estimate","What percentage of identical twin fingerprints match?",0,"17656684376965qcns7yit",1765668437696,1,0,0
+427,"Science","wrong answer or broken wording","What is the distance in miles from the Earth to the nearest black hole?",1560,"1765668437696d31piwqv4",1765668437696,1,0,0
+429,"Science","wrong answer or broken wording","What percentage of the universe's atoms are helium?",25,"1765668437696kf2b3tgvf",1765668437696,1,0,0
+432,"Science","too similar to another question","How many species of butterflies exist in North America?",750,"1765668437696gtjmfz85z",1765668437696,1,0,0
+433,"Science","obscure reference or jargon","What percentage of ocean floor is abyssal plain?",50,"176566843769618tp5rnax",1765668437696,1,0,0
+434,"Science","too similar to another question","How many chromosomes does corn have?",20,"1765668437696bjiqm3713",1765668437696,1,0,0
+435,"Science","too similar to another question","What is the escape velocity in miles per hour from the Moon?",5300,"1765668437696gjdvbtt64",1765668437696,1,0,0
+436,"Science","too similar to another question","How many species of salamanders exist worldwide?",770,"1765668437697xva4mjtea",1765668437697,1,0,0
+439,"Science","too similar to another question","What is the distance in miles of Mercury's orbit from the Sun (average)?",36000000,"1765668437697ogm0pybry",1765668437697,1,0,0
+440,"Science","too similar to another question","How many species of orchids exist on Earth?",28000,"17656684376972pi0zp26o",1765668437697,1,0,0
+441,"Science","wrong answer or broken wording","What percentage of twins are identical?",3,"1765668437697eigsvh75s",1765668437697,1,0,0
+443,"Science","obscure reference or jargon","What is the height in miles of the highest clouds (noctilucent)?",53,"17656684376975q64m6iuw",1765668437697,1,0,0
+444,"Science","vague or unknowable figure","How many sensory receptors are in human skin per square inch?",19000,"1765668437697fzr8gu4u1",1765668437697,1,0,0
+445,"Science","too similar to another question","What percentage of Earth's oxygen is produced by rainforests?",28,"1765668437697qc8xuweg3",1765668437697,1,0,0
+446,"Science","too similar to another question","How many species of cacti exist?",2000,"1765668437697aa5i34e6h",1765668437697,1,0,0
+447,"Science","too similar to another question","What is the orbital period in days of Venus around the Sun?",225,"1765668437697jamx5xh9a",1765668437697,1,0,0
+448,"Science","too similar to another question","How many species of rays and skates exist worldwide?",600,"1765668437697n17vrr4bx",1765668437697,1,0,0
+449,"Science","obscure reference or jargon","What percentage of meteorites that hit Earth are stony meteorites?",94,"176566843769721vj7qna0",1765668437697,1,0,0
+450,"Science","too similar to another question","How many chromosomes does a cat have?",38,"1765668437697dluvssjin",1765668437697,1,0,0
+451,"Science","too similar to another question","What is the average temperature in degrees Fahrenheit on Pluto?",-387,"1765668437697qat0qn3xx",1765668437697,1,0,0
+452,"Science","too similar to another question","How many species of ticks exist worldwide?",900,"17656684376975c3wlxb9j",1765668437697,1,0,0
+453,"Science","obscure reference or jargon","What percentage of deep-sea creatures produce bioluminescence?",76,"1765668437697g6p84wcsa",1765668437697,1,0,0
+454,"Science","trick, giveaway or not an estimate","How many bones are in a shark's body?",0,"1765668437697eo460dzm4",1765668437697,1,0,0
+455,"Science","obscure reference or jargon","What is the wavelength in nanometers of ultraviolet light (UV-C)?",254,"1765668437697nblm7svzh",1765668437697,1,0,0
+456,"Science","too similar to another question","How many species of seahorses exist?",47,"1765668437697y9gz1rcjz",1765668437697,1,0,0
+457,"Science","obscure reference or jargon","What percentage of asteroids in the solar system are in the main belt?",98,"1765668437697gppbyavjh",1765668437697,1,0,0
+458,"Science","too similar to another question","How many chromosomes does a horse have?",64,"1765668437697pwwlavg3r",1765668437697,1,0,0
+460,"Science","too similar to another question","How many species of scorpions exist worldwide?",2500,"1765668437697nijg2t6pf",1765668437697,1,0,0
+464,"Science","too similar to another question","How many species of clams and oysters (bivalves) exist?",20000,"1765668437697ei2frweyq",1765668437697,1,0,0
+465,"Science","wrong answer or broken wording","What percentage of the Sun is converted to energy through fusion per second?",7e-10,"1765668437697aj2rxs8ct",1765668437697,1,0,1
+466,"Science","too similar to another question","How many chromosomes does wheat have?",42,"1765668437697jcinukjba",1765668437697,1,0,0
+467,"Science","obscure reference or jargon","What is the distance in light-minutes from the Sun to Mars at closest approach?",3.03,"1765668437697qyl4tyhmk",1765668437697,1,0,0
+468,"Science","too similar to another question","How many species of termites exist worldwide?",3000,"17656684376977jx5h6lbx",1765668437697,1,0,0
+469,"Science","too similar to another question","What percentage of Earth's species have been formally described?",20,"176566843769739nt40tvr",1765668437697,1,0,0
+470,"Science","too similar to another question","How many bones are in the human foot?",26,"1765668437697n3ca3lunl",1765668437697,1,0,0
+471,"Science","obscure reference or jargon","What is the orbital period in Earth days of Io around Jupiter?",1.77,"17656684376973oc1khu4u",1765668437697,1,0,0
+472,"Science","too similar to another question","How many species of dragonflies and damselflies exist worldwide?",6000,"1765668437697mxh0fthm3",1765668437697,1,0,0
+473,"Science","vague or unknowable figure","What percentage of the ocean is deeper than 6500 feet?",76,"1765668437697wnfdf267l",1765668437697,1,0,0
+474,"Science","too similar to another question","How many chromosomes does rice have?",24,"1765668437697lsx2p81uq",1765668437697,1,0,0
+475,"Science","wrong answer or broken wording","What is the average speed in miles per hour of tectonic plate movement per year?",0.00023,"17656684376970tkqq3y18",1765668437697,1,0,0
+476,"Science","too similar to another question","How many species of centipedes exist worldwide?",3300,"17656684376973sp8xajc4",1765668437697,1,0,0
+477,"Science","obscure reference or jargon","What percentage of stars in the Milky Way are red dwarfs?",75,"1765668437697p7m5tmsiw",1765668437697,1,0,0
+478,"Science","too similar to another question","How many teeth does an adult human have including wisdom teeth?",32,"1765668437697jjbyb2h6t",1765668437697,1,0,0
+479,"Science","obscure reference or jargon","What is the temperature in degrees Fahrenheit of the cosmic microwave background?",-454,"1765668437697psdkcgs3v",1765668437697,1,0,0
+480,"Science","too similar to another question","How many species of tapeworms exist?",6000,"1765668437697vph53mk1g",1765668437697,1,0,0
+481,"Science","too similar to another question","What percentage of animal species are vertebrates?",3,"17656684376978p96z8bkv",1765668437697,1,0,0
+482,"Science","vague or unknowable figure","How many bones are in a chicken wing?",12,"1765668437697r6g4g53d9",1765668437697,1,0,0
+483,"Science","too similar to another question","What is the rotational period in Earth hours of Uranus?",17.2,"1765668437697m8gf4k17z",1765668437697,1,0,0
+484,"Science","too similar to another question","How many species of leeches exist worldwide?",700,"1765668437697z8wpq9l2d",1765668437697,1,0,0
+485,"Science","obscure reference or jargon","What percentage of known exoplanets are gas giants?",30,"1765668437697subzhr9wy",1765668437697,1,0,0
+486,"Science","wrong answer or broken wording","How many muscles are needed to frown?",43,"17656684376974y9v7ct6v",1765668437697,1,0,0
+487,"Science","too similar to another question","What is the distance in miles that light travels in one second?",186282,"1765668437697tidqrhkn1",1765668437697,1,0,0
+488,"Science","too similar to another question","How many species of starfish exist worldwide?",2000,"1765668437697mylkizd28",1765668437697,1,0,0
+489,"Science","obscure reference or jargon","What percentage of the human body is made of four elements (O, C, H, N)?",96,"17656684376971ybsaroeu",1765668437697,1,0,0
+490,"Science","too similar to another question","How many chromosomes does a tomato have?",24,"1765668437697boacjldnq",1765668437697,1,0,0
+491,"Science","too similar to another question","What is the average distance in miles between the Earth and Venus at closest approach?",25000000,"1765668437697bbr18d73u",1765668437697,1,0,0
+492,"Science","too similar to another question","How many species of millipedes exist worldwide?",12000,"17656684376971iwfggrbh",1765668437697,1,0,0
+493,"Science","too similar to another question","What is the orbital period in Earth years for Uranus around the Sun?",84,"1765668437697suayfqjpg",1765668437697,1,0,0
+494,"Science","too similar to another question","How many chromosomes does a chicken have?",78,"1765668437697p9cqbhdbh",1765668437697,1,0,0
+495,"Science","vague or unknowable figure","What percentage of rainwater reaches the ocean?",37,"1765668437697bzir77trj",1765668437697,1,0,0
+496,"Science","too similar to another question","How many species of conifers exist on Earth?",630,"176566843769757cdsram2",1765668437697,1,87.5,1
+500,"History","trick, giveaway or not an estimate","How many years did the Roman Empire last (from 27 BCE to 476 CE)?",503,"1765668444365tbmt2wd7v",1765668444365,1,0,0
+513,"History","obscure reference or jargon","What year was Machu Picchu built (estimated)?",1450,"1765668444365l8amdozzk",1765668444365,1,0,0
+517,"History","too similar to another question","What year did the last Roman gladiatorial games take place?",435,"1765668444365p7fkbh1s7",1765668444365,1,0,0
+518,"History","too similar to another question","How many survivors were rescued from the Titanic in 1912?",710,"1765668444365nd7he9krl",1765668444365,1,0,0
+535,"History","obscure reference or jargon","What was the length in years of the Pax Romana (Roman Peace)?",206,"1765668444365j3il8dz76",1765668444365,1,0,0
+537,"History","obscure reference or jargon","What year was the Library of Alexandria destroyed by fire (final major destruction)?",642,"17656684443668wi2xs93e",1765668444366,1,0,0
+540,"History","vague or unknowable figure","How many years after the invention of gunpowder in China did it reach Europe?",300,"176566844436669xd1id93",1765668444366,1,0,0
+546,"History","vague or unknowable figure","How many years did Alexander the Great's empire last after his death before fragmenting?",20,"1765668444366kmsctvr79",1765668444366,1,0,0
+549,"History","trick, giveaway or not an estimate","What year did the last ice age end approximately?",-9700,"1765668444366e4rlvtmxv",1765668444366,1,0,0
+550,"History","trick, giveaway or not an estimate","How many years did the Byzantine Empire exist (330 CE to 1453 CE)?",1123,"1765668444366czcwoc4vn",1765668444366,1,0,0
+551,"History","too similar to another question","What was the population of the world in 1800?",1000000000,"1765668444366g3s0qiw0e",1765668444366,1,0,0
+554,"History","obscure reference or jargon","How many years did the Han Dynasty rule China?",426,"1765668444366ij3ocy7g9",1765668444366,1,0,0
+558,"History","obscure reference or jargon","How many pharaohs ruled during Egypt's 18th Dynasty?",14,"1765668444366ptegkmq41",1765668444366,1,0,0
+560,"History","trick, giveaway or not an estimate","How many years did the Mongol Empire last (1206 to 1368)?",162,"1765668444366erym5vf6w",1765668444366,1,0,0
+561,"History","obscure reference or jargon","What year did the Berlin Conference partition Africa?",1884,"1765668444366mgcxyo4i7",1765668444366,1,0,0
+564,"History","obscure reference or jargon","How many years did the Ottoman Empire rule over Egypt?",517,"1765668444366h5m4p7lei",1765668444366,1,0,0
+565,"History","obscure reference or jargon","What year was the Edict of Nantes signed?",1598,"1765668444366ojt927tdq",1765668444366,1,0,0
+570,"History","too similar to another question","How many soldiers landed at Normandy on D-Day in the first wave?",23000,"1765668444366es6oir38x",1765668444366,1,8.6,1
+571,"History","too similar to another question","What was the population of Tenochtitlan when Cortés arrived?",200000,"1765668444366jy6aign2p",1765668444366,1,0,0
+572,"History","obscure reference or jargon","How many years did the Qing Dynasty rule China?",268,"1765668444366fi5f67xpf",1765668444366,1,0,0
+574,"History","obscure reference or jargon","How many days did the siege of Constantinople last in 1453?",53,"1765668444366m42akirwa",1765668444366,1,0,0
+575,"History","too similar to another question","What was the population of London in 1700?",575000,"176566844436609z6uhbfe",1765668444366,1,0,0
+577,"History","trick, giveaway or not an estimate","What year was the Code of Hammurabi written?",-1754,"17656684443663xfmj1eda",1765668444366,1,531.4,1
+578,"History","obscure reference or jargon","How many ships were in the Allied fleet at the Battle of Midway?",28,"1765668444366g3uow4xp8",1765668444366,1,0,0
+579,"History","too similar to another question","What was the population of Amsterdam during its Golden Age (1650)?",200000,"17656684443663ueelc1xe",1765668444366,1,0,0
+580,"History","obscure reference or jargon","How many years did the Pax Britannica last (approximately)?",100,"17656684443662nq2f2vdw",1765668444366,1,0,0
+587,"History","obscure reference or jargon","What was the population of Venice at its peak in the 15th century?",180000,"1765668444366rbwg53mfo",1765668444366,1,0,0
+588,"History","too similar to another question","How many soldiers survived the original 300 Spartans at Thermopylae?",2,"17656684443668xhbwk5eh",1765668444366,1,0,0
+589,"History","obscure reference or jargon","What year did the Great Schism split Christianity?",1054,"1765668444366zj3h3cb36",1765668444366,1,0,0
+590,"History","too similar to another question","How many people crossed the Delaware with George Washington?",2400,"1765668444366e32vxzfbd",1765668444366,1,0,0
+592,"History","obscure reference or jargon","How many years did the Golden Horde control Russia?",240,"17656684443667qwrvxjd9",1765668444366,1,0,0
+594,"History","obscure reference or jargon","How many people died building the Burma Railway (Death Railway)?",90000,"1765668444366nwcft4td6",1765668444366,1,0,1
+596,"History","obscure reference or jargon","How many troops did Julius Caesar have when crossing the Rubicon?",5000,"17656684443664ajmlcyed",1765668444366,1,0,0
+597,"History","too similar to another question","What year did the Hundred Years' War end?",1453,"1765668444366sjfatummk",1765668444366,1,0,0
+598,"History","obscure reference or jargon","How many years did the Song Dynasty rule China?",319,"17656684443663tctc7h0i",1765668444366,1,0,0
+600,"History","obscure reference or jargon","How many soldiers fought at the Battle of Kursk (both sides combined)?",2000000,"1765668444366w8nvyq889",1765668444366,1,0,0
+601,"History","too similar to another question","What year was the Taj Mahal completed?",1653,"1765668444366cr7tla13b",1765668444366,1,0,0
+606,"History","too similar to another question","How many people emigrated from Europe to America between 1820 and 1920?",33000000,"1765668444366hcpfnag40",1765668444366,1,0,0
+607,"History","too similar to another question","What was the population of Moscow in 1800?",300000,"17656684443665omy3uhnk",1765668444366,1,0,0
+609,"History","too similar to another question","What year did the Thirty Years' War end?",1648,"17656684443664wl3ognyo",1765668444366,1,0,0
+610,"History","wrong answer or broken wording","How many soldiers died at Gettysburg (both sides combined)?",51000,"1765668444366lttsd0c9o",1765668444366,1,0,0
+613,"History","obscure reference or jargon","What year was Machiavelli's The Prince published?",1532,"1765668444366nusufu6u3",1765668444366,1,0,0
+615,"History","too similar to another question","What was the population of Berlin in 1900?",1889000,"1765668444366wa4pbyyrf",1765668444366,1,0,0
+616,"History","obscure reference or jargon","How many years did the Wars of the Roses last?",32,"17656684443660oxpsr0gv",1765668444366,1,0,0
+618,"History","obscure reference or jargon","How many ships did the Vikings have in the Great Heathen Army's invasion?",350,"1765668444366fynaqbw6x",1765668444366,1,0,0
+619,"History","too similar to another question","What was the population of Cairo in 1500?",400000,"17656684443660wkirhw40",1765668444366,1,0,0
+620,"History","obscure reference or jargon","How many soldiers fought in the Battle of Cannae for Rome?",86000,"17656684443663p5mbnjig",1765668444366,1,0,0
+621,"History","too similar to another question","What year was the Hagia Sophia converted into a mosque?",1453,"1765668444366mnemg7hou",1765668444366,1,0,0
+622,"History","obscure reference or jargon","How many years did the Tang Dynasty rule China?",289,"1765668444366ves0d9m67",1765668444366,1,0,0
+623,"History","too similar to another question","What was the population of Shanghai in 1900?",1000000,"17656684443663xfet4agw",1765668444366,1,0,0
+624,"History","obscure reference or jargon","How many people died in the Plague of Justinian?",25000000,"1765668444366qunvalfpi",1765668444366,1,0,0
+626,"History","obscure reference or jargon","How many soldiers survived the Charge of the Light Brigade?",195,"1765668444366ntnssm33y",1765668444366,1,0,0
+627,"History","obscure reference or jargon","What was the population of the Holy Roman Empire at its peak?",30000000,"1765668444366ges9ukxdm",1765668444366,1,0,0
+628,"History","obscure reference or jargon","How many years did the Reconquista of Spain last?",781,"1765668444366andsx484o",1765668444366,1,0,0
+629,"History","too similar to another question","What year was the Rosetta Stone found?",1799,"1765668444366umwdipdu4",1765668444366,1,0,0
+633,"History","obscure reference or jargon","What year did the Boxer Rebellion occur?",1900,"1765668444366evp2iixiv",1765668444366,1,0,0
+635,"History","too similar to another question","What was the population of Florence during the Renaissance (1500)?",100000,"1765668444366jply6ocbv",1765668444366,1,0,0
+637,"History","obscure reference or jargon","What year was the Domesday Book completed?",1086,"1765668444366jmnaykf8e",1765668444366,1,0,0
+638,"History","too similar to another question","How many troops did the D-Day invasion involve in total?",156000,"1765668444366x9jytovaa",1765668444366,1,0,0
+640,"History","obscure reference or jargon","How many years did the Crusader States exist in the Middle East?",192,"1765668444367ievr8bd0s",1765668444367,1,0,0
+643,"History","too similar to another question","What was the population of Vienna in 1900?",1675000,"1765668444367p9gky2koc",1765668444367,1,0,0
+644,"History","vague or unknowable figure","How many soldiers did Genghis Khan have in his original army?",20000,"1765668444367eavtdg1lh",1765668444367,1,0,0
+645,"History","too similar to another question","What year was the Gutenberg Bible printed?",1455,"1765668444367mtm39lvcu",1765668444367,1,0,0
+646,"History","too similar to another question","How many ships were in the Spanish Armada?",130,"1765668444367gdtg3dpg2",1765668444367,1,819.9,1
+648,"History","obscure reference or jargon","How many years did the Tokugawa Shogunate rule Japan?",265,"1765668444367uatvryfv2",1765668444367,1,0,0
+649,"History","obscure reference or jargon","What year did the Crimean War begin?",1853,"1765668444367qx5c61nsu",1765668444367,1,0,0
+650,"History","trick, giveaway or not an estimate","How many survivors were there from Custer's 7th Cavalry at Little Bighorn?",0,"1765668444367l04gg1e5i",1765668444367,1,0,0
+651,"History","too similar to another question","What was the population of the United States in 1850?",23191876,"17656684443673qzeqwk2x",1765668444367,1,0,0
+652,"History","obscure reference or jargon","How many years did the Achaemenid Persian Empire last?",220,"1765668444367if4qq8dqb",1765668444367,1,0,0
+657,"History","obscure reference or jargon","What year did the First Opium War begin?",1839,"1765668444367x78pwjf0c",1765668444367,1,0,0
+658,"History","vague or unknowable figure","How many horses did Paul Revere use on his midnight ride?",3,"1765668444367nzy6xw5kj",1765668444367,1,0,0
+659,"History","obscure reference or jargon","What was the population of the Cherokee Nation before the Trail of Tears?",16000,"17656684443670b5kk44z5",1765668444367,1,0,0
+660,"History","obscure reference or jargon","How many years did the Peloponnesian War last?",27,"1765668444367bd73bu7h4",1765668444367,1,0,0
+661,"History","trick, giveaway or not an estimate","What year was the Parthenon completed?",-432,"1765668444367v1q1pw87a",1765668444367,1,0,0
+662,"History","obscure reference or jargon","How many people died in the Taiping Rebellion?",30000000,"1765668444367tqiyhrtwd",1765668444367,1,0,0
+663,"History","too similar to another question","What was the population of New York City in 1850?",515547,"17656684443677eiv157dr",1765668444367,1,0,0
+664,"History","obscure reference or jargon","How many years did the War of Spanish Succession last?",13,"17656684443678sshtzghg",1765668444367,1,979.7,1
+668,"History","obscure reference or jargon","How many signatories were on the Geneva Convention of 1949?",194,"176566844436759e7jtjtb",1765668444367,1,0,0
+671,"History","too similar to another question","What was the population of Lima, Peru in 1600?",25000,"1765668444367yd1bn96ar",1765668444367,1,0,0
+672,"History","obscure reference or jargon","How many years did the Abbasid Caliphate rule?",508,"1765668444367kkbbc66z8",1765668444367,1,0,0
+677,"History","too similar to another question","What year did the first transatlantic telegraph cable become operational?",1866,"17656684443677igm6rel6",1765668444367,1,0,0
+679,"History","too similar to another question","What was the population of Mexico City in 1800?",137000,"1765668444367zi1j8vkab",1765668444367,1,0,0
+680,"History","obscure reference or jargon","How many years did the Umayyad Caliphate rule?",89,"1765668444367ykjr4ywjf",1765668444367,1,0,0
+682,"History","obscure reference or jargon","How many soldiers crossed the Berezina River during Napoleon's retreat?",27000,"1765668444367p04rh1yd8",1765668444367,1,403.5,1
+683,"History","obscure reference or jargon","What was the population of Kyoto during the Heian period peak?",100000,"1765668444367ot1td8aie",1765668444367,1,0,0
+684,"History","obscure reference or jargon","How many years did the Sassanid Empire rule Persia?",427,"1765668444367vqgnqtvcq",1765668444367,1,0,0
+685,"History","obscure reference or jargon","What year did the Meiji Restoration occur in Japan?",1868,"1765668444367kt6r9dsqw",1765668444367,1,0,0
+686,"History","obscure reference or jargon","How many generals served in George Washington's Continental Army?",29,"1765668444367dxt3ir38s",1765668444367,1,0,0
+687,"History","obscure reference or jargon","What was the population of the Roman province of Britannia?",3000000,"1765668444367jqxuhyf6x",1765668444367,1,0,0
+688,"History","wrong answer or broken wording","How many miles did the Trail of Tears span?",5043,"1765668444367dk1zbd4ax",1765668444367,1,0,0
+689,"History","obscure reference or jargon","What year was the Code Napoleon enacted?",1804,"1765668444367e3pf8gkyd",1765668444367,1,0,0
+690,"History","obscure reference or jargon","How many soldiers died at the Battle of Antietam?",22720,"1765668444367hiva94hkx",1765668444367,1,0,0
+691,"History","too similar to another question","What was the population of Sydney, Australia in 1850?",39000,"1765668444367scdjoctjh",1765668444367,1,0,0
+692,"History","obscure reference or jargon","How many years did the Maurya Empire rule India?",137,"1765668444367pde14n2ts",1765668444367,1,0,0
+694,"History","obscure reference or jargon","How many ships were at the Battle of Lepanto?",472,"17656684443679gpt929ro",1765668444367,1,0,0
+695,"History","too similar to another question","What was the population of Edinburgh in 1800?",83000,"1765668444367pezgobitw",1765668444367,1,0,0
+698,"History","wrong answer or broken wording","How many soldiers did the Confederacy have at the start of the Civil War?",1082000,"17656684443674dybgiv1g",1765668444367,1,0,0
+699,"History","too similar to another question","What was the population of Dublin in 1800?",200000,"1765668444367yd7lr6w3g",1765668444367,1,0,0
+700,"History","obscure reference or jargon","How many years did the Zhou Dynasty rule China (longest dynasty)?",790,"1765668444367z9z0d9ok5",1765668444367,1,0,0
+702,"History","obscure reference or jargon","How many people died in the Bengal Famine of 1943?",3000000,"1765668444367ieu2wsrcr",1765668444367,1,0,0
+705,"History","too similar to another question","What year did the Treaty of Westphalia end the Thirty Years' War?",1648,"1765668444367vaspyt727",1765668444367,1,0,0
+708,"History","obscure reference or jargon","How many ships were in Admiral Nelson's fleet at Trafalgar?",27,"176566844436786gs64ner",1765668444367,1,0,0
+711,"History","obscure reference or jargon","What was the population of the Khmer Empire at its peak?",1000000,"1765668444367py1l4ab0s",1765668444367,1,0,0
+712,"History","too similar to another question","How many soldiers survived Napoleon's march to Moscow?",100000,"17656684443672poh6zclv",1765668444367,1,0,0
+713,"History","too similar to another question","What year did the French Revolution begin?",1789,"1765668444367cvkm06d7w",1765668444367,1,0,0
+714,"History","obscure reference or jargon","How many years did the Gupta Empire rule India?",230,"1765668444367klqx7d0e7",1765668444367,1,0,0
+716,"History","vague or unknowable figure","How many original states ratified the U.S. Constitution first?",9,"1765668444367xcu778d3i",1765668444367,1,0,0
+718,"History","obscure reference or jargon","How many soldiers died at the Battle of Verdun?",700000,"17656684443679176ref7l",1765668444367,1,0,0
+720,"History","obscure reference or jargon","How many years did the Ptolemaic Dynasty rule Egypt?",275,"1765668444367t6r0hwsej",1765668444367,1,0,0
+721,"History","obscure reference or jargon","What year did the Suez Crisis occur?",1956,"1765668444367uqiab29il",1765668444367,1,0,0
+722,"History","too similar to another question","How many people crossed on the first Mayflower voyage?",102,"1765668444367coa6815k3",1765668444367,1,0,0
+723,"History","too similar to another question","What was the population of Copenhagen in 1800?",100000,"1765668444367oa63fkm18",1765668444367,1,0,0
+724,"History","obscure reference or jargon","How many soldiers were executed for cowardice in WWI by the British Army?",306,"1765668444367f74ovk7e5",1765668444367,1,0,0
+726,"History","obscure reference or jargon","How many years did the Safavid Dynasty rule Persia?",235,"1765668444367nl7uerpdy",1765668444367,1,0,0
+727,"History","too similar to another question","What was the population of Buenos Aires in 1900?",950000,"1765668444367subpiafqw",1765668444367,1,0,0
+728,"History","too similar to another question","How many soldiers fought for the Union at Gettysburg?",93000,"1765668444367cylkvu0tb",1765668444367,1,0,0
+729,"History","obscure reference or jargon","What year did the Boer War begin?",1899,"1765668444367oobqc8f4f",1765668444367,1,0,0
+731,"History","obscure reference or jargon","What was the population of ancient Corinth at its peak?",90000,"1765668444367g6mnpf8ri",1765668444367,1,0,0
+732,"History","obscure reference or jargon","How many years did the Plantagenet Dynasty rule England?",331,"17656684443672lz2r40ar",1765668444367,1,0,0
+734,"History","vague or unknowable figure","How many soldiers did Xerxes bring to invade Greece?",1000000,"1765668444367gmi67e753",1765668444367,1,0,0
+737,"History","obscure reference or jargon","What year was the Alhambra palace complex completed?",1238,"1765668444367q6pof7jlk",1765668444367,1,0,0
+738,"History","obscure reference or jargon","How many soldiers fought in the Battle of Agincourt for England?",6000,"1765668444367s0m34p24h",1765668444367,1,0,0
+739,"History","too similar to another question","What was the population of Toronto in 1850?",30000,"1765668444367487jrlllc",1765668444367,1,0,0
+740,"History","vague or unknowable figure","How many samurai warriors were in Japan at the peak?",2000000,"1765668444367qgse73rfh",1765668444367,1,0,0
+741,"History","obscure reference or jargon","What year did the Six-Day War occur?",1967,"1765668444367655bkcvlv",1765668444367,1,0,0
+742,"History","obscure reference or jargon","How many ships were in the Persian fleet at the Battle of Salamis?",800,"1765668444367msp6vr0fq",1765668444367,1,0,0
+743,"History","too similar to another question","What was the population of Lisbon in 1500?",100000,"1765668444367aaaftaqik",1765668444367,1,0,0
+744,"History","obscure reference or jargon","How many years did the Seleucid Empire last?",249,"1765668444367wobz2xk70",1765668444367,1,0,0
+745,"History","obscure reference or jargon","What year was the Battle of Tours fought?",732,"1765668444367wvgc57r6y",1765668444367,1,0,0
+746,"History","obscure reference or jargon","How many soldiers died at the Battle of Passchendaele?",585000,"1765668444367mhvz5ruhy",1765668444367,1,0,0
+747,"History","obscure reference or jargon","What was the population of the Zulu Kingdom at its peak?",250000,"1765668444367f482xjdpc",1765668444367,1,0,0
+748,"History","obscure reference or jargon","How many emperors were assassinated during the Roman Empire?",20,"17656684443677b0900ses",1765668444367,1,0,0
+749,"History","obscure reference or jargon","What year did the Scramble for Africa begin?",1881,"1765668444367xqcu7b6on",1765668444367,1,0,0
+750,"History","trick, giveaway or not an estimate","How many soldiers survived the Alamo?",0,"1765668444367bipxiowgl",1765668444367,1,0,0
+751,"History","too similar to another question","What was the population of Canton (Guangzhou) in 1800?",1500000,"1765668444367bghojbxwp",1765668444367,1,0,0
+752,"History","obscure reference or jargon","How many years did the Carolingian Empire last?",125,"17656684443677i7wtvrdu",1765668444367,1,0,0
+753,"History","trick, giveaway or not an estimate","What year was the first Olympic Games held in ancient Greece?",-776,"17656684443674d6g1rtj5",1765668444367,1,0,0
+755,"History","obscure reference or jargon","What was the population of Samarkand at its peak on the Silk Road?",400000,"1765668444367qylg8g5ob",1765668444367,1,0,0
+757,"History","obscure reference or jargon","What year did the Glorious Revolution occur in England?",1688,"17656684443672bjvat4os",1765668444367,1,0,0
+758,"History","wrong answer or broken wording","How many days did the Wright Brothers' first flight last in seconds?",12,"17656684443670d6djfokz",1765668444367,1,0,0
+759,"History","too similar to another question","What was the population of Melbourne in 1850?",29000,"1765668444367eb31engt8",1765668444367,1,0,0
+760,"History","obscure reference or jargon","How many years did the Ming Great Wall take to build?",200,"1765668444367nb4kxf7hv",1765668444367,1,0,0
+761,"History","obscure reference or jargon","What year was the last Roman legion withdrawn from Britain?",410,"1765668444367rjc0v3nt8",1765668444367,1,0,0
+762,"History","too similar to another question","How many soldiers did the Spartans send to Thermopylae initially?",300,"17656684443675tfwt4sew",1765668444367,1,0,0
+763,"History","too similar to another question","What was the population of St. Petersburg in 1800?",336000,"1765668444367ll15i0gh3",1765668444367,1,0,0
+764,"History","vague or unknowable figure","How many treaties did Native American tribes sign with the U.S. government?",368,"1765668444367svmwypqo0",1765668444367,1,0,0
+765,"History","obscure reference or jargon","What year was the first permanent English settlement in India (Surat)?",1612,"1765668444367i9x7gycy3",1765668444367,1,0,0
+767,"History","obscure reference or jargon","What was the population of ancient Nineveh at its peak?",150000,"1765668444367vln9l0387",1765668444367,1,0,0
+768,"History","obscure reference or jargon","How many years did the Kushan Empire rule?",375,"17656684443672u607j8qy",1765668444367,1,0,0
+769,"History","obscure reference or jargon","What year did the Dreyfus Affair begin?",1894,"1765668444367u5n7y195b",1765668444367,1,994.6,1
+771,"History","too similar to another question","What was the population of Prague in 1500?",70000,"1765668444367r6ixu9hpr",1765668444367,1,0,1
+772,"History","obscure reference or jargon","How many voyages did Zheng He make during China's maritime exploration?",7,"1765668444367xqsn1mbi5",1765668444367,1,0,0
+775,"History","obscure reference or jargon","What was the population of the Songhai Empire at its peak?",15000000,"1765668444367ivn6ptboi",1765668444367,1,0,0
+777,"History","too similar to another question","What year was the first photograph of a U.S. president taken (John Quincy Adams)?",1843,"17656684443671rulalkzq",1765668444367,1,0,0
+779,"History","obscure reference or jargon","What was the population of ancient Thebes (Egypt) at its peak?",80000,"1765668444367gjyupq3lz",1765668444367,1,0,0
+780,"History","obscure reference or jargon","How many years did the First French Empire last under Napoleon?",10,"1765668444367xe1hwk5h5",1765668444367,1,0,0
+781,"History","obscure reference or jargon","What year did the Fall of Singapore occur?",1942,"1765668444367z7kq4mjbl",1765668444367,1,0,0
+783,"History","obscure reference or jargon","What was the population of ancient Persepolis at its peak?",50000,"176566844436704pasbw8m",1765668444367,1,0,0
+784,"History","obscure reference or jargon","How many ships did Vasco da Gama have on his first voyage to India?",4,"17656684443670mku38w51",1765668444367,1,0,0
+785,"History","obscure reference or jargon","What year was the Zimmerman Telegram intercepted?",1917,"1765668444367ghftxpqpi",1765668444367,1,0,0
+787,"History","too similar to another question","What was the population of Warsaw in 1900?",686000,"17656684443676homuvnyv",1765668444367,1,0,0
+788,"History","obscure reference or jargon","How many years did the Sikh Empire last?",50,"1765668444367j1y000ixq",1765668444367,1,0,0
+789,"History","obscure reference or jargon","What year did the first Indian War of Independence occur?",1857,"1765668444367lv4wth9lr",1765668444367,1,0,0
+791,"History","obscure reference or jargon","What was the population of ancient Memphis (Egypt) at its peak?",200000,"1765668444367s18cb874y",1765668444367,1,0,0
+792,"History","obscure reference or jargon","How many castles did Edward I build in Wales?",8,"1765668444367gsicjw209",1765668444367,1,0,0
+793,"History","obscure reference or jargon","What year was the Battle of New Orleans fought?",1815,"1765668444367wvd9flqyv",1765668444367,1,0,0
+794,"History","obscure reference or jargon","How many soldiers died at the Battle of Fredericksburg?",18000,"1765668444367p9dti9mbl",1765668444367,1,0,0
+795,"History","too similar to another question","What was the population of Havana in 1800?",90000,"1765668444367toojfgxbf",1765668444367,1,0,0
+796,"History","obscure reference or jargon","How many years did the War of the Triple Alliance last?",6,"1765668444367465c694zi",1765668444367,1,0,0
+798,"History","obscure reference or jargon","How many people survived the Bataan Death March?",54000,"17656684443678tp78bmxv",1765668444367,1,0,0
+799,"History","too similar to another question","What was the population of Stockholm in 1800?",75000,"1765668444367k993bgiky",1765668444367,1,0,1
+800,"History","obscure reference or jargon","How many Roman emperors ruled during the Crisis of the Third Century?",26,"1765668444367zv8ghya06",1765668444367,1,0,0
+802,"History","obscure reference or jargon","How many soldiers fought at the Battle of Yorktown for the Americans?",17000,"1765668444367lkr10ddw2",1765668444367,1,0,0
+803,"History","obscure reference or jargon","What was the population of ancient Ur at its peak?",65000,"176566844436775rwjs8y6",1765668444367,1,249.3,1
+804,"History","obscure reference or jargon","How many years did the First Barbary War last?",4,"1765668444367hrtf07rbk",1765668444367,1,0,0
+805,"History","obscure reference or jargon","What year was the Homestead Act signed?",1862,"1765668444367noq289o7z",1765668444367,1,0,0
+806,"History","obscure reference or jargon","How many people were killed in the St. Bartholomew's Day massacre?",30000,"176566844436867sgbdr02",1765668444368,1,0,0
+807,"History","too similar to another question","What was the population of Calcutta (Kolkata) in 1900?",1085000,"17656684443685qb8wo4zf",1765668444368,1,0,0
+808,"History","obscure reference or jargon","How many ships were in the English fleet that defeated the Spanish Armada?",197,"1765668444368nnq9byday",1765668444368,1,0,0
+809,"History","obscure reference or jargon","What year did the Opium Wars end?",1860,"1765668444368rglrxagcz",1765668444368,1,0,0
+810,"History","obscure reference or jargon","How many soldiers surrendered at Appomattox?",28000,"1765668444368hiaeqafgl",1765668444368,1,0,0
+811,"History","obscure reference or jargon","What was the population of ancient Antioch at its peak?",500000,"1765668444368ofim89m1c",1765668444368,1,0,0
+812,"History","obscure reference or jargon","How many years did the Anglo-Saxon period last in England?",600,"1765668444368tkgkydp93",1765668444368,1,0,0
+813,"History","obscure reference or jargon","What year was the first transatlantic flight completed by Alcock and Brown?",1919,"1765668444368kjg1ury7o",1765668444368,1,0,0
+814,"History","obscure reference or jargon","How many people died in the Holodomor famine in Ukraine?",7000000,"1765668444368hmu5lw1g0",1765668444368,1,0,0
+815,"History","obscure reference or jargon","What was the population of ancient Ephesus at its peak?",250000,"17656684443683lz9l5qef",1765668444368,1,0,0
+816,"History","obscure reference or jargon","How many crusaders participated in the First Crusade?",100000,"1765668444368mcnvsm4vz",1765668444368,1,0,0
+818,"History","obscure reference or jargon","How many soldiers died at the Battle of Gallipoli?",473000,"1765668444368tvzll51lg",1765668444368,1,0,0
+819,"History","too similar to another question","What was the population of Hong Kong in 1900?",283978,"176566844436801etyern6",1765668444368,1,0,0
+820,"History","obscure reference or jargon","How many years did the Venetian Republic last?",1100,"1765668444368fv2la37as",1765668444368,1,359.4,1
+821,"History","obscure reference or jargon","What year was the Seneca Falls Convention held?",1848,"1765668444368jz1384o6q",1765668444368,1,0,0
+822,"History","wrong answer or broken wording","How many emperors ruled during the Roman Kingdom before the Republic?",7,"1765668444368w8ftgvwmt",1765668444368,1,0,0
+823,"History","obscure reference or jargon","What was the population of ancient Syracuse at its peak?",250000,"1765668444368z02nln1ap",1765668444368,1,0,0
+824,"History","obscure reference or jargon","How many ships were at the Battle of the Coral Sea (both sides)?",27,"17656684443684b7av7r2v",1765668444368,1,0,0
+827,"History","too similar to another question","What was the population of Philadelphia in 1900?",1293697,"1765668444368dcr93uwog",1765668444368,1,0,0
+828,"History","obscure reference or jargon","How many years did the Thirty-Nine Articles define Anglican doctrine (to present)?",461,"1765668444368tt1upk7t2",1765668444368,1,0,0
+831,"History","too similar to another question","What was the population of ancient Carthage before the Third Punic War?",500000,"1765668444368x4n58kq0j",1765668444368,1,0,0
+832,"History","too similar to another question","How many soldiers crossed the Alps with Hannibal?",26000,"176566844436893mhgrgfj",1765668444368,1,0,0
+833,"History","obscure reference or jargon","What year did the Warsaw Pact dissolve?",1991,"1765668444368um5wycw5d",1765668444368,1,0,0
+835,"History","too similar to another question","What was the population of San Antonio in 1836?",2500,"1765668444368n5wgbegc5",1765668444368,1,0,0
+837,"History","obscure reference or jargon","What year was the Peace of Augsburg signed?",1555,"1765668444368f9bgjg4mj",1765668444368,1,0,0
+838,"History","too similar to another question","How many soldiers were in Wellington's army at Waterloo?",68000,"1765668444368ay09qk10z",1765668444368,1,0,0
+839,"History","too similar to another question","What was the population of Rio de Janeiro in 1900?",811000,"176566844436887r2qarxm",1765668444368,1,0,0
+840,"History","obscure reference or jargon","How many people died in the Great Lisbon Earthquake of 1755?",60000,"17656684443689a1p4mp1r",1765668444368,1,0,0
+841,"History","obscure reference or jargon","What was the population of ancient Miletus at its peak?",100000,"1765668444368z9etfowu5",1765668444368,1,0,0
+844,"History","obscure reference or jargon","How many soldiers died in the Siege of Sevastopol (Crimean War)?",230000,"1765668444368x12ik6z21",1765668444368,1,0,0
+845,"History","too similar to another question","What was the population of Detroit in 1900?",285704,"1765668444368vrn1dzfvy",1765668444368,1,0,0
+846,"History","obscure reference or jargon","How many years did the Sui Dynasty rule China?",38,"1765668444368um975v1jd",1765668444368,1,0,0
+847,"History","too similar to another question","What year was the Rosetta Stone deciphered?",1822,"1765668444368yhub71uyi",1765668444368,1,0,0
+848,"History","obscure reference or jargon","How many emperors of the Holy Roman Empire were named Frederick?",5,"17656684443683pbwjain1",1765668444368,1,0,0
+849,"History","obscure reference or jargon","What was the population of ancient Ctesiphon at its peak?",500000,"1765668444368867vfmscw",1765668444368,1,0,0
+851,"History","too similar to another question","What year did the last gladiatorial combat take place in Rome?",404,"17656684443687wsqgnzc5",1765668444368,1,0,0
+852,"History","obscure reference or jargon","How many ships were in the First Fleet to Australia?",11,"1765668444368bnwebqi04",1765668444368,1,0,0
+853,"History","too similar to another question","What was the population of Atlanta in 1860?",9554,"1765668444368pkc11wvs8",1765668444368,1,0,0
+854,"History","obscure reference or jargon","How many years did the Ethiopian Empire last?",704,"1765668444368eddtrxgnh",1765668444368,1,0,0
+857,"History","too similar to another question","What was the population of Manchester during the Industrial Revolution peak (1850)?",303000,"1765668444368zja8p1ij5",1765668444368,1,0,0
+858,"History","obscure reference or jargon","How many soldiers fought in the Battle of Chancellorsville for the Confederacy?",60000,"17656684443680bm7wx593",1765668444368,1,0,0
+860,"History","too similar to another question","How many ships were in Magellan's fleet when he departed Spain?",5,"1765668444368r3df1hitb",1765668444368,1,0,0
+861,"History","obscure reference or jargon","What was the population of Nanking during the Ming Dynasty?",1000000,"1765668444368letq5jff0",1765668444368,1,0,0
+862,"History","obscure reference or jargon","How many years did the Ashanti Empire last?",243,"1765668444368inu90q5ze",1765668444368,1,0,0
+867,"History","too similar to another question","What year did the last Byzantine emperor die?",1453,"1765668444368hta1ddqbt",1765668444368,1,0,0
+868,"History","obscure reference or jargon","How many queens regnant has England had?",7,"17656684443689pj2g4mib",1765668444368,1,0,0
+869,"History","obscure reference or jargon","What was the population of ancient Mohenjo-daro at its peak?",40000,"176566844436877m8p48vk",1765668444368,1,0,0
+870,"History","obscure reference or jargon","How many soldiers died at the Battle of Shiloh?",23746,"1765668444368m3y3fxexb",1765668444368,1,0,0
+871,"History","obscure reference or jargon","What year was the Suez Canal nationalized by Egypt?",1956,"176566844436898dffco85",1765668444368,1,0,0
+872,"History","obscure reference or jargon","How many ships were lost in the Battle of Jutland?",25,"17656684443683g364wlkf",1765668444368,1,0,0
+873,"History","too similar to another question","What was the population of Pittsburgh in 1900?",321616,"1765668444368rgpfc9ire",1765668444368,1,0,0
+877,"History","too similar to another question","What was the population of Singapore in 1900?",227555,"1765668444368gsloufp1n",1765668444368,1,0,0
+878,"History","too similar to another question","How many soldiers did the Confederacy have at Gettysburg?",75000,"1765668444368ccgkwluwe",1765668444368,1,0,0
+879,"History","vague or unknowable figure","What year was the Great Wall of China completed (Ming Dynasty)?",1644,"1765668444368iebro2ysd",1765668444368,1,0,0
+881,"History","obscure reference or jargon","What was the population of ancient Palmyra at its peak?",200000,"1765668444368271wj3cu7",1765668444368,1,0,0
+882,"History","obscure reference or jargon","How many soldiers died in the Battle of Bunker Hill?",1054,"17656684443683y5r3jiov",1765668444368,1,0,0
+884,"History","wrong answer or broken wording","How many ships were in the fleet that brought the Pilgrims to Plymouth?",2,"176566844436812pnbxcz2",1765668444368,1,0,0
+885,"History","too similar to another question","What was the population of Seattle in 1900?",80671,"1765668444368d3j21jkzg",1765668444368,1,0,0
+886,"History","obscure reference or jargon","How many years did the Qajar Dynasty rule Persia?",131,"1765668444368jrouv5lxg",1765668444368,1,0,0
+887,"History","obscure reference or jargon","What year was the Balfour Declaration issued?",1917,"1765668444368y3an00ydx",1765668444368,1,0,0
+888,"History","obscure reference or jargon","How many soldiers fought at the Battle of Austerlitz for Napoleon?",68000,"17656684443687ukdahy79",1765668444368,1,0,0
+889,"History","obscure reference or jargon","What was the population of ancient Taxila at its peak?",50000,"1765668444368cauh1akkp",1765668444368,1,0,0
+890,"History","too similar to another question","How many Native American tribes were forcibly relocated during the Trail of Tears?",5,"1765668444368u5fscxfd9",1765668444368,1,0,0
+892,"History","obscure reference or jargon","How many soldiers died at the Battle of Cold Harbor in one hour?",7000,"1765668444368gcqg49oe5",1765668444368,1,0,0
+893,"History","too similar to another question","What was the population of Milwaukee in 1900?",285315,"176566844436818o66awc3",1765668444368,1,0,0
+895,"History","obscure reference or jargon","What year was the first electric streetcar introduced?",1888,"1765668444368bsmutxnye",1765668444368,1,0,0
+897,"History","obscure reference or jargon","What was the population of ancient Pergamon at its peak?",200000,"1765668444368vbfuv5atf",1765668444368,1,0,0
+901,"History","too similar to another question","What was the population of Cleveland in 1900?",381768,"1765668444368855n0nqvd",1765668444368,1,0,0
+902,"History","obscure reference or jargon","How many soldiers fought in the Battle of Bull Run (First) for the Union?",35000,"1765668444368dl11f5oak",1765668444368,1,0,0
+904,"History","obscure reference or jargon","How many people died in the Johnstown Flood of 1889?",2200,"1765668444368p440pbp1z",1765668444368,1,0,0
+905,"History","obscure reference or jargon","What was the population of ancient Cordoba at its peak under Islamic rule?",500000,"1765668444368ye0vherl6",1765668444368,1,0,0
+906,"History","obscure reference or jargon","How many signers of the Declaration of Independence were later captured by the British?",5,"1765668444368p74v6d4py",1765668444368,1,0,0
+907,"History","too similar to another question","What year did the Titanic set sail on its maiden voyage?",1912,"1765668444368cln1isqe4",1765668444368,1,0,0
+908,"History","too similar to another question","How many soldiers survived Pickett's Charge at Gettysburg?",6000,"17656684443684mvione11",1765668444368,1,0,0
+909,"History","too similar to another question","What was the population of Newark in 1900?",246070,"17656684443687kjh8oayr",1765668444368,1,0,0
+910,"History","obscure reference or jargon","How many years did the Fatimid Caliphate rule?",262,"1765668444368xz8i7u6by",1765668444368,1,0,0
+912,"History","obscure reference or jargon","How many soldiers were in the Charge of the Light Brigade?",670,"1765668444368gh74hwf4c",1765668444368,1,0.7,1
+913,"History","obscure reference or jargon","What was the population of ancient Giza during pyramid construction?",10000,"1765668444368asmct2apm",1765668444368,1,0,0
+914,"History","obscure reference or jargon","How many ships did Sir Francis Drake have when circumnavigating the globe?",5,"1765668444368olsqiirct",1765668444368,1,0,0
+916,"History","obscure reference or jargon","How many people died in the Texas City disaster of 1947?",581,"1765668444368btdov6uiq",1765668444368,1,0,0
+917,"History","too similar to another question","What was the population of Buffalo in 1900?",352387,"1765668444368dwene6xvz",1765668444368,1,0,0
+918,"History","obscure reference or jargon","How many soldiers died in the Battle of Chickamauga?",34624,"1765668444368c6dhgjwgi",1765668444368,1,0,0
+921,"History","obscure reference or jargon","What was the population of ancient Karakorum at its peak?",10000,"1765668444368k3m01yzov",1765668444368,1,0,0
+922,"History","obscure reference or jargon","How many soldiers did the British have at the Battle of Bunker Hill?",2200,"1765668444368plvw0liuv",1765668444368,1,0,0
+927,"History","obscure reference or jargon","What year was the Edict of Milan issued?",313,"176566844436866wdqp3dm",1765668444368,1,0,0
+928,"History","obscure reference or jargon","How many soldiers surrendered at Vicksburg?",29495,"1765668444368q8ca4nqvj",1765668444368,1,0,0
+929,"History","obscure reference or jargon","What was the population of ancient Leptis Magna at its peak?",100000,"1765668444368gikv3b4l9",1765668444368,1,0,0
+930,"History","obscure reference or jargon","How many years did the Teutonic Knights exist as a military order?",289,"1765668444368tah2dnqrx",1765668444368,1,0,0
+932,"History","obscure reference or jargon","How many people died in the Halifax Explosion of 1917?",2000,"17656684443687vbv2j7sp",1765668444368,1,0,0
+933,"History","too similar to another question","What was the population of Cincinnati in 1900?",325902,"1765668444368t76afqrjm",1765668444368,1,0,0
+934,"History","obscure reference or jargon","How many ships were in the Greek fleet at the Battle of Salamis?",370,"1765668444368ervcyq7nz",1765668444368,1,0,0
+936,"History","obscure reference or jargon","How many emperors ruled the Western Roman Empire?",22,"17656684443689sxe2tobx",1765668444368,1,0,0
+937,"History","obscure reference or jargon","What was the population of ancient Volubilis at its peak?",20000,"17656684443681q0ndkga2",1765668444368,1,0,0
+942,"History","too similar to another question","How many years did the Reconquista take to complete?",781,"1765668444369i331fh0tc",1765668444369,1,0,0
+943,"History","obscure reference or jargon","What year was the first public library opened in America (Boston)?",1854,"1765668444369mdudxwljv",1765668444369,1,0,0
+945,"History","too similar to another question","What was the population of Baltimore in 1850?",169054,"17656684443695aa7k5lew",1765668444369,1,0,0
+946,"History","obscure reference or jargon","How many voyages did Captain James Cook make?",3,"1765668444369ul3yseegv",1765668444369,1,0,0
+948,"History","too similar to another question","How many soldiers did the Union have at Bull Run (First)?",35000,"1765668444369gp49tc3um",1765668444369,1,9.1,1
+949,"History","obscure reference or jargon","What was the population of ancient Delphi at its peak?",15000,"1765668444369oin7xs1ji",1765668444369,1,0,0
+950,"History","too similar to another question","How many delegates signed the U.S. Constitution?",39,"17656684443690rygn00ur",1765668444369,1,0,0
+953,"History","too similar to another question","What was the population of St. Louis in 1850?",77860,"1765668444369sy2ujqirr",1765668444369,1,0,0
+954,"History","obscure reference or jargon","How many years did the Franco-Prussian War last?",1,"17656684443691kdy1qr9v",1765668444369,1,0,0
+956,"History","too similar to another question","How many soldiers did Prussia have at the Battle of Waterloo?",50000,"1765668444369bu9scpm1r",1765668444369,1,0,0
+957,"History","obscure reference or jargon","What was the population of ancient Sardis at its peak?",100000,"176566844436908iwilch2",1765668444369,1,75,1
+958,"History","too similar to another question","How many ships survived Magellan's circumnavigation?",1,"1765668444369zk6glvhdm",1765668444369,1,0,0
+960,"History","vague or unknowable figure","How many presidents served before George Washington under the Articles of Confederation?",8,"1765668444369072siw1p4",1765668444369,1,0,0
+961,"History","too similar to another question","What was the population of Denver in 1900?",133859,"1765668444369rwhj287ih",1765668444369,1,0,0
+962,"History","obscure reference or jargon","How many soldiers were in the original standing army of the United States (1789)?",700,"1765668444369xpw97uo9k",1765668444369,1,0,0
+964,"History","obscure reference or jargon","How many years did the Warring States period last in China?",254,"176566844436903u2r31z9",1765668444369,1,0,0
+965,"History","obscure reference or jargon","What was the population of ancient Knossos at its peak?",100000,"17656684443692rqcu43ws",1765668444369,1,0,0
+968,"History","obscure reference or jargon","How many soldiers fought in the Battle of New Orleans?",12000,"1765668444369nghvz2iic",1765668444369,1,0,0
+969,"History","too similar to another question","What was the population of Minneapolis in 1900?",202718,"17656684443692t60dk8l2",1765668444369,1,0,0
+970,"History","too similar to another question","How many ships were in Columbus's second voyage?",17,"17656684443695ooy4mgek",1765668444369,1,0,0
+971,"History","too similar to another question","What year was the Emancipation Proclamation effective?",1863,"176566844436945exmt8lu",1765668444369,1,0,0
+972,"History","obscure reference or jargon","How many Roman legions were lost at the Battle of Teutoburg Forest?",3,"1765668444369o79iveods",1765668444369,1,0,0
+973,"History","obscure reference or jargon","What was the population of ancient Hattusa at its peak?",50000,"1765668444369c60hmy6jy",1765668444369,1,0,0
+977,"History","too similar to another question","What was the population of Louisville in 1900?",204731,"1765668444369yiv3fnik9",1765668444369,1,0,0
+980,"History","obscure reference or jargon","How many soldiers did Sitting Bull have at Little Bighorn?",2000,"17656684443698fposgm1r",1765668444369,1,0,0
+981,"History","obscure reference or jargon","What was the population of ancient Capua at its peak?",40000,"176566844436939adywxm4",1765668444369,1,0,0
+982,"History","too similar to another question","How many ships were lost in the Spanish Armada?",63,"1765668444369izn7fqehx",1765668444369,1,0,0
+984,"History","wrong answer or broken wording","How many signers of the Declaration of Independence died on July 4th?",3,"1765668444369qg3ql2yv6",1765668444369,1,0,0
+985,"History","too similar to another question","What was the population of Kansas City in 1900?",163752,"17656684443697ibtixywi",1765668444369,1,0,0
+986,"History","obscure reference or jargon","How many soldiers were in the original Praetorian Guard?",9000,"1765668444369ha4hyul9y",1765668444369,1,0,0
+989,"History","too similar to another question","What year was the first permanent European settlement in Canada (Quebec City)?",1608,"1765668444369ymhk1zevd",1765668444369,1,0,0
+990,"History","too similar to another question","How many people died in the Galveston Hurricane of 1900?",8000,"1765668444369mjid4t3r3",1765668444369,1,0,0
+991,"History","too similar to another question","What was the population of ancient Miletus at its peak?",100000,"1765668444369llbazfwan",1765668444369,1,0,0
+994,"History","obscure reference or jargon","How many soldiers surrendered at the Battle of Sedan in 1870?",104000,"1765668444369a01vy1xlz",1765668444369,1,0,0
+995,"History","obscure reference or jargon","What was the population of ancient Thebes (Greece) at its peak?",40000,"1765668444369cuhedvv0j",1765668444369,1,0,0
+996,"History","obscure reference or jargon","How many ships did John Paul Jones command in his most famous battle?",7,"1765668444369tuij7e988",1765668444369,1,0,0
+997,"History","trick, giveaway or not an estimate","What year was the Library of Alexandria founded?",-283,"1765668444369348hdllr2",1765668444369,1,0,0
+998,"History","too similar to another question","How many soldiers did Leonidas actually have at Thermopylae's last stand?",1400,"1765668444369iwnt71g2w",1765668444369,1,0,0
+999,"History","obscure reference or jargon","What was the population of ancient Tyre at its peak?",40000,"1765668444369kjddrg5w8",1765668444369,1,0,0
+1006,"Industry","obscure reference or jargon","How many containers (in TEU - twenty-foot equivalent units) pass through the Port of Los Angeles annually?",9900000,"1765668452654bwhup55n0",1765668452654,1,0,0
+1008,"Industry","obscure reference or jargon","How many patents did IBM receive in 2023 (their 30th consecutive year leading U.S. patents)?",8978,"1765668452654o0dj4zhie",1765668452654,1,0,0
+1011,"Industry","obscure reference or jargon","What was the total value of global mergers and acquisitions in trillions of dollars in 2023?",2.9,"1765668452654x1eh7b51l",1765668452654,1,0,0
+1017,"Industry","vague or unknowable figure","What is the average time in seconds that a user spends viewing a webpage before deciding to stay or leave?",2.6,"1765668452654w2zjmtclj",1765668452654,1,0,0
+1022,"Industry","wrong answer or broken wording","How many business failures (bankruptcies) occur in the United States per year on average?",500000,"1765668452654ffx8uasks",1765668452654,1,0,0
+1023,"Industry","vague or unknowable figure","What is the average lifespan in years of a small business in the United States?",5,"1765668452654ek7vjd1tc",1765668452654,1,0,0
+1029,"Industry","obscure reference or jargon","What was the total U.S. venture capital investment in billions of dollars in 2023?",170,"1765668452654ejggz6p92",1765668452654,1,0,0
+1031,"Industry","vague or unknowable figure","What is the average cost in dollars to acquire a new customer across all industries?",198,"1765668452654nvv3494eg",1765668452654,1,0,0
+1036,"Industry","vague or unknowable figure","How many kilowatt-hours of electricity does a typical data center consume per year (in millions)?",100,"1765668452654y056q8tdc",1765668452654,1,0,0
+1046,"Industry","obscure reference or jargon","How many metric tons of aluminum does the United States consume annually?",5500000,"1765668452654jepejh2sb",1765668452654,1,0,0
+1066,"Industry","wrong answer or broken wording","How many shipping containers are transported by sea annually (in millions of TEUs)?",800,"1765668452654flyvkuixv",1765668452654,1,0,0
+1067,"Industry","too similar to another question","What is the fuel capacity in gallons of a Boeing 787 Dreamliner?",33528,"1765668452654echnlgpiw",1765668452654,1,0,0
+1077,"Industry","wrong answer or broken wording","What is the fuel consumption in gallons per nautical mile of a large container ship?",1,"1765668452654knz01x3fn",1765668452654,1,0,0
+1078,"Industry","wrong answer or broken wording","How many miles of subway track exist in New York City?",472,"1765668452654a344n53dh",1765668452654,1,0,0
+1084,"Industry","too similar to another question","How many trucks are registered for commercial use in the United States (in millions)?",13.9,"1765668452654i0nwzew48",1765668452654,1,0,0
+1087,"Industry","too similar to another question","What is the maximum takeoff weight in pounds of an Airbus A380?",1268000,"1765668452654vhvgqop54",1765668452654,1,0,0
+1108,"Industry","vague or unknowable figure","How many gallons of water are needed to produce one gallon of gasoline?",2,"17656684526545qlv4qlvx",1765668452654,1,0,0
+1111,"Industry","obscure reference or jargon","What is the capacity factor percentage of U.S. nuclear power plants?",93,"1765668452654s8dn69i4e",1765668452654,1,99.5,1
+1114,"Industry","obscure reference or jargon","How many BTUs of energy does one gallon of gasoline contain?",120286,"1765668452654tj5vq2w6r",1765668452654,1,0,0
+1118,"Industry","obscure reference or jargon","How many megawatts of solar capacity did the U.S. add in 2024?",32000,"1765668452654kyw2ofcij",1765668452654,1,0,0
+1120,"Industry","wrong answer or broken wording","How many gallons of oil can be refined from one barrel of crude oil (42 gallons)?",45,"17656684526544aixmh0ik",1765668452654,1,0,0
+1121,"Industry","too similar to another question","What percentage of the world's electricity comes from hydropower?",15,"1765668452654x8eg62sdv",1765668452654,1,0,0
+1122,"Industry","vague or unknowable figure","How many tons of CO2 are emitted from burning one ton of coal?",2.86,"1765668452654cokficlsx",1765668452654,1,0,0
+1124,"Industry","too similar to another question","How many years of natural gas reserves exist in the United States?",84,"1765668452654fvp4cxw4q",1765668452654,1,0,0
+1126,"Industry","obscure reference or jargon","How many kilowatt-hours can a typical home battery system store?",13.5,"17656684526546nl33x0sv",1765668452654,1,0,0
+1128,"Industry","obscure reference or jargon","How many drilling rigs are operating in the United States (as of late 2024)?",580,"1765668452654951n6vq5d",1765668452654,1,0,0
+1130,"Industry","obscure reference or jargon","How many cubic feet of natural gas does the U.S. consume daily (in billions)?",89,"17656684526548171qszt2",1765668452654,1,0,0
+1131,"Industry","obscure reference or jargon","What is the energy density in watt-hours per kilogram of lithium-ion batteries?",250,"1765668452654tll5b2txz",1765668452654,1,0,0
+1134,"Industry","obscure reference or jargon","How many terawatt-hours of electricity does the United States consume annually?",4000,"1765668452654rdf4e22sr",1765668452654,1,0,0
+1135,"Industry","obscure reference or jargon","What is the carbon footprint in pounds of CO2 per kilowatt-hour from coal-fired electricity?",2.2,"176566845265443nf9ouwu",1765668452654,1,0,0
+1138,"Industry","wrong answer or broken wording","How many pounds of uranium fuel does a nuclear plant use per year?",250,"17656684526544vp8kakpp",1765668452654,1,0,0
+1139,"Industry","obscure reference or jargon","What is the average capacity in megawatts of a U.S. nuclear reactor?",1000,"17656684526546sxbxd8r5",1765668452654,1,0,0
+1141,"Industry","obscure reference or jargon","What percentage of global cobalt production goes to battery manufacturing?",74,"1765668452654xtkhevfo8",1765668452654,1,0,0
+1143,"Industry","obscure reference or jargon","What is the cost in dollars per watt of residential solar panel installation in 2024?",2.85,"17656684526540nt6zrcax",1765668452654,1,0,0
+1146,"Industry","obscure reference or jargon","How many gallons of ethanol are produced annually in the United States (in billions)?",15,"1765668452654f3dilgd8c",1765668452654,1,0,0
+1147,"Industry","obscure reference or jargon","What is the thermal efficiency percentage of a combined-cycle natural gas plant?",60,"1765668452654ecu7u5o6e",1765668452654,1,0,0
+1154,"Industry","too similar to another question","How many tons of steel were used to build the Empire State Building?",60000,"1765668452654rrz6khuk7",1765668452654,1,0,0
+1158,"Industry","too similar to another question","How many elevators are in the Burj Khalifa in Dubai?",57,"1765668452654qh9xo65vs",1765668452654,1,0,0
+1161,"Industry","too similar to another question","What is the weight in tons of the Statue of Liberty's copper sheeting?",31,"17656684526556o2o9zsl9",1765668452655,1,0,0
+1166,"Industry","too similar to another question","How many miles of electrical wiring are in the Empire State Building?",2500,"1765668452655uo7mbfdlt",1765668452655,1,0,0
+1167,"Industry","too similar to another question","What is the foundation depth in feet of the Burj Khalifa?",164,"1765668452655w3pi27i21",1765668452655,1,0,0
+1169,"Industry","too similar to another question","What is the volume in cubic yards of concrete in the Hoover Dam?",4400000,"1765668452655woms1af9p",1765668452655,1,0,0
+1170,"Industry","vague or unknowable figure","How many suspension cables support the George Washington Bridge?",4,"1765668452655mxn9u08ub",1765668452655,1,0,0
+1171,"Industry","wrong answer or broken wording","What is the height in feet of the tallest residential building (432 Park Avenue in NYC)?",1396,"1765668452655xgnf02gcv",1765668452655,1,0,0
+1172,"Industry","too similar to another question","How many acres does the Pentagon cover?",29,"17656684526556mj3qrpni",1765668452655,1,0,0
+1175,"Industry","too similar to another question","What is the weight in tons of the Eiffel Tower's iron structure?",7300,"1765668452655ppa1bg3u3",1765668452655,1,0,0
+1187,"Industry","obscure reference or jargon","What is the weight in pounds of each of the Statue of Liberty's fingernails?",100,"1765668452655ywsty82n9",1765668452655,1,0,0
+1191,"Industry","obscure reference or jargon","What is the length in feet of the longest single-span arch bridge (Chaotianmen Bridge)?",1811,"1765668452655xd35d0esr",1765668452655,1,0,0
+1194,"Industry","vague or unknowable figure","How many acres of glass panels are on the Louvre Pyramid in Paris?",1.2,"1765668452655x6j2sw4o1",1765668452655,1,0,0
+1195,"Industry","too similar to another question","What is the depth in feet of the foundation of the Petronas Towers?",394,"1765668452655ejf7rdvng",1765668452655,1,0,0
+1196,"Industry","vague or unknowable figure","How many suspension bridges are longer than one mile in the world?",25,"1765668452655pmkezkym1",1765668452655,1,0,0
+1198,"Industry","too similar to another question","How many tons of structural steel are in the Golden Gate Bridge?",83000,"1765668452655kp371645m",1765668452655,1,0,0
+1203,"Industry","obscure reference or jargon","What was the clock speed in megahertz of the original Intel 8086 processor released in 1978?",5,"1765668452655lz8e2btwa",1765668452655,1,0,0
+1211,"Industry","obscure reference or jargon","What is the data transfer rate in gigabits per second of USB4 technology?",40,"1765668452655b7tsshrdd",1765668452655,1,0,0
+1215,"Industry","obscure reference or jargon","What is the typical latency in milliseconds for 5G cellular networks?",10,"1765668452655hg0dfz4du",1765668452655,1,0,0
+1222,"Industry","wrong answer or broken wording","How many data points does GPT-4 have in its training dataset (in billions)?",13000,"1765668452655ipespn4qf",1765668452655,1,0,0
+1223,"Industry","obscure reference or jargon","What is the power consumption in watts of a typical gaming PC graphics card (RTX 4090)?",450,"1765668452655wdic5vty5",1765668452655,1,0,0
+1224,"Industry","obscure reference or jargon","How many connected IoT devices exist worldwide as of 2024 (in billions)?",18.8,"1765668452655n4i9ge0ur",1765668452655,1,0,0
+1229,"Industry","obscure reference or jargon","What was the clock speed in megahertz of the original Nintendo Entertainment System processor?",1.79,"17656684526557eyvznbjn",1765668452655,1,0,0
+1235,"Industry","obscure reference or jargon","What is the data capacity in petabytes of Google's total data storage as estimated in 2024?",15000000,"176566845265590wcxwd8v",1765668452655,1,0,0
+1237,"Industry","trick, giveaway or not an estimate","What was the memory capacity in kilobytes of the original Commodore 64 computer?",64,"1765668452655wrncnjd53",1765668452655,1,0,0
+1241,"Industry","obscure reference or jargon","What is the screen refresh rate in hertz of the iPhone 15 Pro Max?",120,"1765668452655ffx6h5jp1",1765668452655,1,0,0
+1256,"Industry","wrong answer or broken wording","How many visitors did Walt Disney World in Florida receive in 2023?",62000000,"1765668452655hfbyni9ce",1765668452655,1,0,0
+1258,"Industry","too similar to another question","How many flights arrive at and depart from Hartsfield-Jackson Atlanta International Airport daily?",2700,"1765668452655kkzsnq0qa",1765668452655,1,0,0
+1262,"Industry","vague or unknowable figure","How many languages are spoken among the staff at the United Nations Headquarters in New York City?",6,"1765668452655klkcmmk0n",1765668452655,1,0,0
+1265,"Industry","too similar to another question","What was the average daily room rate in dollars at Las Vegas hotels in 2024?",196,"1765668452655ycfdqa517",1765668452655,1,0,0
+1268,"Industry","too similar to another question","How many bricks were used to build the Empire State Building?",10000000,"1765668452655g1o3kmnx8",1765668452655,1,0,0
+1269,"Industry","too similar to another question","What is the average temperature in degrees Fahrenheit in Death Valley during July?",116,"1765668452655yr14jq4q0",1765668452655,1,0,0
+1271,"Industry","obscure reference or jargon","What is the circumference in miles of the island of Oahu in Hawaii?",112,"1765668452655m46h1bq7d",1765668452655,1,0,0
+1279,"Industry","trick, giveaway or not an estimate","What is the elevation in feet of Denver, Colorado (the Mile High City)?",5280,"1765668452655517dmqgfs",1765668452655,1,0,0
+1280,"Industry","obscure reference or jargon","How many countries did the Orient Express train pass through on its original route?",6,"1765668452655o28nrc57q",1765668452655,1,0,0
+1282,"Industry","obscure reference or jargon","How many waterfalls are in Yosemite National Park?",25,"1765668452655jvrq0xu9c",1765668452655,1,0,0
+1284,"Industry","too similar to another question","How many floors does the Willis Tower (formerly Sears Tower) in Chicago have?",108,"17656684526556o2tznnvw",1765668452655,1,0,0
+1285,"Industry","wrong answer or broken wording","What is the length in feet of the Hollywood Sign letters in Los Angeles?",45,"1765668452655v7q2eh2sj",1765668452655,1,0,0
+1289,"Industry","too similar to another question","What is the height in feet of the Gateway Arch in St. Louis?",630,"1765668452655fc0419cid",1765668452655,1,0,0
+1293,"Industry","obscure reference or jargon","What is the depth in feet of the deepest point in the Mediterranean Sea?",17280,"1765668452655s8dxnkntk",1765668452655,1,0,0
+1299,"Industry","too similar to another question","What is the area in square miles of Glacier National Park in Montana?",1583,"176566845265588m1y8jl5",1765668452655,1,0,0
+1301,"Industry","too similar to another question","What is the weight in tons of a fully loaded Airbus A380?",575,"1765668452655mwm5my07p",1765668452655,1,0,0
+1303,"Industry","vague or unknowable figure","What is the height in feet of the average offshore oil platform?",300,"1765668452655ez8fc2nag",1765668452655,1,0,0
+1306,"Industry","obscure reference or jargon","How many megawatts does the largest solar farm produce (Bhadla Solar Park, India)?",2245,"1765668452655u1mezml3r",1765668452655,1,0,0
+1308,"Industry","vague or unknowable figure","How many tech startups are founded in Silicon Valley per year?",4000,"1765668452655vizszaw82",1765668452655,1,0,0
+1311,"Industry","obscure reference or jargon","What is the capacity in acre-feet of the Hoover Dam reservoir?",28945000,"1765668452655bawdt5n1j",1765668452655,1,0,0
+1312,"Industry","obscure reference or jargon","How many semiconductor fabrication plants exist globally?",650,"1765668452655ob4l26m5n",1765668452655,1,0,0
+1314,"Industry","obscure reference or jargon","How many metric tons of cement does China produce annually (in billions)?",2.3,"1765668452655kebo17kyh",1765668452655,1,0,0
+1319,"Industry","vague or unknowable figure","What is the height in feet of the tallest crane in the world?",820,"1765668452655b4fpps7lq",1765668452655,1,997.8,1
+1320,"Industry","wrong answer or broken wording","How many internet domain name servers exist globally?",13,"1765668452655g73zwb4vn",1765668452655,1,0,0
+1322,"Industry","wrong answer or broken wording","How many tons of cargo does the Port of Shanghai handle annually (in millions)?",47,"1765668452655ltc29y4s8",1765668452655,1,0,0
+1329,"Industry","vague or unknowable figure","What percentage of Amazon packages are delivered within two days?",72,"1765668452655ubmq4l2r5",1765668452655,1,0,0
+1330,"Industry","obscure reference or jargon","How many wind turbines are in the largest offshore wind farm (Hornsea 2)?",165,"1765668452655uwuy8ka62",1765668452655,1,0,0
+1331,"Industry","obscure reference or jargon","What is the production capacity in vehicles per day of Tesla's Gigafactory Texas?",2000,"1765668452655o6jh0wq58",1765668452655,1,0,0
+1333,"Industry","too similar to another question","What percentage of U.S. electricity comes from renewable sources?",22,"1765668452655fij9rcels",1765668452655,1,0,0
+1334,"Industry","vague or unknowable figure","How many miles of fiber optic cable are installed globally (in millions)?",500,"1765668452655gr92hcl0z",1765668452655,1,0,0
+1337,"Industry","too similar to another question","What percentage of global lithium-ion batteries are made in China?",77,"1765668452655azd3drk5k",1765668452655,1,0,0
+1341,"Industry","vague or unknowable figure","What percentage of U.S. retail is controlled by the top 10 retailers?",37,"1765668452655uk84g1g4b",1765668452655,1,0,0
+1343,"Industry","obscure reference or jargon","What is the cruising speed in knots of the largest container ships?",24,"1765668452655pn8b1urnj",1765668452655,1,0,0
+1346,"Industry","too similar to another question","How many server farms does Microsoft Azure operate?",60,"1765668452655sh82r7o30",1765668452655,1,0,0
+1347,"Industry","obscure reference or jargon","What is the annual production in ounces of the world's largest gold mine (Nevada Gold Mines)?",3500000,"1765668452655yxdhzmb3g",1765668452655,1,0,1
+1350,"Industry","obscure reference or jargon","How many tons of lithium are mined globally per year?",100000,"17656684526550fiv55w5t",1765668452655,1,0,0
+1351,"Industry","obscure reference or jargon","What is the capacity in megawatts of the largest nuclear power plant (Kashiwazaki-Kariwa)?",7965,"1765668452655qb6jjiqv1",1765668452655,1,0,0
+1357,"Industry","obscure reference or jargon","What percentage of world trade passes through the Strait of Malacca?",25,"1765668452655ixj4wkphm",1765668452655,1,0,0
+1358,"Industry","obscure reference or jargon","How many metric tons of aluminum are produced globally per year (in millions)?",69,"1765668452655udjpun3ta",1765668452655,1,0,0
+1363,"Industry","obscure reference or jargon","What is the length in miles of the longest oil pipeline (Druzhba Pipeline)?",2500,"17656684526555yqdwkcku",1765668452655,1,0,0
+1365,"Industry","obscure reference or jargon","What percentage of global shipping containers pass through Chinese ports?",30,"1765668452655jitqer4p1",1765668452655,1,0,0
+1366,"Industry","wrong answer or broken wording","How many megawatts of electricity does New York City consume daily?",11000,"1765668452655sm7omxt8o",1765668452655,1,0,1
+1368,"Industry","obscure reference or jargon","How many metric tons of coal does India produce annually (in millions)?",900,"1765668452655s7gs6sh1i",1765668452655,1,0,0
+1371,"Industry","obscure reference or jargon","What is the capacity in barrels per day of the largest oil refinery (Jamnagar, India)?",1240000,"1765668452655bmzs3j3ph",1765668452655,1,0,0
+1372,"Industry","vague or unknowable figure","How many airports handle over 40 million passengers per year globally?",50,"1765668452655j4702dhpn",1765668452655,1,0,0
+1375,"Industry","too similar to another question","What is the revenue in billions of dollars of the global pharmaceutical industry (2024)?",1480,"1765668452655yewjidb0c",1765668452655,1,0,0
+1376,"Industry","obscure reference or jargon","How many metric tons of copper are mined globally per year (in millions)?",22,"1765668452655atmlqwehl",1765668452655,1,599.2,1
+1377,"Industry","too similar to another question","What percentage of global rare earth elements are processed in China?",87,"17656684526552czfjzy89",1765668452655,1,0,0
+1378,"Industry","too similar to another question","How many commercial satellites are currently in orbit?",7500,"17656684526553w20kvdda",1765668452655,1,0,0
+1381,"Industry","obscure reference or jargon","What percentage of global nickel production goes to battery manufacturing?",16,"1765668452655fyfkkyuyd",1765668452655,1,0,0
+1383,"Industry","obscure reference or jargon","What is the wingspan in feet of the Boeing 777X?",235,"1765668452655fiob5yizg",1765668452655,1,0,0
+1384,"Industry","vague or unknowable figure","How many autonomous vehicles are being tested on public roads in the U.S.?",1500,"17656684526551arfiobub",1765668452655,1,0,0
+1385,"Industry","too similar to another question","What percentage of electricity worldwide is lost in transmission and distribution?",8,"17656684526551onwrc5wv",1765668452655,1,0,0
+1386,"Industry","obscure reference or jargon","How many metric tons of natural rubber are produced globally per year (in millions)?",14,"1765668452655nsprmbo22",1765668452655,1,0,0
+1392,"Industry","obscure reference or jargon","How many metric tons of sulfur are produced globally per year (in millions)?",80,"1765668452655pq11vjev8",1765668452655,1,0,0
+1395,"Industry","vague or unknowable figure","What is the fuel capacity in gallons of the largest cruise ship (Icon of the Seas)?",575000,"1765668452655fuyp8fvoj",1765668452655,1,46.9,1
+1396,"Industry","too similar to another question","How many venture capital deals were made in the U.S. in 2023?",15000,"17656684526551m7y3clu7",1765668452655,1,0,0
+1398,"Industry","too similar to another question","How many tons of rare earth elements does China produce annually?",210000,"17656684526559i5m3wf74",1765668452655,1,0,0
+1402,"Industry","obscure reference or jargon","How many metric tons of potash are mined globally per year (in millions)?",46,"1765668452655j1j1l4uru",1765668452655,1,0,0
+1404,"Industry","too similar to another question","How many hotel rooms does Hilton operate globally?",1100000,"1765668452655rql3schbu",1765668452655,1,0,0
+1406,"Industry","obscure reference or jargon","How many miles of track does Union Pacific Railroad operate?",32000,"1765668452655tqdab8hz5",1765668452655,1,0,0
+1407,"Industry","too similar to another question","What is the depth in feet of the average fracking well?",8000,"1765668452655x193mwdix",1765668452655,1,13.2,1
+1408,"Industry","vague or unknowable figure","How many pharmaceutical research facilities are in the United States?",5000,"1765668452655ikh2oc0n3",1765668452655,1,0,0
+1410,"Industry","wrong answer or broken wording","How many kilowatt-hours does Bitcoin mining consume globally per year (in terawatt-hours)?",127,"17656684526558dxbsmeh7",1765668452655,1,0,0
+1411,"Industry","too similar to another question","What is the production capacity in millions of vehicles per year of Toyota?",10.5,"17656684526553oj5otaj6",1765668452655,1,0,0
+1412,"Industry","vague or unknowable figure","How many commercial fishing vessels operate in the United States?",75000,"17656684526550givs4w6p",1765668452655,1,0,0
+1413,"Industry","obscure reference or jargon","What percentage of global semiconductor revenue goes to NVIDIA?",17,"1765668452655er5ti3kto",1765668452655,1,0,0
+1414,"Industry","obscure reference or jargon","How many metric tons of zinc are mined globally per year (in millions)?",13,"1765668452655dr98qlsfg",1765668452655,1,0,0
+1418,"Industry","obscure reference or jargon","How many megawatts of geothermal power capacity exist in the United States?",3700,"1765668452655ve9mvjcny",1765668452655,1,0,0
+1422,"Industry","obscure reference or jargon","How many metric tons of silver are mined globally per year?",25000,"1765668452655lzz3umq8k",1765668452655,1,0,0
+1423,"Industry","too similar to another question","What is the average lifespan in years of a commercial airplane?",27,"1765668452655lreh4gd1x",1765668452655,1,0,0
+1426,"Industry","trick, giveaway or not an estimate","How many hotels are owned by Airbnb (none, they list properties)?",0,"1765668452655tjq4ebcku",1765668452655,1,0,0
+1428,"Industry","too similar to another question","How many cloud computing data regions does Amazon Web Services operate?",33,"1765668452655qf2tg5lxx",1765668452655,1,0,0
+1429,"Industry","obscure reference or jargon","What percentage of global tungsten is produced in China?",82,"1765668452655inhptsvlv",1765668452655,1,0,0
+1432,"Industry","obscure reference or jargon","How many metric tons of bauxite are mined globally per year (in millions)?",370,"1765668452655s604dgom7",1765668452655,1,0,0
+1433,"Industry","too similar to another question","What percentage of U.S. electricity comes from hydropower?",6,"1765668452655uvrxzncwo",1765668452655,1,0,0
+1435,"Industry","vague or unknowable figure","What is the cost in dollars per kilowatt-hour for utility-scale solar in 2024?",0.03,"1765668452655zp4f6puea",1765668452655,1,0,0
+1436,"Industry","vague or unknowable figure","How many telecom companies operate in the United States?",5000,"1765668452655lzrez11es",1765668452655,1,0,0
+1439,"Industry","vague or unknowable figure","What is the storage capacity in cubic feet of the largest grain elevator?",78000000,"1765668452655oh3o9lvim",1765668452655,1,0,0
+1440,"Industry","obscure reference or jargon","How many commercial breweries does Anheuser-Busch operate globally?",120,"1765668452655hyjrapy29",1765668452655,1,0,0
+1443,"Industry","too similar to another question","What is the revenue in billions of dollars of the global video game industry (2024)?",200,"1765668452655helwdjt8q",1765668452655,1,0,0
+1444,"Industry","obscure reference or jargon","How many metric tons of phosphate rock are mined annually (in millions)?",240,"1765668452655vpk9m29aj",1765668452655,1,0,0
+1447,"Industry","obscure reference or jargon","What is the cost in billions of dollars to build a new semiconductor fab?",20,"1765668452655txqq3gqbs",1765668452655,1,0,0
+1449,"Industry","obscure reference or jargon","What percentage of global manganese is produced in South Africa?",28,"1765668452655q6pumqncc",1765668452655,1,0,0
+1450,"Industry","vague or unknowable figure","How many miles of conveyor belts operate in U.S. manufacturing?",750000,"1765668452655vt2glocvs",1765668452655,1,0,0
+1452,"Industry","obscure reference or jargon","How many cubic feet of natural gas does Russia export daily (in billions)?",15,"1765668452655gygh8ii5f",1765668452655,1,0,0
+1454,"Industry","obscure reference or jargon","How many metric tons of titanium dioxide are produced globally per year (in millions)?",9,"1765668452655zw8cytdx1",1765668452655,1,0,0
+1455,"Industry","vague or unknowable figure","What is the average construction cost per square foot in dollars for U.S. skyscrapers?",400,"1765668452655ldj26y40n",1765668452655,1,0,0
+1456,"Industry","vague or unknowable figure","How many hotel chains operate in the United States?",300,"1765668452655o6coz8t45",1765668452655,1,0,0
+1458,"Industry","obscure reference or jargon","How many commercial airports are in China?",254,"1765668452655odg2xkg4u",1765668452655,1,0,0
+1459,"Industry","obscure reference or jargon","What is the length in miles of the TAPI natural gas pipeline?",1127,"1765668452655be81htyzf",1765668452655,1,0,0
+1461,"Industry","obscure reference or jargon","What percentage of global lead is produced in China?",44,"1765668452655t6n3djghx",1765668452655,1,0,0
+1463,"Industry","vague or unknowable figure","What is the production capacity in millions of tons per year of the largest steel plant?",18,"17656684526552ud3ecr3o",1765668452655,1,0,0
+1466,"Industry","obscure reference or jargon","How many metric tons of graphite are mined globally per year?",1200000,"1765668452655bd54o3sjz",1765668452655,1,0,0
+1471,"Industry","vague or unknowable figure","What is the weight in tons of the largest forklift?",65,"1765668452655gfvve0z5i",1765668452655,1,401.3,1
+1472,"Industry","obscure reference or jargon","How many breweries does AB InBev own globally?",500,"17656684526550ddrx3pjs",1765668452655,1,0,0
+1473,"Industry","too similar to another question","What percentage of U.S. electricity comes from wind power?",10,"1765668452655dznpmmu0o",1765668452655,1,0,0
+1475,"Industry","vague or unknowable figure","What is the height in feet of the average grain silo?",100,"1765668452656dgmfw73by",1765668452656,1,0,0
+1476,"Industry","obscure reference or jargon","How many restaurants does Yum Brands operate globally?",55000,"1765668452656jo1mn8kkc",1765668452656,1,0,0
+1478,"Industry","too similar to another question","How many miles of natural gas pipelines are in the United States?",3000000,"17656684526562gjpgowc2",1765668452656,1,0,0
+1479,"Industry","vague or unknowable figure","What is the weight in tons of the heaviest load ever transported by truck?",5000,"1765668452656yeggyfzc2",1765668452656,1,431.9,1
+1480,"Industry","too similar to another question","How many distribution centers does Costco operate in North America?",26,"1765668452656u6kbavi4l",1765668452656,1,0,0
+1481,"Industry","obscure reference or jargon","What percentage of U.S. beef production comes from feedlots?",80,"1765668452656xvnike6ys",1765668452656,1,0,0
+1482,"Industry","obscure reference or jargon","How many metric tons of copper wire are produced globally per year (in millions)?",25,"1765668452656uwhsrgj56",1765668452656,1,0,0
+1483,"Industry","vague or unknowable figure","What is the capacity in gallons of the largest chemical storage tank?",20000000,"1765668452656stwapbtiw",1765668452656,1,0,0
+1485,"Industry","too similar to another question","What percentage of global cement production comes from China?",55,"176566845265602gro1yqk",1765668452656,1,0,0
+1491,"Industry","too similar to another question","What is the height in stories of the tallest office building in the world (Burj Khalifa)?",163,"1765668452656ftd0yyiss",1765668452656,1,0,0
+1495,"Industry","vague or unknowable figure","What is the capacity in megawatts of the largest battery storage facility?",3287,"17656684526564m903nabt",1765668452656,1,0,0
+1497,"Industry","too similar to another question","What percentage of global natural gas is produced by Russia?",17,"17656684526562hb47f8ks",1765668452656,1,0,0
+1498,"Industry","too similar to another question","How many warehouses does Walmart operate in the United States?",210,"17656684526569q9tmz1fx",1765668452656,1,0,0
+1499,"Industry","vague or unknowable figure","What is the production in metric tons per day of the largest paper mill?",3000,"17656684526561mndlqdzu",1765668452656,1,0,0
+1506,"Fine Arts","vague or unknowable figure","How many paintings are in the Metropolitan Museum of Art's collection?",5000,"1765668460271kpwiycu0y",1765668460271,1,0,0
+1509,"Fine Arts","obscure reference or jargon","What is the weight in tons of the Pietà sculpture by Michelangelo?",3,"17656684602716vuovxx0w",1765668460271,1,0,0
+1517,"Fine Arts","too similar to another question","What is the length in feet of the Sistine Chapel ceiling?",134,"1765668460271j2j2r21d4",1765668460271,1,0,0
+1518,"Fine Arts","vague or unknowable figure","How many colors can the human eye distinguish?",10000000,"1765668460271w02g9zlcn",1765668460271,1,0,1
+1519,"Fine Arts","obscure reference or jargon","What was Salvador Dalí's age when he created 'The Persistence of Memory'?",27,"1765668460271unfc99zsl",1765668460271,1,0,0
+1525,"Fine Arts","vague or unknowable figure","What is the depth in inches of the average oil painting canvas?",0.75,"17656684602729icyy4w3i",1765668460272,1,0,0
+1531,"Fine Arts","obscure reference or jargon","What is the diameter in feet of the dome painting in the U.S. Capitol Rotunda?",65,"1765668460272v13mfuks3",1765668460272,1,0,0
+1532,"Fine Arts","vague or unknowable figure","How many registered cultural artifacts are in China?",108000000,"17656684602726a6upw12j",1765668460272,1,0,0
+1535,"Fine Arts","vague or unknowable figure","What percentage of Banksy's artwork has been sold at auction (vs. destroyed or lost)?",25,"1765668460272r0n6jztv5",1765668460272,1,0,0
+1536,"Fine Arts","obscure reference or jargon","How many operas did Giuseppe Verdi compose?",28,"1765668460272sdq42q1g6",1765668460272,1,0,0
+1537,"Fine Arts","wrong answer or broken wording","What is the weight in pounds of the Hope Diamond?",0.02,"1765668460272xg2mt0s1a",1765668460272,1,0,0
+1539,"Fine Arts","vague or unknowable figure","What percentage of art sold at auction is by living artists?",15,"1765668460272hnntc1a7z",1765668460272,1,0,0
+1541,"Fine Arts","obscure reference or jargon","What is the circumference in inches of the base of the Venus de Milo?",49,"1765668460272c0il1l4ku",1765668460272,1,0,0
+1544,"Fine Arts","vague or unknowable figure","How many cultural festivals are held in India annually?",3000,"17656684602726mq8bpam0",1765668460272,1,0,0
+1571,"Fine Arts","obscure reference or jargon","What is the average sodium content in milligrams of a single slice of American cheese?",250,"1765668460272upp47kgcj",1765668460272,1,0,0
+1581,"Fine Arts","too similar to another question","What percentage of an apple's total weight is water?",86,"1765668460272szen0ix59",1765668460272,1,0,0
+1595,"Fine Arts","obscure reference or jargon","What is the fiber content in grams of one cup of cooked black beans?",15,"176566846027202wv100x8",1765668460272,1,0,0
+1597,"Fine Arts","too similar to another question","What percentage of all saffron is produced in Iran?",90,"1765668460272urcwxkc8y",1765668460272,1,0,0
+1600,"Fine Arts","too similar to another question","How many paintings did Rembrandt create in his lifetime?",300,"1765668460272srltrauzz",1765668460272,1,5,1
+1601,"Fine Arts","obscure reference or jargon","What is the height in inches of the original Winged Victory of Samothrace statue?",108,"17656684602727mnhlpzaw",1765668460272,1,0,0
+1602,"Fine Arts","obscure reference or jargon","How many works are in the Prado Museum's collection in Madrid?",8200,"1765668460272xetrf9pg7",1765668460272,1,0,0
+1605,"Fine Arts","vague or unknowable figure","What is the length in inches of a standard artist's canvas (medium size)?",24,"1765668460272661kzhsjv",1765668460272,1,0,0
+1606,"Fine Arts","obscure reference or jargon","How many works of art are in the Uffizi Gallery in Florence?",5000,"1765668460272dyjkuncsk",1765668460272,1,0,0
+1607,"Fine Arts","vague or unknowable figure","What percentage of museums worldwide are free to enter?",33,"1765668460272bk2w7tq9n",1765668460272,1,0,0
+1608,"Fine Arts","too similar to another question","How many self-portraits did Vincent van Gogh paint?",36,"1765668460272f4wnrzfsl",1765668460272,1,0,0
+1609,"Fine Arts","obscure reference or jargon","What is the weight in tons of the largest bronze statue (Spring Temple Buddha)?",1100,"176566846027294qgte63n",1765668460272,1,0,0
+1610,"Fine Arts","obscure reference or jargon","How many symphonies did Franz Schubert compose?",9,"1765668460272upstroafh",1765668460272,1,0,0
+1611,"Fine Arts","vague or unknowable figure","What percentage of working artists in the U.S. are self-employed?",63,"1765668460272h3ftze9g8",1765668460272,1,0,0
+1615,"Fine Arts","vague or unknowable figure","What percentage of art auction sales are by the top 1% of artists?",64,"1765668460272kiswokttk",1765668460272,1,0,0
+1617,"Fine Arts","obscure reference or jargon","What is the circumference in feet of the base of the Statue of Unity in India?",180,"1765668460272hh32nf6ix",1765668460272,1,0,0
+1618,"Fine Arts","obscure reference or jargon","How many plays did Anton Chekhov write?",17,"1765668460272c925gc86p",1765668460272,1,0,0
+1620,"Fine Arts","obscure reference or jargon","How many concertos did Johann Sebastian Bach compose?",23,"1765668460272z1h0rhdba",1765668460272,1,3.4,1
+1622,"Fine Arts","obscure reference or jargon","How many operas did Richard Wagner compose?",13,"176566846027268p31fi5a",1765668460272,1,0,1
+1623,"Fine Arts","vague or unknowable figure","What percentage of NFT art buyers are male?",77,"17656684602723zkzi2kze",1765668460272,1,0,0
+1625,"Fine Arts","obscure reference or jargon","What is the diameter in feet of the ceiling of the Pantheon's oculus?",27,"1765668460272v2bzc2b3j",1765668460272,1,0,0
+1627,"Fine Arts","vague or unknowable figure","What percentage of art galleries closed permanently due to the pandemic?",15,"1765668460272zn2px7yrf",1765668460272,1,0,0
+1628,"Fine Arts","obscure reference or jargon","How many string quartets did Ludwig van Beethoven compose?",16,"1765668460272d34uzi9dj",1765668460272,1,0,0
+1629,"Fine Arts","obscure reference or jargon","What is the height in feet of the Motherland Calls statue in Russia?",279,"1765668460272p42sj3r18",1765668460272,1,0,0
+1631,"Fine Arts","vague or unknowable figure","What percentage of museum visitors are repeat visitors?",45,"176566846027219higtmff",1765668460272,1,0,0
+1632,"Fine Arts","obscure reference or jargon","How many piano sonatas did Wolfgang Amadeus Mozart compose?",18,"1765668460272bx5q45x8d",1765668460272,1,0,0
+1635,"Fine Arts","vague or unknowable figure","What percentage of art school graduates work as professional artists?",10,"1765668460272w8mijgmzz",1765668460272,1,0,0
+1636,"Fine Arts","obscure reference or jargon","How many symphonies did Gustav Mahler compose?",10,"1765668460272jsonwiok9",1765668460272,1,0,0
+1637,"Fine Arts","obscure reference or jargon","What is the height in inches of Michelangelo's Pietà?",68.5,"1765668460272ktb1hbax7",1765668460272,1,0,0
+1639,"Fine Arts","vague or unknowable figure","What percentage of American adults consider themselves art collectors?",8,"176566846027292z5nksme",1765668460272,1,0,0
+1640,"Fine Arts","obscure reference or jargon","How many cantatas did Johann Sebastian Bach compose?",300,"1765668460272kfdfeyyqi",1765668460272,1,0,0
+1641,"Fine Arts","too similar to another question","What is the weight in pounds of the largest diamond ever found (Cullinan, uncut)?",1.37,"17656684602725vdkki4wk",1765668460272,1,0,0
+1642,"Fine Arts","obscure reference or jargon","How many paintings are in the National Gallery in London?",2300,"17656684602726rtk3um3a",1765668460272,1,0,0
+1643,"Fine Arts","vague or unknowable figure","What percentage of museums worldwide are history museums?",18,"176566846027276ayejz07",1765668460272,1,0,0
+1644,"Fine Arts","obscure reference or jargon","How many operas did Giacomo Puccini compose?",12,"1765668460272tzbt92efx",1765668460272,1,0,0
+1645,"Fine Arts","obscure reference or jargon","What is the height in feet of Christ the King statue in Poland?",172,"1765668460272bffo5edn8",1765668460272,1,0,0
+1646,"Fine Arts","obscure reference or jargon","How many paintings did Georgia O'Keeffe create in her career?",900,"1765668460272lcoyu44ou",1765668460272,1,0,0
+1648,"Fine Arts","obscure reference or jargon","How many string quartets did Joseph Haydn compose?",68,"1765668460272bpvzsdta4",1765668460272,1,0,0
+1649,"Fine Arts","too similar to another question","What is the size in square inches of the Mona Lisa?",1021,"1765668460272ddt0xf5vr",1765668460272,1,0,0
+1650,"Fine Arts","obscure reference or jargon","How many novels did Fyodor Dostoevsky write?",11,"1765668460272cpca6bziu",1765668460272,1,0,0
+1651,"Fine Arts","vague or unknowable figure","What percentage of art purchased online is under 5000 dollars?",68,"1765668460272b63g0g9ea",1765668460272,1,0,0
+1652,"Fine Arts","obscure reference or jargon","How many symphonies did Robert Schumann compose?",4,"1765668460272544nl2z59",1765668460272,1,0,0
+1653,"Fine Arts","obscure reference or jargon","What is the height in feet of the African Renaissance Monument in Senegal?",160,"1765668460272wraubjxyn",1765668460272,1,819.4,1
+1655,"Fine Arts","vague or unknowable figure","What percentage of museums charge admission fees?",67,"1765668460272z3jaodsqu",1765668460272,1,0,0
+1656,"Fine Arts","obscure reference or jargon","How many piano concertos did Frédéric Chopin compose?",2,"1765668460272qwu9rqh8p",1765668460272,1,0,0
+1660,"Fine Arts","obscure reference or jargon","How many symphonies did Anton Bruckner compose?",11,"1765668460272cw3x3x6zd",1765668460272,1,991,1
+1661,"Fine Arts","obscure reference or jargon","What is the weight in tons of the largest jade Buddha statue?",287,"17656684602726pskr99uo",1765668460272,1,0.2,1
+1663,"Fine Arts","vague or unknowable figure","What percentage of independent films make a profit?",3,"1765668460272ijg18ifa4",1765668460272,1,0,0
+1664,"Fine Arts","obscure reference or jargon","How many violin concertos did Antonio Vivaldi compose?",230,"1765668460272lacyhjqql",1765668460272,1,0,0
+1665,"Fine Arts","too similar to another question","What is the height in inches of the Venus de Milo statue?",80,"17656684602726vw36ev4h",1765668460272,1,0,0
+1667,"Fine Arts","vague or unknowable figure","What percentage of theater productions are musicals versus plays?",30,"1765668460272iaqjbyacp",1765668460272,1,0,0
+1668,"Fine Arts","too similar to another question","How many operas did Giuseppe Verdi compose?",28,"17656684602723go5uapm9",1765668460272,1,0,0
+1669,"Fine Arts","vague or unknowable figure","What is the diameter in inches of a standard pottery wheel?",14,"1765668460272h64fpc3v4",1765668460272,1,0,0
+1670,"Fine Arts","obscure reference or jargon","How many symphonies did Jean Sibelius compose?",7,"17656684602723qq9fjm2v",1765668460272,1,0,0
+1671,"Fine Arts","vague or unknowable figure","What percentage of artists' income comes from selling original works?",45,"1765668460272w5wwuxtzb",1765668460272,1,0,0
+1672,"Fine Arts","obscure reference or jargon","How many watercolor paintings did J.M.W. Turner create?",2000,"1765668460272cgtse6l09",1765668460272,1,0,0
+1673,"Fine Arts","obscure reference or jargon","What is the height in feet of the Great Buddha of Thailand?",302,"17656684602725q6kar4rk",1765668460272,1,0,0
+1674,"Fine Arts","obscure reference or jargon","How many plays did Oscar Wilde write?",9,"1765668460272k6jj09kjl",1765668460272,1,0,0
+1675,"Fine Arts","vague or unknowable figure","What percentage of Grammy nominations go to independent artists?",30,"1765668460272u4zmncwra",1765668460272,1,0,0
+1676,"Fine Arts","obscure reference or jargon","How many piano sonatas did Franz Schubert compose?",21,"1765668460272xyd63jreb",1765668460272,1,0,0
+1677,"Fine Arts","obscure reference or jargon","What is the circumference in inches of the largest pearl ever found (Pearl of Puerto)?",26,"1765668460272l0uj1ndys",1765668460272,1,0,0
+1678,"Fine Arts","obscure reference or jargon","How many novels did Virginia Woolf write?",9,"1765668460272pvnx7o7gc",1765668460272,1,0,0
+1679,"Fine Arts","too similar to another question","What percentage of museum collections are stored rather than displayed?",96,"1765668460272nrler0tmt",1765668460272,1,27.8,1
+1680,"Fine Arts","obscure reference or jargon","How many symphonies did Antonín Dvořák compose?",9,"1765668460272p5i5xgy1u",1765668460272,1,0,0
+1681,"Fine Arts","obscure reference or jargon","What is the height in feet of the Leshan Giant Buddha in China?",233,"176566846027236jynoxpc",1765668460272,1,0,0
+1682,"Fine Arts","obscure reference or jargon","How many sculptures did Henry Moore create in his career?",900,"17656684602726tvwc24yf",1765668460272,1,0,0
+1683,"Fine Arts","vague or unknowable figure","What percentage of film festivals accept digital submissions only?",85,"1765668460272859k3kuad",1765668460272,1,0,0
+1684,"Fine Arts","obscure reference or jargon","How many cello suites did Johann Sebastian Bach compose?",6,"17656684602722psmyyayc",1765668460272,1,0,0
+1685,"Fine Arts","wrong answer or broken wording","What is the weight in pounds of the Hope Diamond?",45.52,"1765668460272f68ybgiea",1765668460272,1,0,0
+1687,"Fine Arts","vague or unknowable figure","What percentage of opera performances worldwide are in Italian?",42,"17656684602728m5ujtv4a",1765668460272,1,0,0
+1688,"Fine Arts","obscure reference or jargon","How many symphonies did Felix Mendelssohn compose?",5,"1765668460272x5r60tgm1",1765668460272,1,0,0
+1689,"Fine Arts","obscure reference or jargon","What is the length in feet of the longest painting (Panorama of the Battle of Raclawice)?",374,"17656684602722mz0dl2qt",1765668460272,1,0,0
+1690,"Fine Arts","obscure reference or jargon","How many plays did George Bernard Shaw write?",63,"1765668460272twjpgegrs",1765668460272,1,0,0
+1691,"Fine Arts","vague or unknowable figure","What percentage of theater tickets are sold online?",72,"1765668460272vp8t7xm7x",1765668460272,1,0,0
+1692,"Fine Arts","obscure reference or jargon","How many violin sonatas did Ludwig van Beethoven compose?",10,"1765668460272dfuvcndom",1765668460272,1,0,0
+1695,"Fine Arts","vague or unknowable figure","What percentage of professional dancers retire before age 35?",80,"1765668460272pi3xiwftl",1765668460272,1,0,0
+1696,"Fine Arts","obscure reference or jargon","How many oratorios did George Frideric Handel compose?",29,"1765668460272u9d0exz0e",1765668460272,1,0,0
+1697,"Fine Arts","vague or unknowable figure","What is the weight in tons of the largest sculpture made from recycled materials?",65,"176566846027258vtcopre",1765668460272,1,0,0
+1698,"Fine Arts","obscure reference or jargon","How many ounces of gold leaf are on the dome of the Iowa State Capitol?",100,"17656684602729r4i6xsrl",1765668460272,1,0,0
+1699,"Fine Arts","vague or unknowable figure","What percentage of film scripts submitted to studios are produced?",0.5,"1765668460272qm4hw359u",1765668460272,1,0,0
+1706,"Fine Arts","too similar to another question","How many varieties of rice exist worldwide?",40000,"1765668460272kvtsjlcw4",1765668460272,1,0,0
+1709,"Fine Arts","vague or unknowable figure","What is the sodium content in milligrams of a typical fast food meal?",1500,"1765668460272vvk9ytsv1",1765668460272,1,0,0
+1712,"Fine Arts","wrong answer or broken wording","How many tons of ice cream are consumed in the United States annually?",1500000000,"1765668460272kkirk73bb",1765668460272,1,0,1
+1717,"Fine Arts","obscure reference or jargon","What is the fiber content in grams of one cup of lentils?",16,"1765668460272uwdfkg1p3",1765668460272,1,0,0
+1718,"Fine Arts","vague or unknowable figure","How many types of sushi rolls exist?",100,"17656684602727fydl64mb",1765668460272,1,0,0
+1722,"Fine Arts","too similar to another question","How many varieties of tomatoes exist?",10000,"1765668460272q0s8awxq8",1765668460272,1,0,0
+1726,"Fine Arts","vague or unknowable figure","How many types of curry exist in Indian cuisine?",50,"17656684602728u6yo9agx",1765668460272,1,0,0
+1727,"Fine Arts","too similar to another question","What percentage of food production globally is lost to waste before retail?",14,"1765668460272qya0vurop",1765668460272,1,0,0
+1728,"Fine Arts","too similar to another question","How many varieties of peppers exist worldwide?",50000,"1765668460272ma9bwqfqi",1765668460272,1,0,0
+1730,"Fine Arts","vague or unknowable figure","How many types of bread exist worldwide?",200,"17656684602729osk2uh93",1765668460272,1,0,0
+1733,"Fine Arts","obscure reference or jargon","What is the iron content in milligrams of one cup of spinach?",6,"1765668460272e41sp1e8u",1765668460272,1,0,0
+1734,"Fine Arts","too similar to another question","How many varieties of grapes are used for wine production?",10000,"1765668460272ilz5oqnvb",1765668460272,1,0,0
+1738,"Fine Arts","vague or unknowable figure","How many types of dim sum dishes exist?",2000,"1765668460272o3ch7xvsp",1765668460272,1,0,0
+1742,"Fine Arts","too similar to another question","How many varieties of olives exist worldwide?",2000,"1765668460272m54bhkrrv",1765668460272,1,0,0
+1744,"Fine Arts","vague or unknowable figure","How many types of BBQ sauce exist in American cuisine?",12,"1765668460272tjdn4672d",1765668460272,1,0,0
+1746,"Fine Arts","too similar to another question","How many varieties of onions exist?",500,"1765668460272be7a7n9xy",1765668460272,1,0,0
+1749,"Fine Arts","obscure reference or jargon","What is the magnesium content in milligrams of one cup of almonds?",383,"1765668460272gj2eu33lj",1765668460272,1,0,0
+1750,"Fine Arts","too similar to another question","How many varieties of beans exist worldwide?",400,"176566846027219d3dldjn",1765668460272,1,0,0
+1752,"Fine Arts","vague or unknowable figure","How many types of Japanese noodles exist?",15,"1765668460272hrvcpxrtk",1765668460272,1,0,0
+1753,"Fine Arts","obscure reference or jargon","What is the zinc content in milligrams of three ounces of beef?",7,"17656684602727xf4nafh3",1765668460272,1,0,0
+1754,"Fine Arts","too similar to another question","How many varieties of squash exist?",100,"17656684602726bbfykspz",1765668460272,1,0,0
+1755,"Fine Arts","vague or unknowable figure","What percentage of American restaurants serve breakfast?",35,"1765668460272yli3ypj5h",1765668460272,1,0,0
+1757,"Fine Arts","obscure reference or jargon","What is the folate content in micrograms of one cup of asparagus?",268,"1765668460272u2jix3ize",1765668460272,1,0,0
+1758,"Fine Arts","vague or unknowable figure","How many types of French pastries exist?",300,"17656684602729znn586zw",1765668460272,1,0,0
+1760,"Fine Arts","too similar to another question","How many varieties of lettuce exist?",70,"1765668460272bdvotv7gx",1765668460272,1,0,0
+1761,"Fine Arts","obscure reference or jargon","What is the phosphorus content in milligrams of three ounces of salmon?",315,"1765668460272x8aa0apx1",1765668460272,1,0,0
+1762,"Fine Arts","too similar to another question","How many types of Italian pasta shapes exist?",350,"1765668460272a83pno2lr",1765668460272,1,0,0
+1764,"Fine Arts","too similar to another question","How many calories does the average Thanksgiving meal contain?",3000,"1765668460272gyi5o39vr",1765668460272,1,0,0
+1765,"Fine Arts","obscure reference or jargon","What is the selenium content in micrograms of one Brazil nut?",96,"1765668460272vzpv20tqp",1765668460272,1,0,0
+1766,"Fine Arts","too similar to another question","How many varieties of mushrooms are edible?",2000,"1765668460272761n4hloe",1765668460272,1,0,0
+1768,"Fine Arts","too similar to another question","How many teaspoons of sugar are in a 12-ounce can of soda?",10,"17656684602724bvcubk0e",1765668460272,1,0,0
+1769,"Fine Arts","obscure reference or jargon","What is the B12 content in micrograms of three ounces of clams?",84,"1765668460272znisirwua",1765668460272,1,0,0
+1770,"Fine Arts","too similar to another question","How many varieties of citrus fruits exist?",100,"1765668460272oyjm3c6tp",1765668460272,1,0,0
+1771,"Fine Arts","vague or unknowable figure","What percentage of restaurants offer a vegetarian option?",86,"1765668460272vhfu3gnk6",1765668460272,1,0,0
+1773,"Fine Arts","obscure reference or jargon","What is the thiamine content in milligrams of one cup of black beans?",0.42,"1765668460272zl8kdfxnp",1765668460272,1,0,0
+1774,"Fine Arts","too similar to another question","How many varieties of hot peppers exist?",4000,"17656684602721zigy15rl",1765668460272,1,0,0
+1775,"Fine Arts","vague or unknowable figure","What percentage of food delivery orders are for dinner?",70,"1765668460272sklusda0h",1765668460272,1,0,0
+1776,"Fine Arts","wrong answer or broken wording","How many ounces of water are in a watermelon by percentage?",92,"1765668460272x500h8qs9",1765668460272,1,0,0
+1777,"Fine Arts","obscure reference or jargon","What is the riboflavin content in milligrams of one cup of cottage cheese?",0.34,"1765668460272ghimferkp",1765668460272,1,0,0
+1778,"Fine Arts","vague or unknowable figure","How many types of Mexican mole sauce exist?",50,"1765668460272he3rknute",1765668460272,1,0,0
+1781,"Fine Arts","obscure reference or jargon","What is the niacin content in milligrams of three ounces of tuna?",11,"1765668460272xcgdpbq0i",1765668460272,1,0,0
+1783,"Fine Arts","vague or unknowable figure","What percentage of organic food sales occur in supermarkets?",44,"1765668460272ons2nfpe8",1765668460272,1,0,0
+1784,"Fine Arts","obscure reference or jargon","How many etchings did Albrecht Dürer create?",105,"1765668460272my3pfw729",1765668460272,1,0,0
+1785,"Fine Arts","obscure reference or jargon","What is the height in feet of the Tian Tan Buddha in Hong Kong?",112,"1765668460272ltz9t1zz3",1765668460272,1,0,0
+1787,"Fine Arts","vague or unknowable figure","What percentage of contemporary art sold at auction is by women?",5,"1765668460272ri7bm4vv1",1765668460272,1,0,0
+1788,"Fine Arts","obscure reference or jargon","How many piano concertos did Sergei Rachmaninoff compose?",4,"1765668460272ojceno9h9",1765668460272,1,0,0
+1789,"Fine Arts","obscure reference or jargon","What is the weight in pounds of the largest sapphire (Star of Adam)?",1404.49,"1765668460272w4bcq5ii1",1765668460272,1,0,0
+1790,"Fine Arts","obscure reference or jargon","How many sculptures did Auguste Rodin create in his career?",7000,"1765668460272zzklefske",1765668460272,1,0,0
+1791,"Fine Arts","vague or unknowable figure","What percentage of poetry books sold are by classic authors?",40,"1765668460272xo1le6som",1765668460272,1,0,0
+1792,"Fine Arts","obscure reference or jargon","How many symphonies did Johannes Brahms compose?",4,"1765668460272jv7fylu0f",1765668460272,1,0,0
+1793,"Fine Arts","obscure reference or jargon","What is the height in inches of the original Bronze Horseman statue in St. Petersburg?",243,"176566846027234aa0rxgw",1765668460272,1,0,0
+1794,"Fine Arts","obscure reference or jargon","How many plays did Tennessee Williams write?",25,"1765668460272q3rjb3fzn",1765668460272,1,0,0
+1795,"Fine Arts","vague or unknowable figure","What percentage of art sales happen at the top three auction houses?",70,"1765668460272huh1hgrow",1765668460272,1,0,0
+1796,"Fine Arts","obscure reference or jargon","How many symphonies did Pyotr Tchaikovsky compose?",6,"1765668460272hrrcp6rim",1765668460272,1,0,0
+1797,"Fine Arts","obscure reference or jargon","What is the length in feet of the Garden of Earthly Delights triptych by Bosch (when open)?",12.75,"1765668460272smw1u90yg",1765668460272,1,0,0
+1798,"Fine Arts","obscure reference or jargon","How many novels did Franz Kafka complete?",3,"1765668460272v3yokb51l",1765668460272,1,0,0
+1799,"Fine Arts","vague or unknowable figure","What percentage of museum visitors are under 25 years old?",23,"1765668460272h5iixbmyo",1765668460272,1,0,0
+1800,"Fine Arts","obscure reference or jargon","How many string quartets did Wolfgang Amadeus Mozart compose?",23,"17656684602723pvyuuiqw",1765668460272,1,0,0
+1801,"Fine Arts","obscure reference or jargon","What is the weight in tons of the Reclining Buddha in Bangkok?",250,"1765668460272gr794s8uo",1765668460272,1,0,0
+1802,"Fine Arts","obscure reference or jargon","How many plays did Henrik Ibsen write?",26,"1765668460272ff2mytd63",1765668460272,1,0,0
+1803,"Fine Arts","vague or unknowable figure","What percentage of art forgeries are never detected?",40,"1765668460272eqw1wnads",1765668460272,1,0,0
+1804,"Fine Arts","obscure reference or jargon","How many nocturnes did Frédéric Chopin compose?",21,"1765668460272g8yijkpnf",1765668460272,1,0,0
+1805,"Fine Arts","obscure reference or jargon","What is the diameter in inches of the ceiling rosette in the Paris Opera House?",236,"1765668460272vxor4hzb7",1765668460272,1,0,0
+1806,"Fine Arts","obscure reference or jargon","How many novels did Herman Melville write?",10,"1765668460272698b69do8",1765668460272,1,0,0
+1807,"Fine Arts","vague or unknowable figure","What percentage of independent bookstores closed between 2000 and 2010?",40,"17656684602729gt5oipos",1765668460272,1,0,0
+1808,"Fine Arts","obscure reference or jargon","How many symphonies did Dmitri Shostakovich compose?",15,"1765668460272x3b9h98w5",1765668460272,1,0,0
+1809,"Fine Arts","obscure reference or jargon","What is the height in feet of the Garuda Wisnu Kencana statue in Bali?",246,"1765668460272i0jff4kic",1765668460272,1,0,0
+1810,"Fine Arts","obscure reference or jargon","How many paintings did Caravaggio create in his lifetime?",80,"1765668460272elzvh2896",1765668460272,1,0,0
+1811,"Fine Arts","vague or unknowable figure","What percentage of theater performances worldwide are amateur productions?",80,"176566846027213ac02td6",1765668460272,1,0,0
+1813,"Fine Arts","vague or unknowable figure","What is the length in inches of the longest calligraphy brush?",18,"1765668460272uo891h6fm",1765668460272,1,0,0
+1815,"Fine Arts","vague or unknowable figure","What percentage of artists use social media to sell their work?",70,"1765668460272yftqcns3f",1765668460272,1,0,0
+1816,"Fine Arts","obscure reference or jargon","How many fugues are in Johann Sebastian Bach's Well-Tempered Clavier (both books)?",48,"1765668460272zyno4ngyr",1765668460272,1,0,0
+1818,"Fine Arts","obscure reference or jargon","How many plays did Molière write?",33,"1765668460272wj4jvd2tw",1765668460272,1,0,0
+1819,"Fine Arts","vague or unknowable figure","What percentage of symphony orchestras operate at a deficit?",75,"1765668460272f4yni6tbb",1765668460272,1,0,0
+1820,"Fine Arts","obscure reference or jargon","How many waltzes did Johann Strauss II compose?",150,"1765668460272fb2ti2jar",1765668460272,1,0,0
+1821,"Fine Arts","obscure reference or jargon","What is the weight in pounds of the largest emerald (Bahia Emerald)?",840,"1765668460272y1k98c0mv",1765668460272,1,0,0
+1822,"Fine Arts","obscure reference or jargon","How many novels did Gabriel García Márquez write?",6,"17656684602725du3vorki",1765668460272,1,0,0
+1823,"Fine Arts","vague or unknowable figure","What percentage of art museums worldwide are privately owned?",36,"17656684602728sn0mgzl9",1765668460272,1,0,0
+1824,"Fine Arts","obscure reference or jargon","How many symphonies did César Franck compose?",1,"176566846027234ktdc5qs",1765668460272,1,0,0
+1825,"Fine Arts","obscure reference or jargon","What is the height in inches of the Capitoline Wolf sculpture?",30,"1765668460272gov96gpmv",1765668460272,1,0,0
+1826,"Fine Arts","obscure reference or jargon","How many plays did Arthur Miller write?",17,"1765668460272wky41b6o3",1765668460272,1,0,0
+1827,"Fine Arts","vague or unknowable figure","What percentage of dance companies are nonprofit organizations?",90,"1765668460272vphxujjgf",1765668460272,1,0,0
+1828,"Fine Arts","obscure reference or jargon","How many operas did Gioachino Rossini compose?",39,"1765668460272vre7wvu16",1765668460272,1,0,0
+1829,"Fine Arts","wrong answer or broken wording","What is the diameter in feet of the largest stained glass window (Resurrection Cemetery)?",22338,"1765668460272e02nanqbw",1765668460272,1,0,0
+1830,"Fine Arts","obscure reference or jargon","How many novels did William Faulkner write?",19,"1765668460272bwxo5ko3f",1765668460272,1,0,0
+1831,"Fine Arts","vague or unknowable figure","What percentage of photographers earn their primary income from photography?",25,"1765668460272lrb8xbmoy",1765668460272,1,0,0
+1832,"Fine Arts","obscure reference or jargon","How many preludes did Johann Sebastian Bach compose?",48,"1765668460272b1uo1v7xf",1765668460272,1,0,0
+1833,"Fine Arts","obscure reference or jargon","What is the height in feet of the Spring Temple Buddha (including base)?",502,"17656684602725jhhzg00o",1765668460272,1,0,0
+1834,"Fine Arts","obscure reference or jargon","How many paintings did Edvard Munch create in his career?",1789,"1765668460272glj3ga16a",1765668460272,1,0,0
+1835,"Fine Arts","vague or unknowable figure","What percentage of books published annually are fiction?",20,"1765668460272h4836nsjo",1765668460272,1,0,0
+1836,"Fine Arts","obscure reference or jargon","How many violin sonatas did Wolfgang Amadeus Mozart compose?",36,"1765668460272p9ldxcnan",1765668460272,1,0,0
+1837,"Fine Arts","vague or unknowable figure","What is the length in feet of the longest Chinese scroll painting?",1800,"1765668460272znwy6fpcq",1765668460272,1,2.1,1
+1838,"Fine Arts","obscure reference or jargon","How many novels did Toni Morrison write?",11,"1765668460272es22r5q09",1765668460272,1,0,0
+1839,"Fine Arts","vague or unknowable figure","What percentage of art galleries represent emerging artists?",45,"176566846027282mk5ig7h",1765668460272,1,0,0
+1840,"Fine Arts","obscure reference or jargon","How many nocturnes did John Field compose (inventor of the form)?",18,"17656684602722u832szaa",1765668460272,1,0,0
+1842,"Fine Arts","obscure reference or jargon","How many films did Ingmar Bergman direct?",62,"1765668460272cfs8lgq9s",1765668460272,1,0,0
+1843,"Fine Arts","vague or unknowable figure","What percentage of jazz musicians are self-taught?",45,"17656684602727jvjovhm1",1765668460272,1,0,0
+1844,"Fine Arts","obscure reference or jargon","How many études did Franz Liszt compose?",27,"1765668460272u0cjbin8w",1765668460272,1,0,0
+1846,"Fine Arts","obscure reference or jargon","How many novels did Alexandre Dumas write?",100,"1765668460272ajpizakwg",1765668460272,1,0,0
+1847,"Fine Arts","vague or unknowable figure","What percentage of comic books sold are superhero genre?",60,"1765668460272fkpzmlkcy",1765668460272,1,0,0
+1848,"Fine Arts","obscure reference or jargon","How many mazurkas did Frédéric Chopin compose?",58,"1765668460272xg0wwx3mw",1765668460272,1,0,0
+1849,"Fine Arts","obscure reference or jargon","What is the circumference in inches of the base of Michelangelo's David?",209,"1765668460272twz6x0nlm",1765668460272,1,0,0
+1850,"Fine Arts","obscure reference or jargon","How many plays did Euripides write (surviving)?",18,"1765668460272lzmroi87l",1765668460272,1,193.8,1
+1851,"Fine Arts","vague or unknowable figure","What percentage of poetry submissions to literary magazines are accepted?",2,"1765668460272t35n5w2ye",1765668460272,1,0,0
+1852,"Fine Arts","obscure reference or jargon","How many Brandenburg Concertos did Johann Sebastian Bach compose?",6,"1765668460272fuoqm6wqc",1765668460272,1,0,0
+1853,"Fine Arts","obscure reference or jargon","What is the height in feet of the Sendai Daikannon statue in Japan?",328,"1765668460272i44sag4ds",1765668460272,1,0,0
+1854,"Fine Arts","obscure reference or jargon","How many paintings did Paul Cézanne create in his career?",900,"1765668460272p15h2baq8",1765668460272,1,0,0
+1855,"Fine Arts","vague or unknowable figure","What percentage of film school graduates work in the film industry?",30,"1765668460272fg12jmb4t",1765668460272,1,0,0
+1856,"Fine Arts","obscure reference or jargon","How many études did Frédéric Chopin compose?",27,"17656684602725sn6dfzzj",1765668460272,1,0,0
+1857,"Fine Arts","vague or unknowable figure","What is the length in inches of a standard artist's palette?",16,"1765668460272plp9o19vf",1765668460272,1,0,0
+1858,"Fine Arts","obscure reference or jargon","How many novels did Philip Roth write?",31,"1765668460272r3fqaqwx8",1765668460272,1,0,0
+1859,"Fine Arts","vague or unknowable figure","What percentage of new plays produced on Broadway are revivals?",40,"1765668460272fx7gogcj0",1765668460272,1,0,0
+1860,"Fine Arts","obscure reference or jargon","How many polonaises did Frédéric Chopin compose?",16,"1765668460272l41ztpzwf",1765668460272,1,0,0
+1861,"Fine Arts","too similar to another question","What is the weight in tons of the Statue of Liberty's steel framework?",125,"1765668460272m0us8h0di",1765668460272,1,146.3,1
+1862,"Fine Arts","obscure reference or jargon","How many sculptures are in the Vatican Museums?",3000,"17656684602724mw9sg8h3",1765668460272,1,0,0
+1863,"Fine Arts","vague or unknowable figure","What percentage of classical music performances are of works by dead composers?",97,"1765668460272snomxos6p",1765668460272,1,0,0
+1864,"Fine Arts","obscure reference or jargon","How many operas did Claudio Monteverdi compose?",18,"1765668460272nl8c076w3",1765668460272,1,0,0
+1865,"Fine Arts","vague or unknowable figure","What is the diameter in inches of a standard pottery kiln?",23,"1765668460272mvfbl3og2",1765668460272,1,0,0
+1866,"Fine Arts","obscure reference or jargon","How many novels did D.H. Lawrence write?",12,"1765668460272ipwxkw844",1765668460272,1,0,0
+1867,"Fine Arts","vague or unknowable figure","What percentage of art school applicants are accepted?",60,"1765668460272hqpfhgvs7",1765668460272,1,0,0
+1868,"Fine Arts","obscure reference or jargon","How many ballades did Frédéric Chopin compose?",4,"17656684602725gqvka764",1765668460272,1,0,0
+1870,"Fine Arts","obscure reference or jargon","How many plays did Samuel Beckett write?",30,"1765668460272q32d901se",1765668460272,1,0,0
+1871,"Fine Arts","vague or unknowable figure","What percentage of graphic novels sold are manga?",76,"1765668460272z1prx4fs9",1765668460272,1,0,0
+1872,"Fine Arts","obscure reference or jargon","How many impromptus did Franz Schubert compose?",8,"1765668460272oh4gr08g6",1765668460272,1,0,0
+1873,"Fine Arts","obscure reference or jargon","What is the length in feet of Monet's Water Lilies at MoMA?",42,"17656684602726y4t3v30s",1765668460272,1,0,0
+1874,"Fine Arts","obscure reference or jargon","How many novels did Haruki Murakami write?",14,"1765668460272wnh1psb7s",1765668460272,1,0,0
+1875,"Fine Arts","vague or unknowable figure","What percentage of literary agents reject queries without reading them fully?",80,"1765668460272x5z6icttz",1765668460272,1,0,0
+1876,"Fine Arts","obscure reference or jargon","How many lieder did Franz Schubert compose?",600,"1765668460272ljz5sd93k",1765668460272,1,0,0
+1878,"Fine Arts","obscure reference or jargon","How many paintings are in the Rijksmuseum collection?",8000,"17656684602725lisvkaua",1765668460272,1,0,0
+1879,"Fine Arts","vague or unknowable figure","What percentage of screenplays registered with the WGA are produced?",2,"1765668460272b0xyoprgs",1765668460272,1,0,0
+1880,"Fine Arts","obscure reference or jargon","How many variations are in Bach's Goldberg Variations?",30,"1765668460272wc228trnk",1765668460272,1,0,0
+1881,"Fine Arts","obscure reference or jargon","What is the weight in pounds of the largest opal (Olympic Australis)?",17000,"17656684602721ykea1v33",1765668460272,1,0,0
+1883,"Fine Arts","vague or unknowable figure","What percentage of soybeans grown globally become tofu?",6,"1765668460272r2d513hoy",1765668460272,1,0,0
+1885,"Fine Arts","too similar to another question","What is the protein content in grams of one cup of Greek yogurt?",17,"1765668460272neud48zag",1765668460272,1,0,0
+1886,"Fine Arts","too similar to another question","How many varieties of tea exist worldwide?",3000,"1765668460272nzby4x8rr",1765668460272,1,0,1
+1890,"Fine Arts","vague or unknowable figure","How many types of sake exist in Japan?",40000,"1765668460272m1cic7mr0",1765668460272,1,0,0
+1891,"Fine Arts","obscure reference or jargon","What percentage of global fish production comes from aquaculture?",52,"1765668460272a4du71a1v",1765668460272,1,8.9,1
+1893,"Fine Arts","obscure reference or jargon","What is the omega-3 content in grams of three ounces of salmon?",1.8,"1765668460272arn7fmbv8",1765668460272,1,0,0
+1894,"Fine Arts","too similar to another question","How many varieties of dates exist?",200,"17656684602722ts68oqin",1765668460272,1,0,0
+1897,"Fine Arts","obscure reference or jargon","What is the antioxidant content (ORAC score) of one cup of blueberries?",9621,"17656684602729tlhyymzl",1765668460272,1,0,0
+1898,"Fine Arts","vague or unknowable figure","How many types of Vietnamese pho broth exist?",10,"1765668460272hijlmjrvv",1765668460272,1,0,0
+1901,"Fine Arts","obscure reference or jargon","What is the vitamin A content in micrograms of one cup of carrots?",1069,"1765668460272hmds46avh",1765668460272,1,0,0
+1902,"Fine Arts","too similar to another question","How many varieties of mangoes exist worldwide?",1000,"1765668460272h5hcpc6i2",1765668460272,1,0,0
+1903,"Fine Arts","vague or unknowable figure","What percentage of food allergies in adults developed in childhood?",45,"17656684602724of7f1013",1765668460272,1,0,0
+1905,"Fine Arts","obscure reference or jargon","What is the vitamin D content in IU of three ounces of cod liver oil?",1360,"1765668460272k4gsyrl4z",1765668460272,1,0,0
+1906,"Fine Arts","vague or unknowable figure","How many types of Mexican tacos exist?",100,"1765668460272aq0grjvrm",1765668460272,1,0,0
+1909,"Fine Arts","obscure reference or jargon","What is the vitamin E content in milligrams of one cup of sunflower seeds?",33,"17656684602729535srfeg",1765668460272,1,0,0
+1910,"Fine Arts","vague or unknowable figure","How many types of Korean kimchi exist?",200,"1765668460272we82v24dx",1765668460272,1,0,1
+1911,"Fine Arts","too similar to another question","What percentage of global rice production is consumed in Asia?",90,"1765668460272yk9bfl5ey",1765668460272,1,0,0
+1913,"Fine Arts","obscure reference or jargon","What is the vitamin K content in micrograms of one cup of kale?",1062,"1765668460272xpj2msxx4",1765668460272,1,0,0
+1914,"Fine Arts","vague or unknowable figure","How many types of Indian bread exist?",30,"1765668460272im7u70ye4",1765668460272,1,0,0
+1915,"Fine Arts","trick, giveaway or not an estimate","What percentage of saffron is harvested by hand?",100,"1765668460272knmrdsfw4",1765668460272,1,0,0
+1917,"Fine Arts","obscure reference or jargon","What is the copper content in milligrams of one ounce of dark chocolate?",0.5,"1765668460272iazqbvgth",1765668460272,1,0,0
+1918,"Fine Arts","vague or unknowable figure","How many types of German sausage exist?",1200,"1765668460272mvkeejdn0",1765668460272,1,0,0
+1921,"Fine Arts","obscure reference or jargon","What is the manganese content in milligrams of one cup of pineapple?",1.5,"1765668460273i9a37s1ln",1765668460273,1,0,0
+1922,"Fine Arts","vague or unknowable figure","How many types of Chinese dumplings exist?",50,"1765668460273d4ncjfjl9",1765668460273,1,0,0
+1924,"Fine Arts","wrong answer or broken wording","How many tons of bacon does the U.S. consume annually (in millions)?",268,"17656684602739a524k2j7",1765668460273,1,0,0
+1925,"Fine Arts","obscure reference or jargon","What is the chromium content in micrograms of one cup of broccoli?",11,"1765668460273blk52fury",1765668460273,1,0,0
+1926,"Fine Arts","vague or unknowable figure","How many types of Greek olives exist?",95,"1765668460273d4t4s1ik8",1765668460273,1,0,0
+1928,"Fine Arts","obscure reference or jargon","How many paintings did Edgar Degas create in his lifetime?",650,"17656684602732te1897uh",1765668460273,1,0,0
+1929,"Fine Arts","obscure reference or jargon","What is the height in feet of the Guanyin of Nanshan statue in China?",354,"1765668460273t0f5yxdun",1765668460273,1,0,0
+1930,"Fine Arts","obscure reference or jargon","How many concertos did Antonio Vivaldi compose in total?",500,"1765668460273fhyex5pzp",1765668460273,1,0,0
+1931,"Fine Arts","vague or unknowable figure","What percentage of Broadway musicals are based on existing intellectual property?",70,"176566846027314p9mk6js",1765668460273,1,0,0
+1932,"Fine Arts","obscure reference or jargon","How many watercolors did Winslow Homer paint?",685,"17656684602730zjnfmx1v",1765668460273,1,0,0
+1933,"Fine Arts","obscure reference or jargon","What is the weight in pounds of the Star of Africa diamond?",0.12,"17656684602739zuq9iv1d",1765668460273,1,0,0
+1934,"Fine Arts","obscure reference or jargon","How many plays did Eugene O'Neill write?",50,"176566846027319as9tch3",1765668460273,1,0,0
+1935,"Fine Arts","vague or unknowable figure","What percentage of public libraries in the U.S. offer art programs?",75,"1765668460273tgu5kw0w7",1765668460273,1,0,0
+1936,"Fine Arts","obscure reference or jargon","How many masses did Wolfgang Amadeus Mozart compose?",18,"1765668460273ttj90ymj7",1765668460273,1,0,0
+1937,"Fine Arts","obscure reference or jargon","What is the height in inches of the standard theater proscenium arch?",240,"17656684602736u3wduzni",1765668460273,1,0,0
+1938,"Fine Arts","obscure reference or jargon","How many novels did Graham Greene write?",26,"1765668460273yn3wcjcqc",1765668460273,1,0,0
+1939,"Fine Arts","vague or unknowable figure","What percentage of graphic designers are freelancers?",33,"17656684602732hfpasdt2",1765668460273,1,0,0
+1940,"Fine Arts","obscure reference or jargon","How many sonatas did Domenico Scarlatti compose?",555,"17656684602734qzc305ev",1765668460273,1,59.1,2
+1941,"Fine Arts","obscure reference or jargon","What is the length in feet of the world's largest mural (Pueblo Levee Project)?",178200,"1765668460273u7wvm3jih",1765668460273,1,0,0
+1942,"Fine Arts","obscure reference or jargon","How many films did Akira Kurosawa direct?",30,"1765668460273ee3tued4z",1765668460273,1,0,0
+1943,"Fine Arts","vague or unknowable figure","What percentage of debut novels become bestsellers?",1,"1765668460273cl06r46gp",1765668460273,1,0,0
+1944,"Fine Arts","obscure reference or jargon","How many requiems did Wolfgang Amadeus Mozart complete?",1,"17656684602734w800g21l",1765668460273,1,0,0
+1946,"Fine Arts","obscure reference or jargon","How many novels did Thomas Hardy write?",18,"1765668460273l22vmohix",1765668460273,1,0,0
+1947,"Fine Arts","vague or unknowable figure","What percentage of visual artists have a college degree in art?",60,"1765668460273ghpfzvned",1765668460273,1,0,0
+1948,"Fine Arts","obscure reference or jargon","How many concertos did Sergei Prokofiev compose?",7,"1765668460273aw0fr16mz",1765668460273,1,559.4,1
+1949,"Fine Arts","obscure reference or jargon","What is the height in feet of the tallest wooden statue (Kaga Daikannon)?",240,"1765668460273y3h976ivj",1765668460273,1,0,0
+1950,"Fine Arts","too similar to another question","How many paintings are in the Hermitage Museum's permanent collection?",17000,"1765668460273crkurcjxj",1765668460273,1,0,0
+1951,"Fine Arts","vague or unknowable figure","What percentage of poetry published today is free verse?",90,"17656684602737g9115cyr",1765668460273,1,0,0
+1952,"Fine Arts","obscure reference or jargon","How many cantatas did Georg Philipp Telemann compose?",1700,"176566846027379hpawqsk",1765668460273,1,0,0
+1953,"Fine Arts","obscure reference or jargon","What is the weight in tons of the Tian Tan Buddha in Hong Kong?",250,"17656684602732p7cav015",1765668460273,1,0,0
+1954,"Fine Arts","obscure reference or jargon","How many novels did Margaret Atwood write?",18,"17656684602735isy7c4uv",1765668460273,1,0,0
+1955,"Fine Arts","vague or unknowable figure","What percentage of classical music recordings are made by major labels?",15,"17656684602734khgg4ilr",1765668460273,1,0,0
+1956,"Fine Arts","obscure reference or jargon","How many operas did Benjamin Britten compose?",16,"1765668460273c2t3u4cib",1765668460273,1,0,0
+1957,"Fine Arts","obscure reference or jargon","What is the length in feet of the Great Wall of Porcelain at Yuanmingyuan?",656,"1765668460273l5ispsrsh",1765668460273,1,0,0
+1958,"Fine Arts","obscure reference or jargon","How many paintings did Henri Matisse create in his career?",1008,"1765668460273zx6uqo0um",1765668460273,1,0,0
+1959,"Fine Arts","vague or unknowable figure","What percentage of art purchased is bought as an investment?",15,"1765668460273g0aw7tm9n",1765668460273,1,0,0
+1960,"Fine Arts","obscure reference or jargon","How many serenades did Wolfgang Amadeus Mozart compose?",13,"1765668460273p2351xswj",1765668460273,1,758.2,1
+1961,"Fine Arts","vague or unknowable figure","What is the height in inches of a standard conductor's podium?",12,"17656684602739hmqvfzq5",1765668460273,1,0,0
+1962,"Fine Arts","obscure reference or jargon","How many novels did Mikhail Bulgakov write?",5,"1765668460273zrp8vq7sg",1765668460273,1,0,0
+1963,"Fine Arts","vague or unknowable figure","What percentage of museum exhibitions are temporary rather than permanent?",70,"176566846027321ehu1ytz",1765668460273,1,0,0
+1964,"Fine Arts","obscure reference or jargon","How many divertimenti did Wolfgang Amadeus Mozart compose?",25,"1765668460273k69fp3vhz",1765668460273,1,0,0
+1965,"Fine Arts","obscure reference or jargon","What is the circumference in feet of the Jefferson Memorial dome?",180,"1765668460273npohoiyss",1765668460273,1,0,0
+1966,"Fine Arts","obscure reference or jargon","How many paintings did Pierre-Auguste Renoir create in his career?",4000,"1765668460273ednl4esih",1765668460273,1,0,0
+1967,"Fine Arts","vague or unknowable figure","What percentage of public sculptures in the U.S. are of men?",90,"1765668460273nfbm6un5z",1765668460273,1,0,0
+1968,"Fine Arts","obscure reference or jargon","How many operas did Christoph Willibald Gluck compose?",35,"1765668460273gt3v1n9fr",1765668460273,1,0,0
+1969,"Fine Arts","vague or unknowable figure","What is the height in inches of a standard music stand?",48,"17656684602731hqcb9a3q",1765668460273,1,0,0
+1970,"Fine Arts","obscure reference or jargon","How many paintings did Hieronymus Bosch create?",25,"1765668460273zmp1upqk4",1765668460273,1,0,0
+1971,"Fine Arts","vague or unknowable figure","What percentage of ballet dancers suffer career-ending injuries?",65,"1765668460273akibcj2jf",1765668460273,1,0,0
+1972,"Fine Arts","obscure reference or jargon","How many sonatas did Muzio Clementi compose?",110,"1765668460273u4astsb43",1765668460273,1,0,0
+1973,"Fine Arts","obscure reference or jargon","What is the weight in pounds of a concert marimba?",250,"1765668460273cxkjajodo",1765668460273,1,0,0
+1974,"Fine Arts","obscure reference or jargon","How many novels did Honoré de Balzac write?",91,"1765668460273kxjdhk1wh",1765668460273,1,0,0
+1976,"Fine Arts","obscure reference or jargon","How many symphonic poems did Richard Strauss compose?",9,"1765668460273qmcciezm1",1765668460273,1,0,0
+1977,"Fine Arts","vague or unknowable figure","What is the diameter in inches of a standard paint palette cup?",3,"1765668460273grqogaxlt",1765668460273,1,0,0
+1978,"Fine Arts","obscure reference or jargon","How many paintings did El Greco create in his career?",300,"1765668460273cg833huu7",1765668460273,1,0,0
+1979,"Fine Arts","vague or unknowable figure","What percentage of art school graduates find work in their field?",40,"17656684602731ucz10bvi",1765668460273,1,0,0
+1980,"Fine Arts","obscure reference or jargon","How many string quartets did Franz Schubert compose?",15,"1765668460273l0awnrqmh",1765668460273,1,0,0
+1981,"Fine Arts","obscure reference or jargon","What is the height in feet of the largest bronze equestrian statue?",49,"17656684602737zawhfnsv",1765668460273,1,0,0
+1982,"Fine Arts","obscure reference or jargon","How many novels did Anthony Trollope write?",47,"1765668460273544oged8e",1765668460273,1,0,0
+1985,"Fine Arts","too similar to another question","What is the protein content in grams of three ounces of beef?",22,"1765668460273unglg9179",1765668460273,1,0,0
+1986,"Fine Arts","too similar to another question","How many varieties of eggplant exist?",50,"1765668460273ki09esp2o",1765668460273,1,0,0
+1987,"Fine Arts","obscure reference or jargon","What percentage of soy sauce consumed in America is Kikkoman brand?",50,"1765668460273zc1miw1lz",1765668460273,1,0,0
+1988,"Fine Arts","vague or unknowable figure","How many types of Thai curry paste exist?",7,"1765668460273d95dwk24o",1765668460273,1,0,0
+1990,"Fine Arts","too similar to another question","How many varieties of plums exist worldwide?",2000,"1765668460273ysjubtyvm",1765668460273,1,0,0
+1992,"Fine Arts","vague or unknowable figure","How many types of Japanese tofu exist?",50,"1765668460273r7g2lsnb7",1765668460273,1,0,0
+1994,"Fine Arts","too similar to another question","How many varieties of cherries exist?",1000,"17656684602739tn292hgz",1765668460273,1,0,0
+1996,"Fine Arts","too similar to another question","How many tons of lobster does the U.S. import annually?",200000,"1765668460273t5ahb191m",1765668460273,1,0,0
+1998,"Fine Arts","obscure reference or jargon","How many types of French cheese have AOC protection?",45,"1765668460273a5levmtdn",1765668460273,1,0,0
+1999,"Fine Arts","vague or unknowable figure","What percentage of spices consumed globally come from India?",75,"1765668460273opypw1i0u",1765668460273,1,0,0
+2020,"Entertainment","trick, giveaway or not an estimate","How many feet above sea level is Denver's Coors Field (the highest elevation MLB stadium)?",5280,"1765668470482dlq3bzbeg",1765668470482,1,0,0
+2022,"Entertainment","trick, giveaway or not an estimate","How many horses have won the Kentucky Derby since the race began in 1875 (through 2024)?",150,"176566847048226unh9c0z",1765668470482,1,0,0
+2034,"Entertainment","trick, giveaway or not an estimate","How many feet per second does an average MLB fastball travel at 95 mph?",139.3,"1765668470482a0jbsfn2b",1765668470482,1,0.1,1
+2045,"Entertainment","trick, giveaway or not an estimate","What is the length in miles of the Indianapolis 500 auto race?",500,"17656684704821ge4laa54",1765668470482,1,1000,1
+2071,"Entertainment","vague or unknowable figure","What percentage of box office revenue comes from opening weekend for major releases?",40,"1765668470482x5cavghll",1765668470482,1,0,0
+2079,"Entertainment","vague or unknowable figure","What percentage of streaming subscribers watch content on mobile devices?",70,"1765668470482rjow46z8r",1765668470482,1,0,0
+2092,"Entertainment","wrong answer or broken wording","How many Shrek films have been released?",5,"17656684704822xdjps9j0",1765668470482,1,0,0
+2103,"Entertainment","vague or unknowable figure","What was the total number of weeks that the Beatles had songs on the Billboard Hot 100?",365,"17656684704824axmxjhhg",1765668470482,1,0,0
+2116,"Entertainment","obscure reference or jargon","How many notes are in a chromatic musical scale?",12,"1765668470482aob1bvye4",1765668470482,1,0,0
+2119,"Entertainment","wrong answer or broken wording","What is the typical range in hertz of human hearing?",20000,"17656684704820db8qkthz",1765668470482,1,0,0
+2124,"Entertainment","too similar to another question","How many Grammy nominations did the album Thriller receive?",12,"1765668470482rdmc0drpk",1765668470482,1,1000,1
+2125,"Entertainment","obscure reference or jargon","What is the frequency range in hertz of a bass guitar's lowest string (standard tuning)?",41,"1765668470482q00b05yha",1765668470482,1,0,0
+2128,"Entertainment","vague or unknowable figure","How many drum heads are on a standard 5-piece drum kit?",12,"1765668470482h6e4uj70v",1765668470482,1,299.1,1
+2141,"Entertainment","obscure reference or jargon","What is the typical frequency in hertz of the lowest note on a standard piano?",27.5,"17656684704829ybn0ie6b",1765668470482,1,0,0
+2146,"Entertainment","wrong answer or broken wording","How many world tours did Taylor Swift's Eras Tour span in terms of continents?",5,"17656684704826b2nwubvc",1765668470482,1,0,0
+2162,"Entertainment","wrong answer or broken wording","How many unique tile patterns are in a standard Mahjong set?",144,"1765668470482bfte3qizo",1765668470482,1,0,0
+2172,"Entertainment","obscure reference or jargon","How many life points do you start with in Magic: The Gathering?",20,"1765668470482egc9ic6gz",1765668470482,1,0,0
+2178,"Entertainment","obscure reference or jargon","How many routes are there on a standard Settlers of Catan board?",72,"17656684704828u5r5ju5x",1765668470482,1,0,0
+2184,"Entertainment","obscure reference or jargon","How many different endings are in the video game Detroit: Become Human?",40,"1765668470482fpo4ja6gn",1765668470482,1,0,0
+2185,"Entertainment","obscure reference or jargon","What is the total number of moves in the longest possible chess game (under the 50-move rule)?",5949,"1765668470482lqecu1s81",1765668470482,1,0,0
+2191,"Entertainment","vague or unknowable figure","What percentage of gamers prefer single-player games?",54,"1765668470482j9mqo5ijp",1765668470482,1,0,0
+2195,"Entertainment","vague or unknowable figure","What percentage of tabletop game industry revenue comes from Hasbro?",15,"1765668470482coeo2whkf",1765668470482,1,0,0
+2198,"Entertainment","vague or unknowable figure","How many official variants of poker are recognized by the World Series of Poker?",8,"1765668470482fk2uhx050",1765668470482,1,0,0
+2200,"Entertainment","too similar to another question","How many career assists did Wayne Gretzky record in the NHL?",1963,"176566847048291c6aooi1",1765668470482,1,0,0
+2201,"Entertainment","obscure reference or jargon","What is the length in yards of a standard polo field?",300,"1765668470482rbkzy8gx2",1765668470482,1,0,0
+2206,"Entertainment","obscure reference or jargon","How many weight classes exist in men's Olympic boxing?",13,"1765668470482uoiuhlji6",1765668470482,1,0,0
+2207,"Entertainment","obscure reference or jargon","What is the length in feet of a professional squash court?",32,"176566847048219xu4tbfl",1765668470482,1,0,0
+2216,"Entertainment","trick, giveaway or not an estimate","How many events are in a men's Olympic decathlon?",10,"1765668470482g20bqr61o",1765668470482,1,0,0
+2217,"Entertainment","obscure reference or jargon","What is the length in meters of an Olympic rowing course?",2000,"1765668470482kh2pqw9u9",1765668470482,1,0,0
+2219,"Entertainment","obscure reference or jargon","What is the diameter in inches of a softball?",12,"1765668470482bryi668c1",1765668470482,1,0,0
+2225,"Entertainment","obscure reference or jargon","What is the length in feet of a lacrosse field?",330,"1765668470482pt9gf4wg0",1765668470482,1,0,0
+2235,"Entertainment","obscure reference or jargon","What is the circumference in inches of a regulation volleyball?",26,"1765668470482i64c2l129",1765668470482,1,0,0
+2236,"Entertainment","trick, giveaway or not an estimate","How many seams are on a tennis ball?",1,"1765668470482v6xe5r30q",1765668470482,1,0,0
+2246,"Entertainment","too similar to another question","How many Pixar films have won the Academy Award for Best Animated Feature?",11,"17656684704827mkt1zmhr",1765668470482,1,0,0
+2253,"Entertainment","vague or unknowable figure","What percentage of movie theater screens in the U.S. are digital?",99,"1765668470482a35uymkri",1765668470482,1,0,0
+2256,"Entertainment","too similar to another question","How many films did Steven Spielberg direct that grossed over 100 million domestically?",17,"17656684704829wmwuxqj1",1765668470482,1,0,0
+2257,"Entertainment","vague or unknowable figure","What percentage of Americans watch movies at home rather than in theaters?",72,"176566847048233y9y5e15",1765668470482,1,0,0
+2260,"Entertainment","too similar to another question","How many Emmy nominations has Saturday Night Live received in total?",318,"1765668470482u9g8bhl5i",1765668470482,1,0,0
+2261,"Entertainment","obscure reference or jargon","What is the frequency in hertz of the musical note middle C?",261.63,"1765668470482byxr62hf4",1765668470482,1,0,0
+2262,"Entertainment","obscure reference or jargon","How many keys are on a standard church organ keyboard (single manual)?",61,"1765668470482ekqt0heig",1765668470482,1,0,0
+2266,"Entertainment","too similar to another question","How many symphonies did Johannes Brahms compose?",4,"17656684704828rfb2jxb8",1765668470482,1,0,0
+2270,"Entertainment","obscure reference or jargon","How many operas did Wolfgang Amadeus Mozart compose?",22,"1765668470482f2ujv5ysk",1765668470482,1,0,0
+2272,"Entertainment","obscure reference or jargon","How many keys does a standard accordion have?",41,"1765668470482z4l2jrlr9",1765668470482,1,0,0
+2273,"Entertainment","obscure reference or jargon","What is the frequency in hertz of the lowest note on a bass guitar (E1)?",41,"1765668470482dy5k9xu4i",1765668470482,1,0,0
+2274,"Entertainment","too similar to another question","How many concerti did Antonio Vivaldi compose?",500,"1765668470482tbyozng0s",1765668470482,1,0,0
+2276,"Entertainment","too similar to another question","How many movements are in Beethoven's 9th Symphony?",4,"1765668470483ijv5pj2f2",1765668470483,1,0,0
+2286,"Entertainment","obscure reference or jargon","How many endings does Mass Effect 3 have?",3,"1765668470483tqs21stvm",1765668470483,1,0,0
+2288,"Entertainment","too similar to another question","How many cards are in a standard Magic: The Gathering tournament deck (minimum)?",60,"1765668470483u8ued2o5n",1765668470483,1,0,0
+2290,"Entertainment","obscure reference or jargon","How many different endings does Elden Ring have?",6,"1765668470483cxb8vu21f",1765668470483,1,0,0
+2297,"Entertainment","vague or unknowable figure","What percentage of gamers play puzzle games?",57,"1765668470483whzu1qjgj",1765668470483,1,0,0
+2301,"Entertainment","too similar to another question","What is the depth in feet of the pool in the Bellagio fountains in Las Vegas?",8,"1765668470483hop0cdqd9",1765668470483,1,0,0
+2308,"Entertainment","too similar to another question","How many rooms are in the MGM Grand Hotel in Las Vegas?",6852,"1765668470483b8m2ubwgt",1765668470483,1,0,0
+2309,"Entertainment","obscure reference or jargon","What is the elevation in feet of Aspen, Colorado?",7908,"1765668470483lvwoxd05t",1765668470483,1,0,0
+2310,"Entertainment","vague or unknowable figure","How many beaches are in Miami Beach, Florida?",12,"17656684704837duaypi9b",1765668470483,1,0,0
+2319,"Entertainment","vague or unknowable figure","What percentage of travelers book trips using mobile devices?",35,"1765668470483xt6fzi31d",1765668470483,1,0,0
+2320,"Entertainment","obscure reference or jargon","How many career rushing touchdowns did LaDainian Tomlinson score in the NFL?",162,"1765668470483qdtqmif8q",1765668470483,1,0,0
+2321,"Entertainment","too similar to another question","What is the length in feet of an Olympic-size swimming pool?",164,"1765668470483jhf5u6ksd",1765668470483,1,0,0
+2323,"Entertainment","too similar to another question","What is the height in feet of the basketball backboard?",6,"1765668470483trvqn34q8",1765668470483,1,0,0
+2325,"Entertainment","obscure reference or jargon","What is the distance in yards of a standard par-5 hole minimum?",471,"1765668470483onro78kfp",1765668470483,1,0,0
+2326,"Entertainment","vague or unknowable figure","How many yellow cards result in a suspension in most soccer leagues?",5,"1765668470483549ou058u",1765668470483,1,0,0
+2327,"Entertainment","obscure reference or jargon","What is the weight in pounds of a men's discus?",4.4,"1765668470483209tqx1d2",1765668470483,1,0,0
+2328,"Entertainment","obscure reference or jargon","How many career interceptions did Rod Woodson have in the NFL?",71,"1765668470483eir3ds3g4",1765668470483,1,0,0
+2329,"Entertainment","obscure reference or jargon","What is the length in feet of a tennis racket maximum allowed?",2.3,"176566847048319lrc3uke",1765668470483,1,0,0
+2330,"Entertainment","obscure reference or jargon","How many events are in a women's Olympic heptathlon?",7,"1765668470483wsyucy91p",1765668470483,1,0,0
+2334,"Entertainment","obscure reference or jargon","How many career batting titles did Ty Cobb win in MLB?",12,"1765668470483illgnp5ew",1765668470483,1,0,0
+2336,"Entertainment","obscure reference or jargon","How many world championship titles did Phil Taylor win in darts?",16,"17656684704832l9ttz9qi",1765668470483,1,0,0
+2337,"Entertainment","vague or unknowable figure","What is the length in miles of a standard NASCAR oval track?",1.5,"1765668470483e25vzjcvi",1765668470483,1,0,0
+2339,"Entertainment","obscure reference or jargon","What is the width in feet of a singles badminton court?",17,"1765668470483gbhwrsai8",1765668470483,1,0,0
+2340,"Entertainment","wrong answer or broken wording","How many sets are played to win a women's Grand Slam tennis match?",3,"1765668470483ow1zkb9rw",1765668470483,1,0,0
+2341,"Entertainment","obscure reference or jargon","What is the distance in meters of the Olympic steeplechase?",3000,"1765668470483x1htjyruc",1765668470483,1,0,1
+2343,"Entertainment","obscure reference or jargon","What is the weight in ounces of a regulation lacrosse ball?",5.25,"1765668470483uerdpkhl4",1765668470483,1,0,0
+2345,"Entertainment","too similar to another question","What is the length in feet of a shuffleboard court?",52,"1765668470483wi3y7sxcc",1765668470483,1,0,0
+2346,"Entertainment","obscure reference or jargon","How many career doubles did Tris Speaker have in MLB?",792,"1765668470483fpahf9sbn",1765668470483,1,0,0
+2349,"Entertainment","obscure reference or jargon","What is the circumference in inches of a cricket ball?",9,"1765668470483r4wifuf1g",1765668470483,1,920.6,1
+2351,"Entertainment","obscure reference or jargon","What is the weight in pounds of a women's Olympic hammer?",8.8,"1765668470483ijzxmybm2",1765668470483,1,0,0
+2352,"Entertainment","too similar to another question","How many career receiving touchdowns did Randy Moss have in the NFL?",156,"1765668470483wyel1d4qt",1765668470483,1,0,0
+2354,"Entertainment","too similar to another question","How many Academy Award nominations did Meryl Streep receive for acting?",21,"1765668470483ucwo8qub2",1765668470483,1,0,0
+2356,"Entertainment","vague or unknowable figure","How many films did Tom Hanks star in that grossed over 100 million domestically?",19,"1765668470483dg5ocbkrv",1765668470483,1,0,0
+2364,"Entertainment","too similar to another question","How many Bond girls have appeared across all official James Bond films?",78,"1765668470483ix3oiy0ai",1765668470483,1,0,0
+2366,"Entertainment","obscure reference or jargon","How many Academy Awards did Walt Disney's studio win for Best Animated Short?",12,"176566847048360ccj9awl",1765668470483,1,0,0
+2367,"Entertainment","vague or unknowable figure","What percentage of box office revenue comes from 3D screenings?",12,"1765668470483ngz6kc59c",1765668470483,1,72.6,1
+2372,"Entertainment","too similar to another question","How many instruments can Prince play according to verified accounts?",27,"1765668470483e6bfvclu3",1765668470483,1,0,0
+2375,"Entertainment","vague or unknowable figure","What percentage of vinyl records sold are new releases versus reissues?",41,"176566847048312ha39mzg",1765668470483,1,34,1
+2376,"Entertainment","wrong answer or broken wording","How many notes are in a standard guitar chord?",6,"1765668470483ffzrtcgj0",1765668470483,1,0,0
+2377,"Entertainment","obscure reference or jargon","What is the length in feet of a contrabassoon?",18,"1765668470483o6bc45ev2",1765668470483,1,0,0
+2379,"Entertainment","vague or unknowable figure","What percentage of recorded music is listened to through headphones?",70,"1765668470483akejfd8ce",1765668470483,1,0,0
+2382,"Entertainment","obscure reference or jargon","How many keys are on a standard clavichord?",45,"17656684704838crx8xx8m",1765668470483,1,0,0
+2385,"Entertainment","too similar to another question","What is the range in octaves of a standard piano?",7.25,"1765668470483q9yiao91r",1765668470483,1,0,0
+2389,"Entertainment","obscure reference or jargon","What is the diameter in inches of a cymbal used in orchestras (typical crash)?",18,"1765668470483kndh1a9bw",1765668470483,1,0,0
+2392,"Entertainment","too similar to another question","How many players compete in a standard Fortnite match (solo mode)?",100,"1765668470483b3v44j2bg",1765668470483,1,0,0
+2394,"Entertainment","too similar to another question","How many different properties can you buy in Monopoly?",28,"1765668470483ridz2myq7",1765668470483,1,0,0
+2395,"Entertainment","too similar to another question","What percentage of Americans play mobile games?",51,"17656684704831exgzrvbt",1765668470483,1,0,0
+2396,"Entertainment","obscure reference or jargon","How many bosses are in Dark Souls III (including DLC)?",25,"17656684704835ldmy3tof",1765668470483,1,0,0
+2397,"Entertainment","vague or unknowable figure","What is the maximum number of players in a standard Dungeons & Dragons party?",7,"1765668470483ca3iit2yv",1765668470483,1,0,0
+2401,"Entertainment","too similar to another question","What is the file size in gigabytes of Call of Duty: Modern Warfare II?",125,"1765668470483pov3le7n6",1765668470483,1,951.4,1
+2402,"Entertainment","too similar to another question","How many suspects are in the board game Clue?",6,"1765668470483ilwljf2k0",1765668470483,1,0,0
+2404,"Entertainment","obscure reference or jargon","How many shrines are in The Legend of Zelda: Breath of the Wild?",120,"1765668470483lbne0rg3r",1765668470483,1,0,0
+2408,"Entertainment","vague or unknowable figure","How many achievements are in Xbox Game Pass games on average?",35,"1765668470483b05lgiiaa",1765668470483,1,0,0
+2422,"Entertainment","obscure reference or jargon","How many ski runs are at Vail Mountain Resort in Colorado?",195,"1765668470483afu2tyzte",1765668470483,1,0,0
+2424,"Entertainment","vague or unknowable figure","How many zip lines are in Costa Rica (the zip line capital)?",200,"1765668470483m46otgtav",1765668470483,1,0,0
+2425,"Entertainment","vague or unknowable figure","What percentage of travelers use travel review websites when planning trips?",78,"1765668470483fyz03fdot",1765668470483,1,0,0
+2426,"Entertainment","wrong answer or broken wording","How many glaciers can tourists visit in Alaska?",100000,"1765668470483415md7adh",1765668470483,1,0,1
+2429,"Entertainment","vague or unknowable figure","What percentage of honeymoons are taken to tropical destinations?",45,"1765668470483xkwztq0cq",1765668470483,1,0,0
+2433,"Entertainment","obscure reference or jargon","What is the weight in grams of a ping pong paddle (average)?",180,"1765668470483sxql3qad9",1765668470483,1,0,0
+2434,"Entertainment","obscure reference or jargon","How many events make up the modern pentathlon?",5,"17656684704839r12yv6sn",1765668470483,1,0,0
+2438,"Entertainment","obscure reference or jargon","How many career hat tricks did Mario Lemieux score in the NHL?",40,"1765668470483m2iv8rtjg",1765668470483,1,0,0
+2439,"Entertainment","obscure reference or jargon","What is the width in yards of a polo field?",160,"176566847048355ad08nv7",1765668470483,1,0,0
+2441,"Entertainment","obscure reference or jargon","What is the diameter in inches of a regulation croquet ball?",3.625,"1765668470483rf3seabmt",1765668470483,1,0,0
+2443,"Entertainment","obscure reference or jargon","What is the distance in yards of a par-3 hole maximum?",250,"1765668470483hyue7ocxl",1765668470483,1,0,0
+2444,"Entertainment","obscure reference or jargon","How many weight classes are in Olympic weightlifting for men?",10,"1765668470483shs0pujmu",1765668470483,1,0,0
+2447,"Entertainment","obscure reference or jargon","What is the circumference in inches of a water polo ball?",27,"1765668470483sqx9o9utv",1765668470483,1,0,0
+2449,"Entertainment","too similar to another question","What is the height in feet of the basket in wheelchair basketball?",10,"1765668470483wg6tga1zx",1765668470483,1,0,0
+2450,"Entertainment","too similar to another question","How many career wins did Serena Williams have in WTA singles matches?",856,"1765668470483k4k8xtt0x",1765668470483,1,0,0
+2453,"Entertainment","trick, giveaway or not an estimate","What is the length in meters of the Olympic 400-meter hurdles?",400,"1765668470483alwmvxd1t",1765668470483,1,0,0
+2454,"Entertainment","obscure reference or jargon","How many career blocked shots did Hakeem Olajuwon have in the NBA?",3830,"1765668470483n1ouql7ps",1765668470483,1,0,0
+2455,"Entertainment","obscure reference or jargon","What is the diameter in feet of the wrestling circle?",29.5,"1765668470483x0kqdkk3w",1765668470483,1,0,0
+2457,"Entertainment","obscure reference or jargon","How many career triples did Ty Cobb hit in MLB?",295,"1765668470483vlawl555o",1765668470483,1,0,0
+2458,"Entertainment","obscure reference or jargon","What is the length in feet of a regulation field hockey field?",300,"1765668470483cnvenooqu",1765668470483,1,0,0
+2459,"Entertainment","obscure reference or jargon","How many gold medals did Larisa Latynina win in Olympic gymnastics?",9,"17656684704838u9xxq4c4",1765668470483,1,0,0
+2460,"Entertainment","obscure reference or jargon","What is the diameter in inches of a regulation shot put ring?",84,"1765668470483mtyhu1v3n",1765668470483,1,0,0
+2462,"Entertainment","obscure reference or jargon","What is the weight in pounds of a regulation hammer throw?",16,"1765668470483qe6gofpej",1765668470483,1,0,0
+2463,"Entertainment","obscure reference or jargon","How many career triple-doubles did Oscar Robertson have in the NBA?",181,"1765668470483s4xh64kvc",1765668470483,1,0,0
+2465,"Entertainment","wrong answer or broken wording","How many seasons did Brett Favre start consecutively in the NFL?",297,"17656684704832o81q7unm",1765668470483,1,0,0
+2467,"Entertainment","obscure reference or jargon","How many career shutouts did Martin Brodeur have in the NHL?",125,"17656684704831r3uybofc",1765668470483,1,0,0
+2470,"Entertainment","obscure reference or jargon","What is the diameter in feet of the hammer throw circle?",7,"1765668470483tt9wwlt5f",1765668470483,1,0,0
+2471,"Entertainment","obscure reference or jargon","How many career sacks did Bruce Smith have in the NFL?",200,"1765668470483lv9g184ex",1765668470483,1,0,0
+2472,"Entertainment","obscure reference or jargon","What is the length in yards of a regulation Australian football field?",185,"1765668470483qmkgr8fiy",1765668470483,1,0,0
+2474,"Entertainment","too similar to another question","What is the height in feet of the crossbar in rugby?",10,"1765668470483j6oymrps8",1765668470483,1,0,0
+2476,"Entertainment","obscure reference or jargon","What is the weight in grams of a regulation squash ball?",24,"1765668470483qpca3hkou",1765668470483,1,967.3,1
+2477,"Entertainment","obscure reference or jargon","How many career penalty minutes did Dave Schultz have in one NHL season (record)?",472,"1765668470483je52rq6il",1765668470483,1,0,0
+2478,"Entertainment","obscure reference or jargon","What is the circumference in inches of a regulation rugby ball?",30,"1765668470483fzj2blrlr",1765668470483,1,0,0
+2479,"Entertainment","obscure reference or jargon","How many career touchdown receptions did Antonio Gates have in the NFL?",116,"1765668470483gry94hp3u",1765668470483,1,0,0
+2481,"Entertainment","too similar to another question","How many Grand Prix victories did Michael Schumacher have in Formula 1?",91,"1765668470483f9pr0a635",1765668470483,1,0,0
+2482,"Entertainment","obscure reference or jargon","What is the length in meters of an Olympic fencing piste?",14,"1765668470483zif19lpm5",1765668470483,1,397.79999999999995,2
+2484,"Entertainment","obscure reference or jargon","What is the weight in ounces of a regulation field hockey ball?",5.75,"1765668470483tygk0en6y",1765668470483,1,0,0
+2485,"Entertainment","too similar to another question","How many career passing touchdowns did Drew Brees have in the NFL?",571,"1765668470483qlfnutq0p",1765668470483,1,0,0
+2486,"Entertainment","obscure reference or jargon","What is the height in feet of the rings in Olympic gymnastics?",9.2,"1765668470483k7engaekj",1765668470483,1,0,0
+2488,"Entertainment","obscure reference or jargon","What is the diameter in inches of the rings in Olympic gymnastics?",7,"1765668470483oml1gocfd",1765668470483,1,0,0
+2489,"Entertainment","too similar to another question","How many consecutive NASCAR races did Richard Petty enter?",513,"1765668470483ma7bb4o2n",1765668470483,1,0,0
+2490,"Entertainment","obscure reference or jargon","What is the length in feet of a regulation bocce court?",91,"17656684704839cgk3pilo",1765668470483,1,0,0
+2492,"Entertainment","obscure reference or jargon","What is the weight in pounds of a regulation bocce ball?",2,"1765668470483365grggfc",1765668470483,1,0,0
+2493,"Entertainment","obscure reference or jargon","How many world championships did Aleksandr Karelin win in wrestling?",9,"1765668470483qi9r6if4c",1765668470483,1,0,0
+2495,"Entertainment","obscure reference or jargon","How many career wins did Jack Brabham have in Formula 1?",14,"1765668470483u06iebnic",1765668470483,1,0,0
+2496,"Entertainment","obscure reference or jargon","What is the circumference in inches of a handball?",24,"1765668470483fdnm71b04",1765668470483,1,673.6,1
+2497,"Entertainment","obscure reference or jargon","How many career interception return touchdowns did Rod Woodson have in the NFL?",12,"1765668470483ir7fteeks",1765668470483,1,0,0
+2498,"Entertainment","obscure reference or jargon","What is the height in feet of the high bar in Olympic gymnastics?",9,"1765668470483k3h9t7irl",1765668470483,1,0,0

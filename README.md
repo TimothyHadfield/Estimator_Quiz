@@ -1,11 +1,11 @@
 # Estimator Quiz
 
-How good are you at guessing numbers? 2,500 questions across Science, History, Industry, Fine Arts and Entertainment, scored by how close your estimate is on a logarithmic scale, with a shared leaderboard.
+How good are you at guessing numbers? About 1,350 questions across Science, History, Industry, Fine Arts and Entertainment, scored by how close your estimate is on a logarithmic scale, with a shared leaderboard.
 
 **[▶ Open the live app](https://timothyhadfield.github.io/Estimator_Quiz/Estimator_Quiz/)** · works on phone and laptop
 
 <p align="center">
-  <img src="docs/screenshots/desktop.png" alt="Laptop view: setting up an estimation test, with test length and the five categories of 500 questions each" width="68%">
+  <img src="docs/screenshots/desktop.png" alt="Laptop view: setting up an estimation test, with test length and the five categories" width="68%">
   &nbsp;
   <img src="docs/screenshots/phone.png" alt="Phone view: an estimation question waiting for an answer" width="24%">
 </p>
@@ -13,7 +13,7 @@ How good are you at guessing numbers? 2,500 questions across Science, History, I
 ## Features
 - **Estimation mode**: type your best guess and score up to 1,000 points per question, based on how many "orders of magnitude" you are off (percentage questions use their own 100-point scale).
 - **Which is Bigger?**: two questions side by side; pick the one with the larger answer.
-- **Tests of 10, 20 or 30 questions**, from one category or all 2,500, with no repeats on your device until you've seen them all.
+- **Tests of 10, 20 or 30 questions**, from one category or all of them, with no repeats on your device until you've seen them all.
 - **Self-balancing difficulty**: every question tracks how people score on it and gently adjusts its own difficulty to match the overall average.
 - **Shared leaderboards** for both modes, filterable by category.
 - **Report a question** if it's vague, too obscure or looks wrong.
