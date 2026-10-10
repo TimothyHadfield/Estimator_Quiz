@@ -816,6 +816,49 @@
             padding: 16px 5px;
         }
 
+        .calibrate-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calibrate-middle {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .calibrate-arrow {
+            flex: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.6em;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calibrate-arrow:hover:not(:disabled) {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .calibrate-arrow:disabled {
+            opacity: 0.25;
+            cursor: default;
+        }
+
+        /* The rating this question already has (seen when going back) */
+        .calibrate-buttons .btn.chosen {
+            box-shadow: 0 0 0 3px #fff;
+        }
+
+        .calibrate-buttons .btn.not-chosen {
+            opacity: 0.35;
+        }
+
         .calibrate-alright {
             background: linear-gradient(135deg, #ffb300, #f57c00);
             color: white;
@@ -2010,12 +2053,21 @@
             }
 
             .calibrate-box {
-                padding: 18px 12px;
+                padding: 18px 10px;
+            }
+
+            .calibrate-row {
+                gap: 4px;
+            }
+
+            .calibrate-arrow {
+                width: 36px;
+                height: 36px;
             }
 
             .calibrate-question {
                 font-size: 1.15em;
-                min-height: 5.6em;
+                min-height: 7em;
                 margin: 8px 0;
             }
 
@@ -2250,13 +2302,19 @@ Population of Tokyo?, 13960000"></textarea>
             <div class="calibrate-box">
                 <div id="calibrate-card">
                     <div class="calibrate-count" id="calibrate-count"></div>
-                    <div class="calibrate-question" id="calibrate-question"></div>
-                    <div class="calibrate-answer" id="calibrate-answer"></div>
+                    <div class="calibrate-row">
+                        <button class="calibrate-arrow" id="calibrate-prev" onclick="calibrateStep(-1)" aria-label="Previous question">&#8249;</button>
+                        <div class="calibrate-middle">
+                            <div class="calibrate-question" id="calibrate-question"></div>
+                            <div class="calibrate-answer" id="calibrate-answer"></div>
+                        </div>
+                        <button class="calibrate-arrow" id="calibrate-next" onclick="calibrateStep(1)" aria-label="Next question">&#8250;</button>
+                    </div>
                     <div class="calibrate-buttons">
-                        <button class="btn btn-success" onclick="calibrateRate('good')">Good</button>
-                        <button class="btn calibrate-alright" onclick="calibrateRate('alright')">Alright</button>
-                        <button class="btn btn-danger" onclick="calibrateRate('bad')">Bad</button>
-                        <button class="btn btn-secondary" onclick="calibrateRate('skip')">Skip</button>
+                        <button class="btn btn-success" data-rating="good" onclick="calibrateRate('good')">Good</button>
+                        <button class="btn calibrate-alright" data-rating="alright" onclick="calibrateRate('alright')">Alright</button>
+                        <button class="btn btn-danger" data-rating="bad" onclick="calibrateRate('bad')">Bad</button>
+                        <button class="btn btn-secondary" data-rating="skip" onclick="calibrateRate('skip')">Skip</button>
                     </div>
                 </div>
                 <div id="calibrate-done" style="display: none;">
@@ -2662,13 +2720,23 @@ Population of Tokyo?, 13960000"></textarea>
             }, err => console.warn('Could not load calibration:', err));
         }
 
-        function calibrateQueue() {
-            return questions
-                .filter(q => {
-                    const rating = calibration.ratings[q._key];
-                    return !rating || rating.p !== calibration.pass;
-                })
-                .sort((a, b) => String(a._key) < String(b._key) ? -1 : 1);
+        // The question on screen. null = the first one not rated yet this round (where to resume).
+        let calibrateKey = null;
+
+        function calibrateList() {
+            return questions.slice().sort((a, b) => String(a._key) < String(b._key) ? -1 : 1);
+        }
+
+        // This round's rating for a question ('good', 'alright', 'bad', 'skip'), or null
+        function calibrateRatingOf(question) {
+            const rating = calibration.ratings[question._key];
+            return rating && rating.p === calibration.pass ? rating.r : null;
+        }
+
+        // Position of the question on screen in the list, or -1 when every question is rated
+        function calibrateIndex(list) {
+            const shown = calibrateKey === null ? -1 : list.findIndex(q => String(q._key) === calibrateKey);
+            return shown !== -1 ? shown : list.findIndex(q => !calibrateRatingOf(q));
         }
 
         function renderCalibrate() {
@@ -2679,17 +2747,27 @@ Population of Tokyo?, 13960000"></textarea>
                 done.style.display = 'none';
                 return;
             }
-            const queue = calibrateQueue();
-            card.style.display = queue.length ? 'block' : 'none';
-            done.style.display = queue.length ? 'none' : 'block';
+            const list = calibrateList();
+            const index = calibrateIndex(list);
+            card.style.display = index !== -1 ? 'block' : 'none';
+            done.style.display = index !== -1 ? 'none' : 'block';
 
-            if (queue.length) {
-                const total = questions.length;
+            if (index !== -1) {
+                const question = list[index];
                 document.getElementById('calibrate-count').textContent =
-                    `${(total - queue.length + 1).toLocaleString('en-US')} of ${total.toLocaleString('en-US')}`;
-                document.getElementById('calibrate-question').textContent = queue[0].text;
-                document.getElementById('calibrate-answer').textContent = Number(queue[0].answer).toLocaleString('en-US');
-                card.dataset.key = queue[0]._key;
+                    `${(index + 1).toLocaleString('en-US')} of ${list.length.toLocaleString('en-US')}`;
+                document.getElementById('calibrate-question').textContent = question.text;
+                document.getElementById('calibrate-answer').textContent = Number(question.answer).toLocaleString('en-US');
+                card.dataset.key = question._key;
+
+                // Going back shows which rating this question already has
+                const chosen = calibrateRatingOf(question);
+                document.querySelectorAll('.calibrate-buttons .btn').forEach(btn => {
+                    btn.classList.toggle('chosen', btn.dataset.rating === chosen);
+                    btn.classList.toggle('not-chosen', !!chosen && btn.dataset.rating !== chosen);
+                });
+                document.getElementById('calibrate-prev').disabled = index === 0;
+                document.getElementById('calibrate-next').disabled = index === list.length - 1;
                 return;
             }
 
@@ -2705,11 +2783,26 @@ Population of Tokyo?, 13960000"></textarea>
         function calibrateRate(rating) {
             const key = document.getElementById('calibrate-card').dataset.key;
             if (!isOperator || !key) return;
+            // Move on to the next question in the list; after the last one, back to whatever is unrated
+            const list = calibrateList();
+            const next = list[list.findIndex(q => String(q._key) === key) + 1];
+            const othersLeft = list.some(q => String(q._key) !== key && !calibrateRatingOf(q));
+            calibrateKey = next && othersLeft ? String(next._key) : null;
             calibrateWrite('ratings/' + key, { r: rating, p: calibration.pass, t: Date.now() });
+        }
+
+        // The arrows: look at the question before or after without rating anything
+        function calibrateStep(by) {
+            const list = calibrateList();
+            const target = list[calibrateIndex(list) + by];
+            if (!target) return;
+            calibrateKey = String(target._key);
+            renderCalibrate();
         }
 
         function calibrateRestart() {
             if (!isOperator) return;
+            calibrateKey = null;
             calibrateWrite('pass', calibration.pass + 1);
         }
 
