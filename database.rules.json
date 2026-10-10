@@ -1,9 +1,9 @@
 {
   "rules": {
-    ".read": true,
+    ".read": "auth != null && auth.token.email == 'timhadfield7@gmail.com' && auth.token.email_verified == true",
     ".write": "auth != null && auth.token.email == 'timhadfield7@gmail.com' && auth.token.email_verified == true",
-
     "questions": {
+      ".read": true,
       "$q": {
         "avgPoints": {
           ".write": true,
@@ -21,9 +21,15 @@
           "$g": {
             ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
             ".validate": "newData.hasChildren(['date']) && newData.child('date').isNumber() && (!newData.child('playerName').exists() || (newData.child('playerName').isString() && newData.child('playerName').val().length <= 200))",
-            "date": { ".validate": true },
-            "playerName": { ".validate": true },
-            "$other": { ".validate": false }
+            "date": {
+              ".validate": true
+            },
+            "playerName": {
+              ".validate": true
+            },
+            "$other": {
+              ".validate": false
+            }
           }
         },
         "reports": {
@@ -31,52 +37,163 @@
             ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
             ".validate": "newData.hasChildren(['id', 'date']) && newData.child('id').isString() && newData.child('id').val().length <= 40 && newData.child('date').isNumber() && (!newData.child('comment').exists() || (newData.child('comment').isString() && newData.child('comment').val().length <= 1000)) && (!newData.child('playerName').exists() || (newData.child('playerName').isString() && newData.child('playerName').val().length <= 200))",
             "reasons": {
-              "$i": { ".validate": "newData.isString() && newData.val().length <= 40" }
+              "$i": {
+                ".validate": "newData.isString() && newData.val().length <= 40"
+              }
             },
-            "id": { ".validate": true },
-            "date": { ".validate": true },
-            "comment": { ".validate": true },
-            "playerName": { ".validate": true },
-            "$other": { ".validate": false }
+            "id": {
+              ".validate": true
+            },
+            "date": {
+              ".validate": true
+            },
+            "comment": {
+              ".validate": true
+            },
+            "playerName": {
+              ".validate": true
+            },
+            "$other": {
+              ".validate": false
+            }
           }
         }
       }
     },
-
     "trueAverage": {
+      ".read": true,
       ".write": true,
       ".validate": "newData.hasChildren(['totalPoints', 'totalAnswers']) && newData.child('totalPoints').isNumber() && newData.child('totalAnswers').isNumber() && ((!data.exists() && newData.child('totalAnswers').val() === 1 && newData.child('totalPoints').val() >= 0 && newData.child('totalPoints').val() <= 1000.01) || (data.exists() && newData.child('totalAnswers').val() === data.child('totalAnswers').val() + 1 && newData.child('totalPoints').val() >= data.child('totalPoints').val() && newData.child('totalPoints').val() <= data.child('totalPoints').val() + 1000.01))",
-      "totalPoints": { ".validate": true },
-      "totalAnswers": { ".validate": true },
-      "$other": { ".validate": false }
+      "totalPoints": {
+        ".validate": true
+      },
+      "totalAnswers": {
+        ".validate": true
+      },
+      "$other": {
+        ".validate": false
+      }
     },
-
     "records": {
+      ".read": true,
       "$r": {
         ".write": "!data.exists() && newData.exists()",
         ".validate": "newData.hasChildren(['id', 'name', 'score', 'questionsAnswered', 'category', 'date']) && newData.child('id').isString() && newData.child('id').val().length <= 40 && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 200 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 30000 && newData.child('questionsAnswered').isNumber() && newData.child('questionsAnswered').val() >= 1 && newData.child('questionsAnswered').val() <= 30 && newData.child('category').isString() && newData.child('category').val().length <= 60 && newData.child('date').isString() && newData.child('date').val().length <= 40",
-        "id": { ".validate": true },
-        "name": { ".validate": true },
-        "score": { ".validate": true },
-        "questionsAnswered": { ".validate": true },
-        "category": { ".validate": true },
-        "date": { ".validate": true },
-        "$other": { ".validate": false }
+        "id": {
+          ".validate": true
+        },
+        "name": {
+          ".validate": true
+        },
+        "score": {
+          ".validate": true
+        },
+        "questionsAnswered": {
+          ".validate": true
+        },
+        "category": {
+          ".validate": true
+        },
+        "date": {
+          ".validate": true
+        },
+        "$other": {
+          ".validate": false
+        }
       }
     },
-
-    "compareRecords": {
-      "$r": {
-        ".write": "!data.exists() && newData.exists()",
-        ".validate": "newData.hasChildren(['id', 'name', 'correct', 'total', 'percentage', 'category', 'date']) && newData.child('id').isString() && newData.child('id').val().length <= 40 && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 200 && newData.child('total').isNumber() && newData.child('total').val() >= 1 && newData.child('total').val() <= 30 && newData.child('correct').isNumber() && newData.child('correct').val() >= 0 && newData.child('correct').val() <= newData.child('total').val() && newData.child('percentage').isNumber() && newData.child('percentage').val() >= 0 && newData.child('percentage').val() <= 100 && newData.child('category').isString() && newData.child('category').val().length <= 60 && newData.child('date').isNumber()",
-        "id": { ".validate": true },
-        "name": { ".validate": true },
-        "correct": { ".validate": true },
-        "total": { ".validate": true },
-        "percentage": { ".validate": true },
-        "category": { ".validate": true },
-        "date": { ".validate": true },
-        "$other": { ".validate": false }
+    "categories": {
+      ".read": true
+    },
+    "daily": {
+      ".read": true
+    },
+    "dailyScores": {
+      ".read": true,
+      "$date": {
+        ".indexOn": [
+          "score"
+        ],
+        "$id": {
+          ".write": "!data.exists() && newData.exists() && $date.matches(/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/) && (!$id.beginsWith('u_') || (auth != null && $id === 'u_' + auth.uid))",
+          ".validate": "newData.hasChildren(['name', 'score']) && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 30 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 5000",
+          "name": {
+            ".validate": true
+          },
+          "score": {
+            ".validate": true
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 30"
+        },
+        "created": {
+          ".validate": "newData.isNumber()"
+        },
+        "daily": {
+          "$date": {
+            ".validate": "$date.matches(/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/) && newData.hasChildren(['score', 'max']) && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 5000 && newData.child('max').isNumber() && newData.child('max').val() >= 0 && newData.child('max').val() <= 5000",
+            "score": {
+              ".validate": true
+            },
+            "max": {
+              ".validate": true
+            },
+            "pts": {
+              "$i": {
+                ".validate": "newData.isNumber() && $i.matches(/^[0-4]$/)"
+              }
+            },
+            "guesses": {
+              "$i": {
+                ".validate": "newData.isNumber() && $i.matches(/^[0-4]$/)"
+              }
+            },
+            "maxes": {
+              "$i": {
+                ".validate": "newData.isNumber() && $i.matches(/^[0-4]$/)"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "tests": {
+          "$t": {
+            ".validate": "newData.hasChildren(['mode', 'score', 'n', 'date']) && newData.child('mode').isString() && newData.child('mode').val().length <= 20 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 30000 && newData.child('n').isNumber() && newData.child('n').val() >= 1 && newData.child('n').val() <= 30 && newData.child('date').isNumber() && (!newData.child('category').exists() || (newData.child('category').isString() && newData.child('category').val().length <= 60))",
+            "mode": {
+              ".validate": true
+            },
+            "score": {
+              ".validate": true
+            },
+            "n": {
+              ".validate": true
+            },
+            "date": {
+              ".validate": true
+            },
+            "category": {
+              ".validate": true
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
       }
     }
   }

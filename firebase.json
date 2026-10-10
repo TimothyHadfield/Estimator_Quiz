@@ -4,6 +4,7 @@
   },
   "auth": {
     "providers": {
+      "emailPassword": true,
       "googleSignIn": {
         "oAuthBrandDisplayName": "Estimator Quiz",
         "supportEmail": "timhadfield7@gmail.com",
