@@ -1900,6 +1900,12 @@
             font-size: 1.8em;
             letter-spacing: 4px;
             margin-bottom: 20px;
+            white-space: nowrap;
+        }
+
+        .squares-together {
+            display: inline-block;
+            white-space: nowrap;
         }
 
         .daily-board-title {
@@ -3176,7 +3182,34 @@ Population of Tokyo?, 13960000"></textarea>
         function accountSaveName() {
             const name = document.getElementById('account-name').value.trim().slice(0, 30);
             if (!currentUser || !name || name === accountName()) return;
-            dbWrite(database.ref('users/' + currentUser.uid + '/name').set(name));
+            const uid = currentUser.uid;
+            dbWrite(database.ref('users/' + uid + '/name').set(name));
+
+            // The new name follows the account everywhere it is shown: daily scores,
+            // practice-test records saved while signed in, and the calibration set.
+            // (The rules let an account change only the name on its own rows.)
+            Object.keys(dailyScoresAll).forEach(date => {
+                const row = (dailyScoresAll[date] || {})['u_' + uid];
+                if (row && row.name !== name) {
+                    dbWrite(database.ref('dailyScores/' + date + '/u_' + uid + '/name').set(name));
+                }
+            });
+            records.forEach(record => {
+                if (record.uid === uid && record._key && record.name !== name) {
+                    dbWrite(database.ref('records/' + record._key + '/name').set(name));
+                }
+            });
+            if (calibrationRef && !calibrationOwn && Object.keys(calibration.ratings).length) {
+                dbWrite(calibrationRef.child('name').set(name));
+            }
+            let localChanged = false;
+            Object.values(dailyLocal).forEach(entry => {
+                if (entry && entry.id === 'u_' + uid && entry.name !== name) {
+                    entry.name = name;
+                    localChanged = true;
+                }
+            });
+            if (localChanged) saveDailyLocal();
         }
 
         function accountSignOut() {
@@ -3301,7 +3334,12 @@ Population of Tokyo?, 13960000"></textarea>
             const sub = document.getElementById('daily-card-sub');
             const btn = document.getElementById('daily-card-btn');
             if (entry && entry.done) {
-                sub.textContent = `${dailyScoreText(entry)}  ${dailySquares(entry)}`;
+                // The squares stay together on one line (a narrow phone used to split them)
+                sub.textContent = dailyScoreText(entry) + ' ';
+                const squares = document.createElement('span');
+                squares.className = 'squares-together';
+                squares.textContent = dailySquares(entry);
+                sub.appendChild(squares);
                 btn.textContent = 'Results';
             } else if (entry && entry.pts && entry.pts.length > 0) {
                 sub.textContent = `${entry.pts.length} of ${DAILY_LENGTH} answered`;
@@ -4298,6 +4336,8 @@ Population of Tokyo?, 13960000"></textarea>
                 category: testState.selectedCategory,
                 date: new Date().toISOString()
             };
+            // Signed in: the row is tied to the account, so a later name change can follow it
+            if (currentUser) newRecord.uid = currentUser.uid;
             records.push(newRecord);
             records.sort((a, b) => b.score - a.score); // Higher score is better
             records = records.slice(0, 100);

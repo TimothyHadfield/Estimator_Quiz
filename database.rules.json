@@ -77,8 +77,8 @@
     "records": {
       ".read": true,
       "$r": {
-        ".write": "!data.exists() && newData.exists()",
-        ".validate": "newData.hasChildren(['id', 'name', 'score', 'questionsAnswered', 'category', 'date']) && newData.child('id').isString() && newData.child('id').val().length <= 40 && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 200 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 30000 && newData.child('questionsAnswered').isNumber() && newData.child('questionsAnswered').val() >= 1 && newData.child('questionsAnswered').val() <= 30 && newData.child('category').isString() && newData.child('category').val().length <= 60 && newData.child('date').isString() && newData.child('date').val().length <= 40",
+        ".write": "(!data.exists() && newData.exists()) || (data.exists() && newData.exists() && auth != null && data.child('uid').val() === auth.uid && newData.child('uid').val() === auth.uid && newData.child('id').val() === data.child('id').val() && newData.child('score').val() === data.child('score').val() && newData.child('questionsAnswered').val() === data.child('questionsAnswered').val() && newData.child('category').val() === data.child('category').val() && newData.child('date').val() === data.child('date').val())",
+        ".validate": "(!newData.child('uid').exists() || (auth != null && newData.child('uid').val() === auth.uid)) && newData.hasChildren(['id', 'name', 'score', 'questionsAnswered', 'category', 'date']) &&newData.child('id').isString() && newData.child('id').val().length <= 40 && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 200 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 30000 && newData.child('questionsAnswered').isNumber() && newData.child('questionsAnswered').val() >= 1 && newData.child('questionsAnswered').val() <= 30 && newData.child('category').isString() && newData.child('category').val().length <= 60 && newData.child('date').isString() && newData.child('date').val().length <= 40",
         "id": {
           ".validate": true
         },
@@ -89,6 +89,9 @@
           ".validate": true
         },
         "questionsAnswered": {
+          ".validate": true
+        },
+        "uid": {
           ".validate": true
         },
         "category": {
@@ -115,7 +118,7 @@
           "score"
         ],
         "$id": {
-          ".write": "!data.exists() && newData.exists() && $date.matches(/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/) && (!$id.beginsWith('u_') || (auth != null && $id === 'u_' + auth.uid))",
+          ".write": "(!data.exists() && newData.exists() && $date.matches(/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/) && (!$id.beginsWith('u_') || (auth != null && $id === 'u_' + auth.uid))) || (data.exists() && newData.exists() && auth != null && $id === 'u_' + auth.uid && newData.child('score').val() === data.child('score').val())",
           ".validate": "newData.hasChildren(['name', 'score']) && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 30 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 5000",
           "name": {
             ".validate": true
