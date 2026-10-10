@@ -53,3 +53,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** Calibrate tab (operator only) in `Estimator_Quiz/index.html`: `// ===== CALIBRATE (operator) =====`.
 - **Verified how:** phone-view WebKit 393px and 1440px, local server, operator mode forced and the save stubbed: all 1,337 questions cycled, buttons stayed at the same height for every question, no page scroll, done screen with tally, Recalibrate went back to "1 of 1,337" on round 2; tab hidden for non-operators. `node --check` passed.
 - **Open:** real save under Tim's login; then read `/calibration` and report the pattern.
+
+## 2026-10-09 · "Practice test" name and Player view switch (same chat)
+- **Asked:** "could you rename the "estimation" button in the test menu as "Practice test". Additionally for the opperator make a "non-operator" view button that you can switch in and out of in the top left so I can better know how everything looks without loging out."
+- **Decided (Claude):** button labelled by what a tap switches to ("Player view" / "Operator view"); in player view `isOperator` is false so the site behaves exactly like a player's, and the bottom-left "Operator Login" switches back instead of opening Google; a refresh returns to operator view. Only the card name changed: the intro heading "Estimation Test" and the Account list label "Estimation" were left (Tim named only the button).
+- **Built:** `.view-btn` + `togglePlayerView()` / `applyOperatorView()` (`operatorSignedIn`, `playerView`) in `Estimator_Quiz/index.html`; card name "Practice test".
+- **Verified how:** phone-view WebKit 393px and 1440px, local server, operator sign-in simulated with `setOperatorMode(true)`: button hidden for players; from the Calibrate tab, Player view hid the operator tabs and moved to Test; switching back by the button and by Operator Login both restored them; button clears the title and profile icon at 393px with either label. `node --check` passed.
+- **Open:** not seen under Tim's real login.

@@ -637,6 +637,30 @@
             color: #fff;
         }
 
+        .view-btn {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 15px;
+            padding: 8px 15px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid #667eea;
+            border-radius: 20px;
+            color: #667eea;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        body.operator-signed-in .view-btn {
+            display: block;
+        }
+
+        .view-btn:hover {
+            background: rgba(102, 126, 234, 0.35);
+        }
+
         body.operator-mode .login-btn {
             background: rgba(102, 126, 234, 0.2);
             border-color: #667eea;
@@ -1889,6 +1913,13 @@
                 font-size: 0.85em;
             }
 
+            .view-btn {
+                top: 8px;
+                left: 10px;
+                padding: 5px 11px;
+                font-size: 0.75em;
+            }
+
             .calibrate-box {
                 padding: 18px 12px;
             }
@@ -2160,7 +2191,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <div class="test-mode-options">
                     <div class="test-mode-option selected" onclick="selectTestMode('estimation', this)">
                         <div class="mode-icon">🎯</div>
-                        <div class="mode-name">Estimation</div>
+                        <div class="mode-name">Practice test</div>
                         <div class="mode-desc">Enter your best guess for numerical questions</div>
                     </div>
                 </div>
@@ -2281,6 +2312,9 @@ Population of Tokyo?, 13960000"></textarea>
 
     <!-- Notification -->
     <div class="notification" id="notification"></div>
+
+    <!-- Operator only: switch between operator view and what players see -->
+    <button class="view-btn" id="view-btn" onclick="togglePlayerView()">Player view</button>
 
     <!-- Login Button -->
     <button class="login-btn" id="login-btn" onclick="toggleLoginModal()">
@@ -2415,6 +2449,9 @@ Population of Tokyo?, 13960000"></textarea>
             if (isOperator) {
                 // Already logged in - log out
                 logoutOperator();
+            } else if (operatorSignedIn) {
+                // In player view: the operator is already signed in, so just switch back
+                togglePlayerView();
             } else {
                 attemptLogin();
             }
@@ -2440,10 +2477,31 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function setOperatorMode(on) {
-            isOperator = on;
+            operatorSignedIn = on;
+            if (!on) playerView = false;
             setCalibrationListener(on);
-            document.body.classList.toggle('operator-mode', on);
-            document.getElementById('login-btn-text').textContent = on ? 'Logout' : 'Operator Login';
+            applyOperatorView();
+        }
+
+        // Player view: the signed-in operator sees the site exactly as a player does
+        // (isOperator is false) until they switch back. Nothing is signed out.
+        let operatorSignedIn = false;
+        let playerView = false;
+
+        function applyOperatorView() {
+            isOperator = operatorSignedIn && !playerView;
+            document.body.classList.toggle('operator-mode', isOperator);
+            document.body.classList.toggle('operator-signed-in', operatorSignedIn);
+            document.getElementById('login-btn-text').textContent = isOperator ? 'Logout' : 'Operator Login';
+            document.getElementById('view-btn').textContent = playerView ? 'Operator view' : 'Player view';
+        }
+
+        function togglePlayerView() {
+            if (!operatorSignedIn) return;
+            playerView = !playerView;
+            applyOperatorView();
+            const tab = document.querySelector('.tab-btn.active');
+            if (playerView && tab && tab.classList.contains('admin-only')) switchTab('test');
         }
 
         function logoutOperator() {
