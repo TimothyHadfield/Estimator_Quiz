@@ -17,6 +17,7 @@ Before that: improve the question set ("The most important thing with this app a
 | App (single `Estimator_Quiz/index.html`) | live | Daily Quiz, Estimation tests (10/20/30, all questions), one leaderboard, report-a-question, Info tab. Which is Bigger? and category choice removed 2026-10-09 |
 | Daily Quiz | live 2026-10-09 | 5 questions from `daily/<local date>/q` (copies of key, text, answer), multiplier 1, writes no question stats, one try per browser / per account. Results: squares, Share (share sheet on phones, copy on laptops), Today board from `dailyScores/<date>`. Schedule runs to 2026-12-08, then a date-seeded pick takes over |
 | Accounts | live 2026-10-09 | Firebase Auth email+password and Google (popup). Profile button top-right → Account panel. `users/<uid>` = name, created, daily/<date>, tests/<id>; private to the user. Device results merge into the account on sign-in |
+| Calibrate tab (operator) | live 2026-10-09, saving NOT verified | Shows question + answer with Good / Alright / Bad / Skip. Saves `calibration/ratings/<question key>` = `{r, p, t}` (rating, round, time); `calibration/pass` = current round. A question is done when its rating's `p` equals the round, so it resumes by itself; "Recalibrate" on the done screen adds 1 to the round (old ratings stay until overwritten). Private (root rule: owner only), no rules change. Read with `firebase database:get /calibration`. Follow-up owed: when Tim has rated a batch, report what type of questions to look for |
 | Records | erased 2026-10-09 | Tim: "erase all current records." `records` (6) and `compareRecords` (1) deleted; copy in `backups/db-full-2026-10-09-before-accounts.json` |
 | Operator (admin) mode | live | Google sign-in; only `timhadfield7@gmail.com` gets the Categories and Questions tabs. Rules enforce the same email |
 | Firebase Realtime Database | live | project `estimator-quiz`, free plan. Holds questions, stats, leaderboards |
@@ -80,6 +81,7 @@ Before that: improve the question set ("The most important thing with this app a
 - D4 · 2026-10-09 · Committed `question-banks/` to the public repo (question text is already publicly readable from the database; no private data in them).
 
 ## NOT verified
+- Calibrate tab saving with Tim's operator login (2026-10-09): the flow was run headlessly with the save stubbed; that the owner's write to `calibration/` is accepted is reasoned from the rules (root owner write, no validate), not measured. No undo for a mis-tap (not asked).
 - Google sign-in for a normal player, the phone share sheet, and the password-reset email (none can be run headlessly). Daily and accounts on Tim's real iPhone.
 - Operator mode after the auth changes (needs Tim's Google login): the owner check is unchanged code, but nobody has logged in as operator since.
 - A daily left half-finished and continued after a reload (progress is saved per answer; only finished-state reloads were checked).

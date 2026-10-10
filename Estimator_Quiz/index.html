@@ -746,6 +746,62 @@
             cursor: default;
         }
 
+        .calibrate-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        body.operator-mode.calibrating .current-category-banner {
+            display: none !important;
+        }
+
+        .calibrate-count {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .calibrate-question {
+            font-size: 1.6em;
+            line-height: 1.4;
+            min-height: 4.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0 10px;
+        }
+
+        .calibrate-answer {
+            font-size: 1.3em;
+            color: #4caf50;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .calibrate-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .calibrate-buttons .btn {
+            padding: 16px 5px;
+        }
+
+        .calibrate-alright {
+            background: linear-gradient(135deg, #ffb300, #f57c00);
+            color: white;
+        }
+
+        .calibrate-tally {
+            color: #aaa;
+            margin: 15px 0 25px;
+        }
+
         .report-modal {
             display: none;
             position: fixed;
@@ -1833,6 +1889,29 @@
                 font-size: 0.85em;
             }
 
+            .calibrate-box {
+                padding: 18px 12px;
+            }
+
+            .calibrate-question {
+                font-size: 1.15em;
+                min-height: 5.6em;
+                margin: 8px 0;
+            }
+
+            .calibrate-answer {
+                margin-bottom: 16px;
+            }
+
+            .calibrate-buttons {
+                gap: 6px;
+            }
+
+            .calibrate-buttons .btn {
+                padding: 14px 2px;
+                font-size: 0.95em;
+            }
+
             .test-intro, .test-question-container, .final-results {
                 padding: 25px;
             }
@@ -1867,6 +1946,7 @@
             <button class="tab-btn" onclick="switchTab('info')">Info</button>
             <button class="tab-btn admin-only" onclick="switchTab('categories')">Categories</button>
             <button class="tab-btn admin-only" onclick="switchTab('questions')">Questions</button>
+            <button class="tab-btn admin-only" onclick="switchTab('calibrate')">Calibrate</button>
             <button class="tab-btn active" onclick="switchTab('test')">Test</button>
             <button class="tab-btn" onclick="switchTab('records')">Records</button>
         </div>
@@ -2041,6 +2121,28 @@ Population of Tokyo?, 13960000"></textarea>
                 <ul class="questions-list" id="questions-list">
                     <!-- Questions will be rendered here -->
                 </ul>
+            </div>
+        </div>
+
+        <!-- Calibrate Tab (operator): rate every question good / alright / bad -->
+        <div id="calibrate-tab" class="tab-content">
+            <div class="calibrate-box">
+                <div id="calibrate-card">
+                    <div class="calibrate-count" id="calibrate-count"></div>
+                    <div class="calibrate-question" id="calibrate-question"></div>
+                    <div class="calibrate-answer" id="calibrate-answer"></div>
+                    <div class="calibrate-buttons">
+                        <button class="btn btn-success" onclick="calibrateRate('good')">Good</button>
+                        <button class="btn calibrate-alright" onclick="calibrateRate('alright')">Alright</button>
+                        <button class="btn btn-danger" onclick="calibrateRate('bad')">Bad</button>
+                        <button class="btn btn-secondary" onclick="calibrateRate('skip')">Skip</button>
+                    </div>
+                </div>
+                <div id="calibrate-done" style="display: none;">
+                    <h2>All questions calibrated</h2>
+                    <div class="calibrate-tally" id="calibrate-tally"></div>
+                    <button class="btn btn-primary" onclick="calibrateRestart()">Recalibrate</button>
+                </div>
             </div>
         </div>
 
@@ -2339,6 +2441,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         function setOperatorMode(on) {
             isOperator = on;
+            setCalibrationListener(on);
             document.body.classList.toggle('operator-mode', on);
             document.getElementById('login-btn-text').textContent = on ? 'Logout' : 'Operator Login';
         }
@@ -2382,6 +2485,86 @@ Population of Tokyo?, 13960000"></textarea>
                 }
                 onAccountChanged(user);
             });
+        }
+
+        // ===== CALIBRATE (operator) =====
+        // The operator rates every question good / alright / bad, or skips it. Ratings live in
+        // calibration/ratings/<question key> = {r, p, t}; calibration/pass is the current round.
+        // A question is done for this round when its rating carries the round's number, so
+        // stopping and coming back resumes, and Recalibrate starts a new round without erasing.
+
+        let calibration = { pass: 1, ratings: {} };
+        let calibrationRef = null;
+        let calibrationLoaded = false;
+
+        function setCalibrationListener(on) {
+            if (calibrationRef) calibrationRef.off();
+            calibrationRef = null;
+            calibrationLoaded = false;
+            if (!on) return;
+            calibrationRef = database.ref('calibration');
+            calibrationRef.on('value', snapshot => {
+                const data = snapshot.val() || {};
+                calibration = { pass: data.pass || 1, ratings: data.ratings || {} };
+                calibrationLoaded = true;
+                renderCalibrate();
+            }, err => console.warn('Could not load calibration:', err));
+        }
+
+        function calibrateQueue() {
+            return questions
+                .filter(q => {
+                    const rating = calibration.ratings[q._key];
+                    return !rating || rating.p !== calibration.pass;
+                })
+                .sort((a, b) => String(a._key) < String(b._key) ? -1 : 1);
+        }
+
+        function renderCalibrate() {
+            const card = document.getElementById('calibrate-card');
+            const done = document.getElementById('calibrate-done');
+            if (!calibrationLoaded || questions.length === 0) {
+                card.style.display = 'none';
+                done.style.display = 'none';
+                return;
+            }
+            const queue = calibrateQueue();
+            card.style.display = queue.length ? 'block' : 'none';
+            done.style.display = queue.length ? 'none' : 'block';
+
+            if (queue.length) {
+                const total = questions.length;
+                document.getElementById('calibrate-count').textContent =
+                    `${(total - queue.length + 1).toLocaleString('en-US')} of ${total.toLocaleString('en-US')}`;
+                document.getElementById('calibrate-question').textContent = queue[0].text;
+                document.getElementById('calibrate-answer').textContent = Number(queue[0].answer).toLocaleString('en-US');
+                card.dataset.key = queue[0]._key;
+                return;
+            }
+
+            const tally = { good: 0, alright: 0, bad: 0, skip: 0 };
+            questions.forEach(q => {
+                const rating = calibration.ratings[q._key];
+                if (rating && tally[rating.r] !== undefined) tally[rating.r]++;
+            });
+            document.getElementById('calibrate-tally').textContent =
+                `Good ${tally.good} · Alright ${tally.alright} · Bad ${tally.bad} · Skipped ${tally.skip}`;
+        }
+
+        function calibrateRate(rating) {
+            const key = document.getElementById('calibrate-card').dataset.key;
+            if (!isOperator || !key) return;
+            calibrateWrite('ratings/' + key, { r: rating, p: calibration.pass, t: Date.now() });
+        }
+
+        function calibrateRestart() {
+            if (!isOperator) return;
+            calibrateWrite('pass', calibration.pass + 1);
+        }
+
+        // The listener above redraws straight away (Firebase reports its own writes locally)
+        function calibrateWrite(path, value) {
+            dbWrite(database.ref('calibration/' + path).set(value));
         }
 
         // ===== ACCOUNTS =====
@@ -3987,6 +4170,7 @@ Population of Tokyo?, 13960000"></textarea>
 
             document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
             document.getElementById(`${tabName}-tab`).classList.add('active');
+            document.body.classList.toggle('calibrating', tabName === 'calibrate');
 
             // Check if leaving an active test (a daily quiz keeps its progress and can be continued)
             if (tabName !== 'test' && testState.isActive && testState.isDaily) {
@@ -4144,6 +4328,7 @@ Population of Tokyo?, 13960000"></textarea>
                     if (q.reports) q.reports = q.reports.filter(Boolean);
                 });
                 renderQuestions();
+                renderCalibrate();
             });
 
             // Listen for categories changes

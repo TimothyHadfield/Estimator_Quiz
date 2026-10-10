@@ -46,3 +46,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** Forgot password waits 60 s between sends and reports rate-limit / no-connection honestly; message "Reset link sent. Use the newest email only."; backdrop close needs the press to start outside and no box focused.
 - **Verified how:** phone-view WebKit 393px and 1440px on a local server: drag-out and outside-tap-while-typing leave the panel open, outside tap with nothing focused closes it, second Forgot tap shows "Link already sent. Use the newest email." `node --check` passed.
 - **Open:** not confirmed that stale links were Tim's actual cause (can't see his mailbox); if the newest email still fails, next step is a reset form inside the site.
+
+## 2026-10-09 · Calibrate tab for the operator (same chat)
+- **Asked:** "for the opperator, add a calibrate questions tab which just says the question and answer and then a button that says "good", "bad", "alright", or "skip" and I just have to click on of them and it cycles through every single one. and if I want to stop I can or resume when I come back I also can. Once I've calibrated everything it will tell me. then I can recalibrate If I want aswell."
+- **Decided (Claude):** ratings in a private `calibration` node, not on the questions (keeps the public download small); Skip is saved too, so "everything calibrated" is reachable and skips are counted; Recalibrate starts a new round instead of erasing; fixed order by question key; a small "5 of 1,337" counter; four buttons in one row; the "Adding questions to" banner is hidden on this tab so it fits a phone.
+- **Built:** Calibrate tab (operator only) in `Estimator_Quiz/index.html`: `// ===== CALIBRATE (operator) =====`.
+- **Verified how:** phone-view WebKit 393px and 1440px, local server, operator mode forced and the save stubbed: all 1,337 questions cycled, buttons stayed at the same height for every question, no page scroll, done screen with tally, Recalibrate went back to "1 of 1,337" on round 2; tab hidden for non-operators. `node --check` passed.
+- **Open:** real save under Tim's login; then read `/calibration` and report the pattern.
