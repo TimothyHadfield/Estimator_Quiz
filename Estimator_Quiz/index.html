@@ -1890,6 +1890,95 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
+        .info-open-btn, .info-close {
+            display: none;
+        }
+
+        /* Laptop, player view: no tab bar. The test and the leaderboard sit side by side,
+           and Info opens over the page. Phones and the operator keep the tabs. */
+        @media (min-width: 900px) {
+            body:not(.operator-mode) .container {
+                max-width: 1250px;
+                display: grid;
+                grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+                gap: 0 20px;
+                align-content: start;
+                align-items: start;
+            }
+
+            body:not(.operator-mode) header {
+                grid-column: 1 / -1;
+                margin-bottom: 10px;
+            }
+
+            body:not(.operator-mode) .tabs,
+            body:not(.operator-mode) #categories-tab,
+            body:not(.operator-mode) #questions-tab,
+            body:not(.operator-mode) #calibrate-tab,
+            body:not(.operator-mode) #info-tab {
+                display: none;
+            }
+
+            body:not(.operator-mode) #test-tab {
+                display: block;
+                grid-column: 1;
+            }
+
+            body:not(.operator-mode) #records-tab {
+                display: block;
+                grid-column: 2;
+            }
+
+            body:not(.operator-mode) .leaderboard {
+                max-height: calc(100vh - 340px);
+                overflow-y: auto;
+            }
+
+            body:not(.operator-mode) .info-open-btn {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 8px 15px;
+                background: rgba(255,255,255,0.1);
+                border: 1px solid rgba(255,255,255,0.2);
+                border-radius: 20px;
+                color: #ccc;
+                font-size: 0.85em;
+                cursor: pointer;
+                transition: all 0.3s;
+                z-index: 1000;
+            }
+
+            body:not(.operator-mode) .info-open-btn:hover {
+                background: rgba(255,255,255,0.2);
+                color: #fff;
+            }
+
+            body.info-open:not(.operator-mode) #info-tab {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 2000;
+                overflow-y: auto;
+                background: rgba(20, 22, 44, 0.97);
+                padding: 30px 20px;
+            }
+
+            body.info-open:not(.operator-mode) #info-tab .info-section {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            body.info-open:not(.operator-mode) .info-close {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 30px;
+                z-index: 2001;
+            }
+        }
+
         @media (max-width: 768px) {
             .daily-card {
                 padding: 15px;
@@ -1983,7 +2072,8 @@
         </div>
 
         <!-- Info Tab -->
-        <div id="info-tab" class="tab-content">
+        <div id="info-tab" class="tab-content" onclick="if(event.target===this)closeInfo()">
+            <button class="btn btn-secondary info-close" onclick="closeInfo()">Close</button>
             <div class="info-section">
                 <h2>How It Works</h2>
                 <div class="info-content">
@@ -2315,6 +2405,9 @@ Population of Tokyo?, 13960000"></textarea>
 
     <!-- Operator only: switch between operator view and what players see -->
     <button class="view-btn" id="view-btn" onclick="togglePlayerView()">Player view</button>
+
+    <!-- Laptop player view only: opens the Info details over the page -->
+    <button class="info-open-btn" onclick="openInfo()">Learn about the quiz</button>
 
     <!-- Login Button -->
     <button class="login-btn" id="login-btn" onclick="toggleLoginModal()">
@@ -4222,7 +4315,21 @@ Population of Tokyo?, 13960000"></textarea>
 
         // ===== UTILITY FUNCTIONS =====
 
+        // Laptop player view has no tabs: Info opens over the page instead (see the CSS)
+        function openInfo() {
+            document.body.classList.add('info-open');
+        }
+
+        function closeInfo() {
+            document.body.classList.remove('info-open');
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeInfo();
+        });
+
         function switchTab(tabName) {
+            closeInfo();
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 
