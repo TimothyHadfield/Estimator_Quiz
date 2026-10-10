@@ -640,26 +640,6 @@
             display: flex !important;
         }
 
-        .login-btn {
-            position: absolute;
-            top: 18px;
-            right: 67px;
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            color: #888;
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .login-btn:hover {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-        }
-
         .view-btn {
             display: none;
             position: absolute;
@@ -682,12 +662,6 @@
 
         .view-btn:hover {
             background: rgba(102, 126, 234, 0.35);
-        }
-
-        body.operator-mode .login-btn {
-            background: rgba(102, 126, 234, 0.2);
-            border-color: #667eea;
-            color: #667eea;
         }
 
         /* Login Modal */
@@ -2142,8 +2116,7 @@
                 padding: 5px 0 10px;
             }
 
-            body.answering header p,
-            body.answering .login-btn {
+            body.answering header p {
                 display: none;
             }
 
@@ -2168,13 +2141,6 @@
             .view-btn {
                 top: 8px;
                 left: 10px;
-                padding: 5px 11px;
-                font-size: 0.75em;
-            }
-
-            .login-btn {
-                top: 8px;
-                right: 62px;
                 padding: 5px 11px;
                 font-size: 0.75em;
             }
@@ -2614,11 +2580,6 @@ Population of Tokyo?, 13960000"></textarea>
     <button class="info-open-btn" onclick="openInfo()">Learn about the quiz</button>
     <button class="calibrate-open-btn" onclick="openCalibrate()">Calibrate questions</button>
 
-    <!-- Login Button -->
-    <button class="login-btn" id="login-btn" onclick="toggleLoginModal()">
-        <span id="login-btn-text">Operator Login</span>
-    </button>
-
     <!-- Profile button and Account panel -->
     <button class="profile-btn" id="profile-btn" onclick="openAccountModal()" aria-label="Account">
         <svg id="profile-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z"/></svg>
@@ -2743,36 +2704,8 @@ Population of Tokyo?, 13960000"></textarea>
 
         // ===== OPERATOR LOGIN SYSTEM =====
 
-        function toggleLoginModal() {
-            if (isOperator) {
-                // Already logged in - log out
-                logoutOperator();
-            } else if (operatorSignedIn) {
-                // In player view: the operator is already signed in, so just switch back
-                togglePlayerView();
-            } else {
-                attemptLogin();
-            }
-        }
-
-        function attemptLogin() {
-            loginRequested = true;
-            const provider = new firebase.auth.GoogleAuthProvider();
-            provider.setCustomParameters({ prompt: 'select_account' });
-            auth.signInWithPopup(provider).catch(err => {
-                const code = err && err.code;
-                if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment') {
-                    // Popups blocked (e.g. iPhone home-screen app): use a full-page redirect instead
-                    try { sessionStorage.setItem('estimatorQuizLoginRedirect', '1'); } catch (e) {}
-                    return auth.signInWithRedirect(provider);
-                }
-                loginRequested = false;
-                if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
-                    console.warn('Sign-in failed:', err);
-                    showNotification('Sign-in failed', 'error');
-                }
-            });
-        }
+        // There is no operator button: the owner signs in through the account circle like
+        // anyone else, and the sign-in listener below turns operator mode on for that account.
 
         function setOperatorMode(on) {
             operatorSignedIn = on;
@@ -2789,7 +2722,6 @@ Population of Tokyo?, 13960000"></textarea>
             isOperator = operatorSignedIn && !playerView;
             document.body.classList.toggle('operator-mode', isOperator);
             document.body.classList.toggle('operator-signed-in', operatorSignedIn);
-            document.getElementById('login-btn-text').textContent = isOperator ? 'Logout' : 'Operator Login';
             document.getElementById('view-btn').textContent = playerView ? 'Operator view' : 'Player view';
         }
 
@@ -2799,10 +2731,6 @@ Population of Tokyo?, 13960000"></textarea>
             applyOperatorView();
             const tab = document.querySelector('.tab-btn.active');
             if (playerView && tab && tab.classList.contains('admin-only')) switchTab('test');
-        }
-
-        function logoutOperator() {
-            auth.signOut().then(() => showNotification('Logged out', 'info'));
         }
 
         function checkOperatorSession() {
