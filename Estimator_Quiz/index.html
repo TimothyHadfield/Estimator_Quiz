@@ -1426,11 +1426,14 @@
         }
 
         .records-filter select {
-            padding: 10px 20px;
-            border: none;
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 10px 40px 10px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 20px;
-            background: rgba(255,255,255,0.1);
+            background: #2a2f52 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 15px center;
             color: white;
+            font-family: inherit;
             font-size: 1em;
             cursor: pointer;
         }
@@ -2331,7 +2334,7 @@ Population of Tokyo?, 13960000"></textarea>
             <div class="test-mode-selection" id="test-mode-selection">
                 <div class="daily-card" id="daily-card" onclick="openDaily()">
                     <div>
-                        <div class="daily-card-title">Daily Quiz <span id="daily-card-number"></span></div>
+                        <div class="daily-card-title">Daily Quiz <span id="daily-card-number" style="white-space: nowrap;"></span></div>
                         <div class="daily-card-sub" id="daily-card-sub">5 questions · same for everyone</div>
                     </div>
                     <button class="btn btn-primary" id="daily-card-btn">Play</button>
@@ -2447,6 +2450,9 @@ Population of Tokyo?, 13960000"></textarea>
             <!-- Estimation Records -->
             <div class="records-section" id="estimation-records-section">
                 <h2>Leaderboard</h2>
+                <div class="records-filter">
+                    <select id="leaderboard-view" onchange="renderRecords()" aria-label="Leaderboard to show"></select>
+                </div>
                 <ul class="leaderboard" id="leaderboard">
                     <!-- Records will be rendered here -->
                 </ul>
@@ -2880,7 +2886,7 @@ Population of Tokyo?, 13960000"></textarea>
                     `Streak: ${streak} day${streak !== 1 ? 's' : ''} · Played: ${dates.length}`;
                 document.getElementById('account-daily-list').innerHTML = dates.length === 0
                     ? '<li>No daily quizzes yet</li>'
-                    : dates.map(date => `<li><span>#${dailyNumber(date)} · ${date}</span><span>${dailyScoreText(daily[date])}</span></li>`).join('');
+                    : dates.map(date => `<li><span>${dailyLabel(date)}</span><span>${dailyScoreText(daily[date])}</span></li>`).join('');
 
                 const tests = Object.values((accountData && accountData.tests) || {}).sort((a, b) => b.date - a.date);
                 document.getElementById('account-tests-list').innerHTML = tests.length === 0
@@ -2893,6 +2899,7 @@ Population of Tokyo?, 13960000"></textarea>
             }
 
             renderDailyCard();
+            renderRecords();
         }
 
         function openAccountModal() {
@@ -3064,6 +3071,14 @@ Population of Tokyo?, 13960000"></textarea>
             return dailyDayIndex(date) - dailyDayIndex(DAILY_FIRST_DAY) + 1;
         }
 
+        // How a daily quiz is named everywhere: "2026-10-09" -> "Oct. 9, 2026"
+        const DAILY_MONTHS = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+
+        function dailyLabel(date) {
+            const [y, m, d] = date.split('-').map(Number);
+            return `${DAILY_MONTHS[m - 1]} ${d}, ${y}`;
+        }
+
         function dailyQuestionMax(text) {
             return text.toLowerCase().includes('percentage') ? 100 : 1000;
         }
@@ -3119,7 +3134,7 @@ Population of Tokyo?, 13960000"></textarea>
         function renderDailyCard() {
             const date = dailyToday();
             const entry = dailyLocal[date];
-            document.getElementById('daily-card-number').textContent = '#' + dailyNumber(date);
+            document.getElementById('daily-card-number').textContent = dailyLabel(date);
             const sub = document.getElementById('daily-card-sub');
             const btn = document.getElementById('daily-card-btn');
             if (entry && entry.done) {
@@ -3191,7 +3206,7 @@ Population of Tokyo?, 13960000"></textarea>
                 runDaily(date, entry.name);
             } else {
                 hideTestScreens();
-                document.getElementById('daily-intro-number').textContent = '#' + dailyNumber(date);
+                document.getElementById('daily-intro-number').textContent = dailyLabel(date);
                 const nameInput = document.getElementById('daily-player-name');
                 let lastName = '';
                 try { lastName = localStorage.getItem('estimatorQuizName') || ''; } catch (e) {}
@@ -3253,7 +3268,7 @@ Population of Tokyo?, 13960000"></textarea>
 
                 hideTestScreens();
                 document.getElementById('test-question-container').style.display = 'block';
-                document.getElementById('test-categories').textContent = `Daily Quiz #${dailyNumber(date)}`;
+                document.getElementById('test-categories').textContent = `Daily Quiz ${dailyLabel(date)}`;
                 document.getElementById('next-question-btn').textContent = 'Next Question';
                 displayCurrentQuestion();
             }).catch(err => {
@@ -3301,7 +3316,7 @@ Population of Tokyo?, 13960000"></textarea>
 
             hideTestScreens();
             document.getElementById('final-results').style.display = 'block';
-            document.getElementById('final-title').textContent = `Daily Quiz #${dailyNumber(date)}`;
+            document.getElementById('final-title').textContent = `Daily Quiz ${dailyLabel(date)}`;
             document.getElementById('final-score').textContent = Math.round(entry.score).toLocaleString('en-US');
             document.getElementById('final-score-label').textContent = `out of ${Number(entry.max).toLocaleString('en-US')}`;
             document.getElementById('final-categories').textContent = '';
@@ -3350,7 +3365,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         function dailyShareText(date) {
             const entry = dailyLocal[date];
-            return `Estimator Quiz #${dailyNumber(date)}\n${dailyScoreText(entry)}\n${dailySquares(entry)}\n${location.origin}${location.pathname}`;
+            return `Estimator Quiz ${dailyLabel(date)}\n${dailyScoreText(entry)}\n${dailySquares(entry)}\n${location.origin}${location.pathname}`;
         }
 
         function shareDaily() {
@@ -4332,8 +4347,77 @@ Population of Tokyo?, 13960000"></textarea>
             `}).join('');
         }
 
+        // The leaderboard shows one of: a day's daily quiz scores (today by default), every
+        // player's all-time average daily score, or the practice test records.
+        let dailyScoresAll = {};   // dailyScores/<date>/<id> = {name, score}
+
+        function leaderboardRows(rows, emptyTitle, emptyText) {
+            if (rows.length === 0) {
+                return `<div class="no-records"><h3>${emptyTitle}</h3><p>${emptyText}</p></div>`;
+            }
+            return rows.map((row, i) => {
+                const medal = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                return `
+                    <li class="leaderboard-item ${medal} ${row.mine ? 'mine' : ''}">
+                        <span class="rank ${medal}">#${i + 1}</span>
+                        <div class="leaderboard-info">
+                            <div class="leaderboard-name">${escapeHtml(String(row.name))}</div>
+                            ${row.meta ? `<div class="leaderboard-meta">${row.meta}</div>` : ''}
+                        </div>
+                        <span class="leaderboard-score">${Math.round(row.score).toLocaleString('en-US')}</span>
+                    </li>
+                `;
+            }).join('');
+        }
+
         function renderRecords() {
             const list = document.getElementById('leaderboard');
+            const select = document.getElementById('leaderboard-view');
+            const today = dailyToday();
+            const myId = currentUser ? 'u_' + currentUser.uid : null;
+
+            // Days that have scores, newest first, with today always on top
+            const dates = Object.keys(dailyScoresAll)
+                .filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date) && date < today)
+                .sort().reverse();
+            dates.unshift(today);
+            const wanted = select.value || today;
+            select.innerHTML = dates.map(date =>
+                `<option value="${date}">${date === today ? 'Today · ' : ''}${dailyLabel(date)}</option>`).join('') +
+                '<option value="average">All-time average</option><option value="practice">Practice tests</option>';
+            select.value = wanted === 'average' || wanted === 'practice' || dates.includes(wanted) ? wanted : today;
+            const view = select.value;
+
+            if (view === 'average') {
+                // One row per player: accounts by their id, name-only players by the name they typed
+                const players = {};
+                dates.forEach(date => {
+                    Object.entries(dailyScoresAll[date] || {}).forEach(([id, row]) => {
+                        if (!row || typeof row.score !== 'number') return;
+                        const key = id.startsWith('u_') ? id : 'n_' + String(row.name).trim().toLowerCase();
+                        const player = players[key] || (players[key] = { name: row.name, total: 0, days: 0, last: '', mine: key === myId });
+                        player.total += row.score;
+                        player.days++;
+                        if (date >= player.last) { player.last = date; player.name = row.name; }
+                    });
+                });
+                const rows = Object.values(players)
+                    .map(p => ({ name: p.name, score: p.total / p.days, meta: `${p.days} day${p.days !== 1 ? 's' : ''}`, mine: p.mine }))
+                    .sort((a, b) => b.score - a.score).slice(0, 50);
+                list.innerHTML = leaderboardRows(rows, 'No scores yet', 'Play the daily quiz to appear here.');
+                return;
+            }
+
+            if (view !== 'practice') {
+                const mine = [myId, (dailyLocal[view] || {}).id].filter(Boolean);
+                const rows = Object.entries(dailyScoresAll[view] || {})
+                    .filter(([, row]) => row && typeof row.score === 'number')
+                    .map(([id, row]) => ({ name: row.name, score: row.score, mine: mine.includes(id) }))
+                    .sort((a, b) => b.score - a.score).slice(0, 50);
+                list.innerHTML = leaderboardRows(rows, 'No scores yet', 'Play the daily quiz to appear here.');
+                return;
+            }
+
             const filter = '';
             const filteredRecords = records;
 
@@ -4618,6 +4702,12 @@ Population of Tokyo?, 13960000"></textarea>
                 categories = data ? Object.values(data).filter(Boolean) : [];
                 renderCategoryCards();
                 updateCategorySelects();
+            });
+
+            // Daily quiz scores for every day (the leaderboard's day and all-time average views)
+            database.ref('dailyScores').on('value', (snapshot) => {
+                dailyScoresAll = snapshot.val() || {};
+                renderRecords();
             });
 
             // Listen for records changes
