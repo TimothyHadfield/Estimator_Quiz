@@ -129,6 +129,40 @@
         }
       }
     },
+    "calibration": {
+      "users": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid",
+          "name": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 30"
+          },
+          "pass": {
+            ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 1000"
+          },
+          "ratings": {
+            "$q": {
+              ".validate": "newData.hasChildren(['r', 'p', 't']) && newData.child('r').isString() && newData.child('r').val().matches(/^(good|alright|bad|skip)$/) && newData.child('p').isNumber() && newData.child('t').isNumber() && root.child('questions').child($q).child('text').exists()",
+              "r": {
+                ".validate": true
+              },
+              "p": {
+                ".validate": true
+              },
+              "t": {
+                ".validate": true
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
     "users": {
       "$uid": {
         ".read": "auth != null && auth.uid === $uid",

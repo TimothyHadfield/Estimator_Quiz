@@ -630,6 +630,16 @@
             display: none !important;
         }
 
+        /* Shown to anyone signed in to an account (and to the operator) */
+        .account-only {
+            display: none !important;
+        }
+
+        body.account-signed-in .account-only,
+        body.operator-mode .account-only {
+            display: flex !important;
+        }
+
         .login-btn {
             position: fixed;
             bottom: 20px;
@@ -1995,7 +2005,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .info-open-btn, .info-close {
+        .info-open-btn, .info-close, .calibrate-open-btn {
             display: none;
         }
 
@@ -2039,7 +2049,8 @@
                 overflow-y: auto;
             }
 
-            body:not(.operator-mode) .info-open-btn {
+            body:not(.operator-mode) .info-open-btn,
+            body.account-signed-in:not(.operator-mode) .calibrate-open-btn {
                 display: block;
                 position: fixed;
                 bottom: 20px;
@@ -2055,11 +2066,22 @@
                 z-index: 1000;
             }
 
-            body:not(.operator-mode) .info-open-btn:hover {
+            body:not(.operator-mode) .info-open-btn:hover,
+            body:not(.operator-mode) .calibrate-open-btn:hover {
                 background: rgba(255,255,255,0.2);
                 color: #fff;
             }
 
+            body.account-signed-in:not(.operator-mode) .calibrate-open-btn {
+                bottom: 62px;
+            }
+
+            body.calibrate-open:not(.operator-mode) #calibrate-tab .calibrate-box {
+                max-width: 800px;
+                margin: 60px auto 0;
+            }
+
+            body.calibrate-open:not(.operator-mode) #calibrate-tab,
             body.info-open:not(.operator-mode) #info-tab {
                 display: block;
                 position: fixed;
@@ -2075,6 +2097,7 @@
                 margin: 0 auto;
             }
 
+            body.calibrate-open:not(.operator-mode) .info-close,
             body.info-open:not(.operator-mode) .info-close {
                 display: block;
                 position: fixed;
@@ -2209,7 +2232,7 @@
             <button class="tab-btn" onclick="switchTab('info')">Info</button>
             <button class="tab-btn admin-only" onclick="switchTab('categories')">Categories</button>
             <button class="tab-btn admin-only" onclick="switchTab('questions')">Questions</button>
-            <button class="tab-btn admin-only" onclick="switchTab('calibrate')">Calibrate</button>
+            <button class="tab-btn account-only" onclick="switchTab('calibrate')">Calibrate</button>
             <button class="tab-btn active" onclick="switchTab('test')">Test</button>
             <button class="tab-btn" onclick="switchTab('records')">Records</button>
         </div>
@@ -2388,8 +2411,9 @@ Population of Tokyo?, 13960000"></textarea>
             </div>
         </div>
 
-        <!-- Calibrate Tab (operator): rate every question good / alright / bad -->
-        <div id="calibrate-tab" class="tab-content">
+        <!-- Calibrate Tab (anyone signed in): rate every question good / alright / bad -->
+        <div id="calibrate-tab" class="tab-content" onclick="if(event.target===this)closeCalibrate()">
+            <button class="btn btn-secondary info-close" onclick="closeCalibrate()">Close</button>
             <div class="calibrate-box">
                 <div id="calibrate-card">
                     <div class="calibrate-count" id="calibrate-count"></div>
@@ -2575,6 +2599,7 @@ Population of Tokyo?, 13960000"></textarea>
 
     <!-- Laptop player view only: opens the Info details over the page -->
     <button class="info-open-btn" onclick="openInfo()">Learn about the quiz</button>
+    <button class="calibrate-open-btn" onclick="openCalibrate()">Calibrate questions</button>
 
     <!-- Login Button -->
     <button class="login-btn" id="login-btn" onclick="toggleLoginModal()">
@@ -2739,7 +2764,6 @@ Population of Tokyo?, 13960000"></textarea>
         function setOperatorMode(on) {
             operatorSignedIn = on;
             if (!on) playerView = false;
-            setCalibrationListener(on);
             applyOperatorView();
         }
 
@@ -2805,22 +2829,33 @@ Population of Tokyo?, 13960000"></textarea>
             });
         }
 
-        // ===== CALIBRATE (operator) =====
-        // The operator rates every question good / alright / bad, or skips it. Ratings live in
-        // calibration/ratings/<question key> = {r, p, t}; calibration/pass is the current round.
+        // ===== CALIBRATE (anyone signed in) =====
+        // Each signed-in person rates every question good / alright / bad, or skips it. Everyone
+        // has their own set: {pass, ratings: {<question key>: {r, p, t}}}, with pass = the round.
+        // The owner's set is calibration/ itself; every other account's is
+        // calibration/users/<uid> (plus their name), readable only by them and the owner.
         // A question is done for this round when its rating carries the round's number, so
         // stopping and coming back resumes, and Recalibrate starts a new round without erasing.
 
         let calibration = { pass: 1, ratings: {} };
         let calibrationRef = null;
         let calibrationLoaded = false;
+        let calibrationOwn = false;   // true when this is the owner's own set
 
-        function setCalibrationListener(on) {
+        function setCalibrationListener(user) {
             if (calibrationRef) calibrationRef.off();
             calibrationRef = null;
             calibrationLoaded = false;
-            if (!on) return;
-            calibrationRef = database.ref('calibration');
+            calibration = { pass: 1, ratings: {} };
+            calibrateKey = null;
+            if (!user) {
+                closeCalibrate();
+                const tab = document.querySelector('.tab-btn.active');
+                if (tab && tab.classList.contains('account-only')) switchTab('test');
+                return;
+            }
+            calibrationOwn = operatorSignedIn;
+            calibrationRef = database.ref(calibrationOwn ? 'calibration' : 'calibration/users/' + user.uid);
             calibrationRef.on('value', snapshot => {
                 const data = snapshot.val() || {};
                 calibration = { pass: data.pass || 1, ratings: data.ratings || {} };
@@ -2891,7 +2926,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         function calibrateRate(rating) {
             const key = document.getElementById('calibrate-card').dataset.key;
-            if (!isOperator || !key) return;
+            if (!calibrationRef || !key) return;
             // Move on to the next question in the list; after the last one, back to whatever is unrated
             const list = calibrateList();
             const next = list[list.findIndex(q => String(q._key) === key) + 1];
@@ -2910,14 +2945,29 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function calibrateRestart() {
-            if (!isOperator) return;
+            if (!calibrationRef) return;
             calibrateKey = null;
             calibrateWrite('pass', calibration.pass + 1);
         }
 
-        // The listener above redraws straight away (Firebase reports its own writes locally)
+        // The listener above redraws straight away (Firebase reports its own writes locally).
+        // A player's set also carries their name, so the owner can tell whose ratings they are.
         function calibrateWrite(path, value) {
-            dbWrite(database.ref('calibration/' + path).set(value));
+            const changes = { [path]: value };
+            if (!calibrationOwn) changes.name = accountName() || 'Player';
+            dbWrite(calibrationRef.update(changes));
+        }
+
+        // Laptop player layout has no tab bar: Calibrate opens over the page, like Info
+        function openCalibrate() {
+            closeInfo();
+            document.body.classList.add('calibrate-open', 'calibrating');
+            renderCalibrate();
+        }
+
+        function closeCalibrate() {
+            if (!document.body.classList.contains('calibrate-open')) return;
+            document.body.classList.remove('calibrate-open', 'calibrating');
         }
 
         // ===== ACCOUNTS =====
@@ -2934,6 +2984,7 @@ Population of Tokyo?, 13960000"></textarea>
             accountRef = null;
             currentUser = user || null;
             accountData = null;
+            setCalibrationListener(currentUser);
 
             if (!user) {
                 accountReady = true;
@@ -2968,6 +3019,7 @@ Population of Tokyo?, 13960000"></textarea>
         function renderAccount() {
             const signedIn = !!currentUser;
             const name = accountName();
+            document.body.classList.toggle('account-signed-in', signedIn);
             document.getElementById('profile-btn').classList.toggle('signed-in', signedIn);
             document.getElementById('profile-icon').style.display = signedIn && name ? 'none' : 'block';
             const initial = document.getElementById('profile-initial');
@@ -4652,6 +4704,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         // Laptop player view has no tabs: Info opens over the page instead (see the CSS)
         function openInfo() {
+            closeCalibrate();
             document.body.classList.add('info-open');
         }
 
@@ -4660,11 +4713,15 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         document.addEventListener('keydown', event => {
-            if (event.key === 'Escape') closeInfo();
+            if (event.key === 'Escape') {
+                closeInfo();
+                closeCalibrate();
+            }
         });
 
         function switchTab(tabName) {
             closeInfo();
+            closeCalibrate();
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 
