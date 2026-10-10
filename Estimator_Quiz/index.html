@@ -2412,9 +2412,9 @@ Population of Tokyo?, 13960000"></textarea>
                     </div>
                 </div>
                 <div id="calibrate-done" style="display: none;">
-                    <h2>All questions calibrated</h2>
+                    <h2>Thank you!</h2>
                     <div class="calibrate-tally" id="calibrate-tally"></div>
-                    <button class="btn btn-primary" onclick="calibrateRestart()">Recalibrate</button>
+                    <button class="btn btn-primary" onclick="calibrateNewChunk()">Calibrate 10 more</button>
                 </div>
             </div>
         </div>
@@ -2771,23 +2771,38 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         // ===== CALIBRATE (anyone signed in) =====
-        // Each signed-in person rates every question good / alright / bad, or skips it. Everyone
-        // has their own set: {pass, ratings: {<question key>: {r, p, t}}}, with pass = the round.
+        // Signed-in people share the work of rating questions good / alright / bad (or skip),
+        // ten at a time. Nobody is handed a question someone else already has until every
+        // question has been taken once; then a second round starts, and so on.
+        //   calibration/claims/r<round>/<question key> = uid   who took the question that round
+        //                                                      (create-only, any signed-in reader)
+        //   <own set>/chunk   = {round, keys: [...], t}        the ten this person is on
+        //   <own set>/ratings/<question key> = {r, p, t}       p = the round it was rated in
         // The owner's set is calibration/ itself; every other account's is
         // calibration/users/<uid> (plus their name), readable only by them and the owner.
-        // A question is done for this round when its rating carries the round's number, so
-        // stopping and coming back resumes, and Recalibrate starts a new round without erasing.
 
-        let calibration = { pass: 1, ratings: {} };
+        const CALIBRATE_CHUNK = 10;
+
+        let calibration = { chunk: null, ratings: {} };
         let calibrationRef = null;
         let calibrationLoaded = false;
         let calibrationOwn = false;   // true when this is the owner's own set
+        let calibrationClaims = {};   // calibration/claims
+        let calibrationClaimsRef = null;
+        let calibrationClaimsLoaded = false;
+        let calibrateClaiming = false;
+        let calibrateHealed = false;
 
         function setCalibrationListener(user) {
             if (calibrationRef) calibrationRef.off();
+            if (calibrationClaimsRef) calibrationClaimsRef.off();
             calibrationRef = null;
+            calibrationClaimsRef = null;
             calibrationLoaded = false;
-            calibration = { pass: 1, ratings: {} };
+            calibrationClaimsLoaded = false;
+            calibrateHealed = false;
+            calibration = { chunk: null, ratings: {} };
+            calibrationClaims = {};
             calibrateKey = null;
             if (!user) {
                 closeCalibrate();
@@ -2799,81 +2814,146 @@ Population of Tokyo?, 13960000"></textarea>
             calibrationRef = database.ref(calibrationOwn ? 'calibration' : 'calibration/users/' + user.uid);
             calibrationRef.on('value', snapshot => {
                 const data = snapshot.val() || {};
-                calibration = { pass: data.pass || 1, ratings: data.ratings || {}, name: data.name };
+                calibration = { chunk: data.chunk || null, ratings: data.ratings || {}, name: data.name };
                 calibrationLoaded = true;
                 renderCalibrate();
             }, err => console.warn('Could not load calibration:', err));
+            calibrationClaimsRef = database.ref('calibration/claims');
+            calibrationClaimsRef.on('value', snapshot => {
+                calibrationClaims = snapshot.val() || {};
+                calibrationClaimsLoaded = true;
+                renderCalibrate();
+            }, err => console.warn('Could not load calibration claims:', err));
         }
 
-        // The question on screen. null = the first one not rated yet this round (where to resume).
+        // The question on screen. null = the first one of the ten not rated yet (where to resume).
         let calibrateKey = null;
 
-        function calibrateList() {
-            return questions.slice().sort((a, b) => String(a._key) < String(b._key) ? -1 : 1);
+        // Who took a question in a round (a uid), or undefined
+        function calibrateClaim(round, key) {
+            return (calibrationClaims['r' + round] || {})[key];
         }
 
-        // This round's rating for a question ('good', 'alright', 'bad', 'skip'), or null
+        // The questions of the ten this person is on, in order
+        function calibrateList() {
+            const keys = (calibration.chunk && calibration.chunk.keys) || [];
+            return Object.values(keys)
+                .map(key => questions.find(q => String(q._key) === String(key)))
+                .filter(Boolean);
+        }
+
+        // The rating given during this ten ('good', 'alright', 'bad', 'skip'), or null
         function calibrateRatingOf(question) {
             const rating = calibration.ratings[question._key];
-            return rating && rating.p === calibration.pass ? rating.r : null;
+            return rating && calibration.chunk && rating.t >= calibration.chunk.t ? rating.r : null;
         }
 
-        // Position of the question on screen in the list, or -1 when every question is rated
+        // Position of the question on screen in the list, or -1 when all ten are rated
         function calibrateIndex(list) {
             const shown = calibrateKey === null ? -1 : list.findIndex(q => String(q._key) === calibrateKey);
             return shown !== -1 ? shown : list.findIndex(q => !calibrateRatingOf(q));
         }
 
+        // Ratings made before the ten-at-a-time system count as taken in round 1
+        function calibrateHeal() {
+            if (calibrateHealed || !currentUser) return;
+            calibrateHealed = true;
+            questions.forEach(q => {
+                if (calibration.ratings[q._key] && !calibrateClaim(1, q._key)) {
+                    database.ref('calibration/claims/r1/' + q._key).set(currentUser.uid).catch(() => {});
+                }
+            });
+        }
+
         function renderCalibrate() {
             const card = document.getElementById('calibrate-card');
             const done = document.getElementById('calibrate-done');
-            if (!calibrationLoaded || questions.length === 0) {
-                card.style.display = 'none';
-                done.style.display = 'none';
+            card.style.display = 'none';
+            done.style.display = 'none';
+            if (!calibrationLoaded || !calibrationClaimsLoaded || questions.length === 0) return;
+            calibrateHeal();
+
+            if (!calibration.chunk) {
+                // First visit: hand out the first ten as soon as Calibrate is on screen
+                if (document.body.classList.contains('calibrating')) calibrateNewChunk();
                 return;
             }
+            if (calibrateClaiming) return;
+
             const list = calibrateList();
             const index = calibrateIndex(list);
-            card.style.display = index !== -1 ? 'block' : 'none';
-            done.style.display = index !== -1 ? 'none' : 'block';
-
-            if (index !== -1) {
-                const question = list[index];
-                document.getElementById('calibrate-count').textContent =
-                    `${(index + 1).toLocaleString('en-US')} of ${list.length.toLocaleString('en-US')}`;
-                document.getElementById('calibrate-question').textContent = question.text;
-                document.getElementById('calibrate-answer').textContent = Number(question.answer).toLocaleString('en-US');
-                card.dataset.key = question._key;
-
-                // Going back shows which rating this question already has
-                const chosen = calibrateRatingOf(question);
-                document.querySelectorAll('.calibrate-buttons .btn').forEach(btn => {
-                    btn.classList.toggle('chosen', btn.dataset.rating === chosen);
-                    btn.classList.toggle('not-chosen', !!chosen && btn.dataset.rating !== chosen);
-                });
-                document.getElementById('calibrate-prev').disabled = index === 0;
-                document.getElementById('calibrate-next').disabled = index === list.length - 1;
+            if (index === -1) {
+                done.style.display = 'block';
+                document.getElementById('calibrate-tally').textContent =
+                    `You calibrated ${list.length} question${list.length !== 1 ? 's' : ''}.`;
                 return;
             }
 
-            const tally = { good: 0, alright: 0, bad: 0, skip: 0 };
-            questions.forEach(q => {
-                const rating = calibration.ratings[q._key];
-                if (rating && tally[rating.r] !== undefined) tally[rating.r]++;
+            card.style.display = 'block';
+            const question = list[index];
+            document.getElementById('calibrate-count').textContent = `${index + 1} of ${list.length}`;
+            document.getElementById('calibrate-question').textContent = question.text;
+            document.getElementById('calibrate-answer').textContent = Number(question.answer).toLocaleString('en-US');
+            card.dataset.key = question._key;
+
+            // Going back shows which rating this question already has
+            const chosen = calibrateRatingOf(question);
+            document.querySelectorAll('.calibrate-buttons .btn').forEach(btn => {
+                btn.classList.toggle('chosen', btn.dataset.rating === chosen);
+                btn.classList.toggle('not-chosen', !!chosen && btn.dataset.rating !== chosen);
             });
-            document.getElementById('calibrate-tally').textContent =
-                `Good ${tally.good} · Alright ${tally.alright} · Bad ${tally.bad} · Skipped ${tally.skip}`;
+            document.getElementById('calibrate-prev').disabled = index === 0;
+            document.getElementById('calibrate-next').disabled = index === list.length - 1;
+        }
+
+        // Take the next ten: questions nobody has taken in the lowest unfinished round. Each
+        // one is claimed with a create-only write, so two people can never win the same one.
+        async function calibrateNewChunk() {
+            if (calibrateClaiming || !calibrationRef || !currentUser) return;
+            calibrateClaiming = true;
+            renderCalibrate();
+            const ref = calibrationRef;
+            const uid = currentUser.uid;
+            const won = [];
+            let wonRound = null;
+            try {
+                for (let attempt = 0; attempt < 6 && won.length < CALIBRATE_CHUNK; attempt++) {
+                    const keys = questions.map(q => String(q._key));
+                    let round = 1;
+                    let free = [];
+                    for (; round < 1000; round++) {
+                        free = keys.filter(key => !calibrateClaim(round, key));
+                        if (free.length) break;
+                    }
+                    if (wonRound !== null && round !== wonRound) break;   // a ten stays inside one round
+                    // In later rounds, questions this person has not rated yet come first
+                    const fresh = free.filter(key => !calibration.ratings[key]);
+                    const seen = free.filter(key => calibration.ratings[key]);
+                    const pick = shuffleArray(fresh).concat(shuffleArray(seen)).slice(0, CALIBRATE_CHUNK - won.length);
+                    const results = await Promise.all(pick.map(key =>
+                        database.ref(`calibration/claims/r${round}/${key}`).set(uid).then(() => key, () => null)));
+                    won.push(...results.filter(Boolean));
+                    wonRound = round;
+                }
+                if (ref === calibrationRef && won.length) {
+                    calibrateKey = null;
+                    calibrateWrite('chunk', { round: wonRound, keys: won, t: Date.now() });
+                }
+            } finally {
+                calibrateClaiming = false;
+                renderCalibrate();
+            }
         }
 
         function calibrateRate(rating) {
             const key = document.getElementById('calibrate-card').dataset.key;
-            if (!calibrationRef || !key) return;
-            // Move on to the next question in the list; after the last one, back to whatever is unrated
+            if (!calibrationRef || !calibration.chunk || !key) return;
+            // Move on to the next question of the ten; after the last one, back to whatever is unrated
             const list = calibrateList();
             const next = list[list.findIndex(q => String(q._key) === key) + 1];
             const othersLeft = list.some(q => String(q._key) !== key && !calibrateRatingOf(q));
             calibrateKey = next && othersLeft ? String(next._key) : null;
-            calibrateWrite('ratings/' + key, { r: rating, p: calibration.pass, t: Date.now() });
+            calibrateWrite('ratings/' + key, { r: rating, p: calibration.chunk.round, t: Date.now() });
         }
 
         // The arrows: look at the question before or after without rating anything
@@ -2883,12 +2963,6 @@ Population of Tokyo?, 13960000"></textarea>
             if (!target) return;
             calibrateKey = String(target._key);
             renderCalibrate();
-        }
-
-        function calibrateRestart() {
-            if (!calibrationRef) return;
-            calibrateKey = null;
-            calibrateWrite('pass', calibration.pass + 1);
         }
 
         // The listener above redraws straight away (Firebase reports its own writes locally).
@@ -4710,6 +4784,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
             document.getElementById(`${tabName}-tab`).classList.add('active');
             document.body.classList.toggle('calibrating', tabName === 'calibrate');
+            if (tabName === 'calibrate') renderCalibrate();
 
             // Check if leaving an active test (a daily quiz keeps its progress and can be continued)
             if (tabName !== 'test' && testState.isActive && testState.isDaily) {

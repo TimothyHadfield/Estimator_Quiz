@@ -133,6 +133,14 @@
       }
     },
     "calibration": {
+      "claims": {
+        ".read": "auth != null",
+        "$round": {
+          "$q": {
+            ".write": "auth != null && !data.exists() && newData.val() === auth.uid && $round.matches(/^r[0-9]+$/) && root.child('questions').child($q).child('text').exists()"
+          }
+        }
+      },
       "users": {
         "$uid": {
           ".read": "auth != null && auth.uid === $uid",
@@ -142,6 +150,23 @@
           },
           "pass": {
             ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 1000"
+          },
+          "chunk": {
+            ".validate": "newData.hasChildren(['round', 'keys', 't']) && newData.child('round').isNumber() && newData.child('t').isNumber()",
+            "round": {
+              ".validate": true
+            },
+            "t": {
+              ".validate": true
+            },
+            "keys": {
+              "$i": {
+                ".validate": "$i.matches(/^[0-9]$/) && newData.isString() && newData.val().length <= 40"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
           },
           "ratings": {
             "$q": {
