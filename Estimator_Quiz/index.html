@@ -2893,7 +2893,7 @@ Population of Tokyo?, 13960000"></textarea>
             const question = list[index];
             document.getElementById('calibrate-count').textContent = `${index + 1} of ${list.length}`;
             document.getElementById('calibrate-question').textContent = question.text;
-            document.getElementById('calibrate-answer').textContent = Number(question.answer).toLocaleString('en-US');
+            document.getElementById('calibrate-answer').textContent = 'Answer: ' + Number(question.answer).toLocaleString('en-US');
             card.dataset.key = question._key;
 
             // Going back shows which rating this question already has
