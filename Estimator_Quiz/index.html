@@ -2191,7 +2191,7 @@ Population of Tokyo?, 13960000"></textarea>
         <span id="profile-initial" style="display: none;"></span>
     </button>
 
-    <div class="login-modal" id="account-modal" onclick="if(event.target===this)closeAccountModal()">
+    <div class="login-modal" id="account-modal" onpointerdown="accountBackdropDown(event)" onclick="accountBackdropClick(event)">
         <div class="login-modal-content account-panel">
             <h3>Account</h3>
             <div id="account-signed-out">
@@ -2478,6 +2478,21 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('account-modal').classList.remove('show');
         }
 
+        // Tapping outside the panel closes it, but only when the press started outside too
+        // (a text selection dragged out of a box must not close it) and nothing is being typed.
+        let accountCloseArmed = false;
+
+        function accountBackdropDown(event) {
+            const modal = document.getElementById('account-modal');
+            accountCloseArmed = event.target === modal && !modal.contains(document.activeElement);
+        }
+
+        function accountBackdropClick(event) {
+            const armed = accountCloseArmed;
+            accountCloseArmed = false;
+            if (armed && event.target === document.getElementById('account-modal')) closeAccountModal();
+        }
+
         function showAccountError(message) {
             const el = document.getElementById('account-error');
             el.textContent = message;
@@ -2539,10 +2554,28 @@ Population of Tokyo?, 13960000"></textarea>
                 showAccountError('Type your email first');
                 return;
             }
+            // Every new reset email cancels the links in the earlier ones, so don't send a
+            // second one while the first is still on its way.
+            if (Date.now() < forgotWaitUntil) {
+                showAccountError('Link already sent. Use the newest email.');
+                return;
+            }
+            forgotWaitUntil = Date.now() + 60000;
+            const sent = 'Reset link sent. Use the newest email only.';
             auth.sendPasswordResetEmail(email)
-                .then(() => showAccountError('Reset link sent. Check your email.'))
-                .catch(err => showAccountError(err && err.code === 'auth/invalid-email' ? 'Enter a valid email' : 'Reset link sent. Check your email.'));
+                .then(() => showAccountError(sent))
+                .catch(err => {
+                    const code = err && err.code;
+                    if (code === 'auth/invalid-email' || code === 'auth/too-many-requests' || code === 'auth/network-request-failed') {
+                        forgotWaitUntil = 0;
+                        showAccountError(accountErrorText(err));
+                    } else {
+                        showAccountError(sent);
+                    }
+                });
         }
+
+        let forgotWaitUntil = 0;
 
         function accountSaveName() {
             const name = document.getElementById('account-name').value.trim().slice(0, 30);
