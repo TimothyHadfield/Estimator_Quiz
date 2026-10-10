@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a2e">
     <title>Estimator Quiz</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -864,6 +867,20 @@
         .calibrate-tally {
             color: #aaa;
             margin: 15px 0 25px;
+        }
+
+        .calibrate-ask {
+            margin-bottom: 12px;
+        }
+
+        .calibrate-message {
+            display: block;
+            max-width: 500px;
+            margin: 0 auto 12px;
+        }
+
+        #calibrate-feedback {
+            margin-bottom: 25px;
         }
 
         .report-modal {
@@ -2414,6 +2431,11 @@ Population of Tokyo?, 13960000"></textarea>
                 <div id="calibrate-done" style="display: none;">
                     <h2>Thank you!</h2>
                     <div class="calibrate-tally" id="calibrate-tally"></div>
+                    <div id="calibrate-feedback" style="display: none;">
+                        <div class="calibrate-ask">You've calibrated a lot of questions. Noticing anything? Send the developer a message.</div>
+                        <textarea class="report-comment calibrate-message" id="calibrate-message" maxlength="1000" placeholder="Message (optional)"></textarea>
+                        <button class="btn btn-secondary" onclick="calibrateSendMessage()">Send</button>
+                    </div>
                     <button class="btn btn-primary" onclick="calibrateNewChunk()">Calibrate 10 more</button>
                 </div>
             </div>
@@ -2782,6 +2804,7 @@ Population of Tokyo?, 13960000"></textarea>
         // calibration/users/<uid> (plus their name), readable only by them and the owner.
 
         const CALIBRATE_CHUNK = 10;
+        const CALIBRATE_ASK_AFTER = 30;   // rated this many: the thank-you also asks for a message
 
         let calibration = { chunk: null, ratings: {} };
         let calibrationRef = null;
@@ -2884,8 +2907,11 @@ Population of Tokyo?, 13960000"></textarea>
             const index = calibrateIndex(list);
             if (index === -1) {
                 done.style.display = 'block';
+                // Skips are not counted: the total is every question this person has rated
+                const total = Object.values(calibration.ratings).filter(rating => rating && rating.r !== 'skip').length;
                 document.getElementById('calibrate-tally').textContent =
-                    `You calibrated ${list.length} question${list.length !== 1 ? 's' : ''}.`;
+                    `You've calibrated ${total} question${total !== 1 ? 's' : ''}.`;
+                document.getElementById('calibrate-feedback').style.display = total >= CALIBRATE_ASK_AFTER ? 'block' : 'none';
                 return;
             }
 
@@ -2963,6 +2989,16 @@ Population of Tokyo?, 13960000"></textarea>
             if (!target) return;
             calibrateKey = String(target._key);
             renderCalibrate();
+        }
+
+        // A note to the owner from someone who has calibrated a lot, kept in that person's own set
+        function calibrateSendMessage() {
+            const box = document.getElementById('calibrate-message');
+            const text = box.value.trim().slice(0, 1000);
+            if (!text || !calibrationRef) return;
+            calibrateWrite('messages/' + Date.now(), { text: text, t: Date.now() });
+            box.value = '';
+            showNotification('Message sent. Thank you!', 'success');
         }
 
         // The listener above redraws straight away (Firebase reports its own writes locally).

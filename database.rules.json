@@ -168,6 +168,20 @@
               ".validate": false
             }
           },
+          "messages": {
+            "$m": {
+              ".validate": "$m.matches(/^[0-9]+$/) && newData.hasChildren(['text', 't']) && newData.child('text').isString() && newData.child('text').val().length > 0 && newData.child('text').val().length <= 1000 && newData.child('t').isNumber()",
+              "text": {
+                ".validate": true
+              },
+              "t": {
+                ".validate": true
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          },
           "ratings": {
             "$q": {
               ".validate": "newData.hasChildren(['r', 'p', 't']) && newData.child('r').isString() && newData.child('r').val().matches(/^(good|alright|bad|skip)$/) && newData.child('p').isNumber() && newData.child('t').isNumber() && root.child('questions').child($q).child('text').exists()",
