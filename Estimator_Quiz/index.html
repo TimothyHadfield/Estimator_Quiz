@@ -3373,7 +3373,7 @@ Population of Tokyo?, 13960000"></textarea>
                 return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
             };
             const pool = questions
-                .filter(q => typeof q.answer === 'number' && !/^what year\b/i.test(q.text) && !/percentage/i.test(q.text))
+                .filter(q => q.pool !== 'practice' && typeof q.answer === 'number' && !/^what year\b/i.test(q.text) && !/percentage/i.test(q.text))
                 .sort((a, b) => (String(a._key) < String(b._key) ? -1 : 1));
             for (let i = pool.length - 1; i > 0; i--) {
                 const j = Math.floor(rand() * (i + 1));
@@ -4082,7 +4082,8 @@ Population of Tokyo?, 13960000"></textarea>
                 return;
             }
 
-            const availableQuestions = [...questions];
+            // Questions set aside for the Daily Quiz never appear in a practice test
+            const availableQuestions = questions.filter(q => q.pool !== 'daily');
 
             if (availableQuestions.length === 0) {
                 showNotification('No questions available yet!', 'error');
