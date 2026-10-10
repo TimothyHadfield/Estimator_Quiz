@@ -2403,7 +2403,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <div class="current-question">
                     <h3 id="current-question-text">Loading question...</h3>
                     <div class="answer-input-container">
-                        <input type="number" id="test-answer" placeholder="Your answer" step="any" onkeypress="if(event.key==='Enter')submitAnswer()">
+                        <input type="text" inputmode="decimal" autocomplete="off" id="test-answer" placeholder="Your answer" oninput="formatAnswerInput(this)" onkeypress="if(event.key==='Enter')submitAnswer()">
                     </div>
                     <button class="btn btn-primary" id="submit-answer-btn" onclick="submitAnswer()">Submit Answer</button>
                     <button class="btn btn-success" id="next-question-btn" onclick="nextQuestion()" style="display: none;">Next Question</button>
@@ -3904,9 +3904,32 @@ Population of Tokyo?, 13960000"></textarea>
             updateGoodButton(question);
         }
 
+        // Shows the answer box with thousands commas while typing ("1234567" -> "1,234,567")
+        // and keeps the cursor where it was, counted in typed characters, not commas.
+        function formatAnswerInput(input) {
+            const raw = input.value;
+            const typed = text => text.replace(/[^\d.\-]/g, '').length;
+            const caret = typed(raw.slice(0, input.selectionStart == null ? raw.length : input.selectionStart));
+
+            const negative = raw.trim().startsWith('-');
+            const digits = raw.replace(/[^\d.]/g, '');
+            const dot = digits.indexOf('.');
+            const whole = (dot === -1 ? digits : digits.slice(0, dot)).replace(/^0+(?=\d)/, '');
+            const decimals = dot === -1 ? '' : '.' + digits.slice(dot + 1).replace(/\./g, '');
+            const formatted = (negative ? '-' : '') + whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + decimals;
+            if (formatted === raw) return;
+
+            input.value = formatted;
+            let position = 0;
+            for (let seen = 0; position < formatted.length && seen < caret; position++) {
+                if (formatted[position] !== ',') seen++;
+            }
+            input.setSelectionRange(position, position);
+        }
+
         function submitAnswer() {
             const answerInput = document.getElementById('test-answer');
-            const userAnswer = parseFloat(answerInput.value);
+            const userAnswer = parseFloat(answerInput.value.replace(/,/g, ''));
 
             if (isNaN(userAnswer)) {
                 showNotification('Please enter a number', 'error');
