@@ -3036,6 +3036,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         const DAILY_LENGTH = 5;
         const DAILY_FIRST_DAY = '2026-10-09';
+        const DAILY_SHARE_LINK = 'timothyhadfield.github.io/Estimator_Quiz';
         let dailyQuestions = { date: null, list: null };
         let dailyLocal = {};       // per-date results kept on this device
         let dailyBoardRef = null;
@@ -3365,7 +3366,10 @@ Population of Tokyo?, 13960000"></textarea>
 
         function dailyShareText(date) {
             const entry = dailyLocal[date];
-            return `Estimator Quiz ${dailyLabel(date)}\n${dailyScoreText(entry)}\n${dailySquares(entry)}\n${location.origin}${location.pathname}`;
+            // The link goes first, without "https://" and with a comma right after it, so iPhone
+            // Messages keeps it as small inline text instead of splitting off a big link preview.
+            // The short address is the repo root, whose index.html forwards to the app.
+            return `${DAILY_SHARE_LINK}, ${dailyLabel(date)}\n${dailyScoreText(entry)}\n${dailySquares(entry)}`;
         }
 
         function shareDaily() {
