@@ -5085,7 +5085,10 @@ Population of Tokyo?, 13960000"></textarea>
                     const p = guessPoints(question, row);
                     if (p === null) return;
                     points.push(p * scale);
-                    if (!mode || (mode === 'daily') === !!row.d) answerPoints.push(p * scale);
+                    // Daily-pool questions only ever come up in the daily, so rows logged before
+                    // the daily flag existed are still sorted right
+                    const daily = !!row.d || (question && question.pool !== 'practice');
+                    if (!mode || (mode === 'daily') === daily) answerPoints.push(p * scale);
                 });
                 if (question && points.length) {
                     perQuestion.push({ key, question, n: points.length, avg: points.reduce((s, p) => s + p, 0) / points.length });
