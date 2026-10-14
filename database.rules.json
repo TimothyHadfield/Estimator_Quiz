@@ -283,6 +283,12 @@
           "t": {
             ".validate": true
           },
+          "p": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+          },
+          "d": {
+            ".validate": "newData.isBoolean()"
+          },
           "$other": {
             ".validate": false
           }

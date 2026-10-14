@@ -557,6 +557,121 @@
         .guess-svg .gc-answer { stroke: #4caf50; stroke-width: 2; }
         .guess-svg .gc-answer-label { fill: #4caf50; font-size: 11px; text-anchor: middle; }
 
+        /* Stats tab (operator) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            align-items: start;
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        .stats-panel {
+            margin-bottom: 0;
+            padding: 16px;
+            min-width: 0;
+        }
+
+        .stats-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-head h2 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #667eea;
+        }
+
+        .stats-head select {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        .stats-head select option {
+            background: #1a1a2e;
+        }
+
+        .stats-summary {
+            color: #aaa;
+            font-size: 0.85em;
+            margin: 6px 0 4px;
+        }
+
+        .stats-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .stats-svg .st-bar { fill: #667eea; }
+        .stats-svg .st-axis { stroke: rgba(255, 255, 255, 0.3); stroke-width: 1; }
+        .stats-svg .st-grid { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
+        .stats-svg .st-xlabel { fill: #999; font-size: 12px; text-anchor: middle; }
+        .stats-svg .st-ylabel { fill: #999; font-size: 11px; text-anchor: end; }
+        .stats-svg .st-target { stroke: #4caf50; stroke-width: 2; }
+        .stats-svg .st-mean { stroke: #ff9800; stroke-width: 2; stroke-dasharray: 5 4; }
+
+        .stats-question-list {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0;
+            max-height: 360px;
+            overflow-y: auto;
+        }
+
+        .stats-question-list li {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 6px 0;
+        }
+
+        .stats-q-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .stats-q-avg {
+            font-weight: bold;
+            min-width: 34px;
+            text-align: right;
+        }
+
+        .stats-legend {
+            color: #aaa;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .stats-legend .key-mean { color: #ff9800; }
+        .stats-legend .key-target { color: #4caf50; margin-left: 12px; }
+
+        .stats-q-text {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .stats-q-meta {
+            color: #999;
+            white-space: nowrap;
+        }
+
         .guess-chart-note {
             color: #999;
             font-size: 0.8em;
@@ -2099,6 +2214,7 @@
             body:not(.operator-mode) .tabs,
             body:not(.operator-mode) #categories-tab,
             body:not(.operator-mode) #questions-tab,
+            body:not(.operator-mode) #stats-tab,
             body:not(.operator-mode) #calibrate-tab,
             body:not(.operator-mode) #info-tab {
                 display: none;
@@ -2301,6 +2417,7 @@
             <button class="tab-btn" onclick="switchTab('info')">Info</button>
             <button class="tab-btn admin-only" onclick="switchTab('categories')">Categories</button>
             <button class="tab-btn admin-only" onclick="switchTab('questions')">Questions</button>
+            <button class="tab-btn admin-only" onclick="switchTab('stats')">Stats</button>
             <button class="tab-btn account-only" onclick="switchTab('calibrate')">Calibrate</button>
             <button class="tab-btn active" onclick="switchTab('test')">Test</button>
             <button class="tab-btn" onclick="switchTab('records')">Records</button>
@@ -2477,6 +2594,52 @@ Population of Tokyo?, 13960000"></textarea>
                 <ul class="questions-list" id="questions-list">
                     <!-- Questions will be rendered here -->
                 </ul>
+            </div>
+        </div>
+
+        <!-- Stats Tab (operator): how points are spread in dailies, practice tests and per question -->
+        <div id="stats-tab" class="tab-content">
+            <div class="stats-legend"><span class="key-mean">┅ mean</span><span class="key-target">│ target (half of max)</span></div>
+            <div class="stats-grid">
+                <div class="form-section stats-panel">
+                    <div class="stats-head">
+                        <h2>Daily scores</h2>
+                        <select id="stats-daily-day" onchange="renderStats()"></select>
+                    </div>
+                    <div class="stats-summary" id="stats-daily-summary"></div>
+                    <div id="stats-daily-chart"></div>
+                </div>
+                <div class="form-section stats-panel">
+                    <div class="stats-head"><h2>Practice tests</h2></div>
+                    <div class="stats-summary" id="stats-practice-summary"></div>
+                    <div id="stats-practice-chart"></div>
+                </div>
+                <div class="form-section stats-panel">
+                    <div class="stats-head">
+                        <h2>Points per answer</h2>
+                        <select id="stats-answers-mode" onchange="renderStats()">
+                            <option value="">All answers</option>
+                            <option value="daily">Daily only</option>
+                            <option value="practice">Practice only</option>
+                        </select>
+                    </div>
+                    <div class="stats-summary" id="stats-answers-summary"></div>
+                    <div id="stats-answers-chart"></div>
+                </div>
+                <div class="form-section stats-panel">
+                    <div class="stats-head">
+                        <h2>Questions</h2>
+                        <select id="stats-min-guesses" onchange="renderStats()">
+                            <option value="1">1+ guesses</option>
+                            <option value="3" selected>3+ guesses</option>
+                            <option value="5">5+ guesses</option>
+                            <option value="10">10+ guesses</option>
+                        </select>
+                    </div>
+                    <div class="stats-summary" id="stats-questions-summary"></div>
+                    <div id="stats-questions-chart"></div>
+                    <ul class="stats-question-list" id="stats-question-list"></ul>
+                </div>
             </div>
         </div>
 
@@ -4339,9 +4502,11 @@ Population of Tokyo?, 13960000"></textarea>
                 }));
             }
 
-            // Every guess is kept (number and time only) for the operator's guess chart
+            // Every guess is kept (number, time, points, daily or not) for the operator's charts
             if (question._key !== undefined) {
-                database.ref('guesses/' + question._key).push({ g: userAnswer, t: Date.now() })
+                const guess = { g: userAnswer, t: Date.now(), p: points };
+                if (testState.isDaily) guess.d = true;
+                database.ref('guesses/' + question._key).push(guess)
                     .catch(err => console.warn('Guess not logged:', err));
             }
 
@@ -4716,7 +4881,7 @@ Population of Tokyo?, 13960000"></textarea>
                         </div>
                         ` : ''}
                     </div>
-                    <div class="guess-chart" id="guess-chart-${question._key}"></div>
+                    <div class="guess-chart" data-key="${question._key}"></div>
                 </li>
             `}).join('');
             openGuessCharts.forEach(key => renderGuessChart(key));
@@ -4735,24 +4900,31 @@ Population of Tokyo?, 13960000"></textarea>
                 return;
             }
             openGuessCharts.add(key);
-            const box = document.getElementById('guess-chart-' + key);
-            if (box) box.innerHTML = '<div class="guess-chart-note">Loading…</div>';
+            const boxes = guessChartBoxes(key);
+            boxes.forEach(box => { box.innerHTML = '<div class="guess-chart-note">Loading…</div>'; });
             database.ref('guesses/' + key).once('value').then(snapshot => {
                 guessData[key] = Object.values(snapshot.val() || {}).map(row => row && row.g).filter(g => typeof g === 'number');
                 renderGuessChart(key);
             }).catch(err => {
-                if (box) box.innerHTML = '<div class="guess-chart-note">Could not load guesses.</div>';
+                boxes.forEach(box => { box.innerHTML = '<div class="guess-chart-note">Could not load guesses.</div>'; });
                 console.warn('Guesses not loaded:', err);
             });
         }
 
+        // A question's chart can show in the Questions list and in the Stats tab at once
+        function guessChartBoxes(key) {
+            return [...document.querySelectorAll('.guess-chart')].filter(box => box.dataset.key === String(key));
+        }
+
         function renderGuessChart(key) {
-            const box = document.getElementById('guess-chart-' + key);
-            if (!box) return;
+            guessChartBoxes(key).forEach(box => { box.innerHTML = guessChartHtml(key); });
+        }
+
+        function guessChartHtml(key) {
             const question = questions.find(q => String(q._key) === String(key));
-            if (!openGuessCharts.has(key) || !question) { box.innerHTML = ''; return; }
+            if (!openGuessCharts.has(key) || !question) return '';
             const all = guessData[key];
-            if (!all) return;
+            if (!all) return '<div class="guess-chart-note">Loading…</div>';
             const shown = all.filter(g => g > 0);
             const hidden = all.length - shown.length;
             const scores = all.map(g => calculatePoints(g, question.answer, question.multiplier || 1, question.text));
@@ -4789,9 +4961,157 @@ Population of Tokyo?, 13960000"></textarea>
             svg += `<line x1="${x(question.answer)}" x2="${x(question.answer)}" y1="${plotTop - 4}" y2="${plotBottom}" class="gc-answer"><title>Answer ${formatNumber(question.answer)}</title></line>`;
             svg += `<text x="${x(question.answer)}" y="${H - 4}" class="gc-answer-label">answer</text></svg>`;
 
-            box.innerHTML = svg + `<div class="guess-chart-note">${all.length} guess${all.length !== 1 ? 'es' : ''}` +
+            return svg + `<div class="guess-chart-note">${all.length} guess${all.length !== 1 ? 'es' : ''}` +
                 (avg !== null ? ` · avg ${avg.toFixed(0)} pts at B ${question.multiplier || 1}` : '') +
                 (hidden ? ` · ${hidden} zero or negative not shown` : '') + `</div>`;
+        }
+
+        // ===== STATS TAB (operator) =====
+        // Histograms of daily totals, practice tests (points per question), every logged answer,
+        // and each question's average. Sources: dailyScores (already loaded), records (loaded),
+        // guesses (owner-read, fetched when the tab opens).
+        let statsGuesses = null;   // key -> [{g, p, d}]
+
+        function loadStats() {
+            renderStats();
+            database.ref('guesses').once('value').then(snapshot => {
+                statsGuesses = {};
+                Object.entries(snapshot.val() || {}).forEach(([key, rows]) => {
+                    statsGuesses[key] = Object.values(rows || {}).filter(row => row && typeof row.g === 'number');
+                    guessData[key] = statsGuesses[key].map(row => row.g);
+                });
+                renderStats();
+            }).catch(err => {
+                console.warn('Stats: guesses not loaded:', err);
+                showNotification('Could not load guesses', 'error');
+            });
+        }
+
+        // Points a logged guess earned: stored since 2026-10-14, otherwise scored at today's multiplier
+        function guessPoints(question, row) {
+            if (typeof row.p === 'number') return row.p;
+            return question ? calculatePoints(row.g, question.answer, question.multiplier || 1, question.text) : null;
+        }
+
+        function statsSummary(values, digits = 0) {
+            if (!values.length) return 'No data yet';
+            const sorted = [...values].sort((a, b) => a - b);
+            const mean = values.reduce((s, v) => s + v, 0) / values.length;
+            const median = sorted[Math.floor((sorted.length - 1) / 2)];
+            return `${values.length.toLocaleString('en-US')} · mean ${mean.toFixed(digits)} · median ${median.toFixed(digits)}`;
+        }
+
+        // One-series histogram: bars from min to max in equal bins, a dashed line at the mean
+        // and (optionally) a green line at the target
+        function histogramSvg(values, min, max, bins, target) {
+            const W = 400, H = 130, left = 28, right = 18, top = 8, bottom = 106;
+            const counts = new Array(bins).fill(0);
+            const step = (max - min) / bins;
+            values.forEach(v => {
+                const i = Math.min(bins - 1, Math.max(0, Math.floor((v - min) / step)));
+                counts[i]++;
+            });
+            const peak = Math.max(1, ...counts);
+            const x = v => left + (v - min) / (max - min) * (W - left - right);
+            const y = c => bottom - c / peak * (bottom - top);
+            const fmt = v => Math.round(v).toLocaleString('en-US');
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Histogram">`;
+            [0.5, 1].forEach(f => {
+                const c = Math.round(peak * f);
+                svg += `<line x1="${left}" x2="${W - right}" y1="${y(c)}" y2="${y(c)}" class="st-grid"/><text x="${left - 5}" y="${y(c) + 4}" class="st-ylabel">${c}</text>`;
+            });
+            counts.forEach((c, i) => {
+                if (!c) return;
+                const x0 = x(min + i * step) + 1, w = Math.max(1, x(min + (i + 1) * step) - x(min + i * step) - 2);
+                svg += `<rect x="${x0}" y="${y(c)}" width="${w}" height="${bottom - y(c)}" rx="2" class="st-bar"><title>${fmt(min + i * step)}–${fmt(min + (i + 1) * step)}: ${c}</title></rect>`;
+            });
+            svg += `<line x1="${left}" x2="${W - right}" y1="${bottom}" y2="${bottom}" class="st-axis"/>`;
+            for (let k = 0; k <= 4; k++) {
+                const v = min + (max - min) * k / 4;
+                svg += `<text x="${x(v)}" y="${bottom + 15}" class="st-xlabel"${k === 4 ? ' style="text-anchor: end"' : ''}>${fmt(v)}</text>`;
+            }
+            if (target !== undefined) {
+                svg += `<line x1="${x(target)}" x2="${x(target)}" y1="${top}" y2="${bottom}" class="st-target"><title>Target ${fmt(target)}</title></line>`;
+            }
+            if (values.length) {
+                const mean = values.reduce((s, v) => s + v, 0) / values.length;
+                svg += `<line x1="${x(mean)}" x2="${x(mean)}" y1="${top}" y2="${bottom}" class="st-mean"><title>Mean ${fmt(mean)}</title></line>`;
+            }
+            return svg + '</svg>';
+        }
+
+        function renderStats() {
+            if (!document.getElementById('stats-tab')) return;
+
+            // Daily totals (out of 5,000), all days or one day
+            const daySelect = document.getElementById('stats-daily-day');
+            const dates = Object.keys(dailyScoresAll).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort().reverse();
+            const wantedDay = daySelect.value;
+            daySelect.innerHTML = '<option value="">All days</option>' + dates.map(d => `<option value="${d}">${dailyLabel(d)}</option>`).join('');
+            daySelect.value = dates.includes(wantedDay) ? wantedDay : '';
+            const dailyTotals = [];
+            (daySelect.value ? [daySelect.value] : dates).forEach(date => {
+                Object.values(dailyScoresAll[date] || {}).forEach(row => {
+                    if (row && typeof row.score === 'number') dailyTotals.push(row.score);
+                });
+            });
+            document.getElementById('stats-daily-summary').textContent = statsSummary(dailyTotals) + (dailyTotals.length ? ' (of 5,000)' : '');
+            document.getElementById('stats-daily-chart').innerHTML = histogramSvg(dailyTotals, 0, 5000, 20, 2500);
+
+            // Practice tests: points per question, so 5-, 10- and 20-question tests compare
+            const practice = records.filter(r => typeof r.score === 'number' && r.questionsAnswered > 0)
+                .map(r => r.score / r.questionsAnswered);
+            document.getElementById('stats-practice-summary').textContent = statsSummary(practice) + (practice.length ? ' points per question' : '');
+            document.getElementById('stats-practice-chart').innerHTML = histogramSvg(practice, 0, 1000, 20, 500);
+
+            const answersNote = document.getElementById('stats-answers-summary');
+            const questionsNote = document.getElementById('stats-questions-summary');
+            const list = document.getElementById('stats-question-list');
+            if (!statsGuesses) {
+                answersNote.textContent = questionsNote.textContent = 'Loading…';
+                return;
+            }
+
+            // Every logged answer (percentage questions scaled to 1,000)
+            const mode = document.getElementById('stats-answers-mode').value;
+            const answerPoints = [];
+            const perQuestion = [];
+            Object.entries(statsGuesses).forEach(([key, rows]) => {
+                const question = questions.find(q => String(q._key) === key);
+                const scale = question ? 1000 / dailyQuestionMax(question.text) : 1;
+                const points = [];
+                rows.forEach(row => {
+                    const p = guessPoints(question, row);
+                    if (p === null) return;
+                    points.push(p * scale);
+                    if (!mode || (mode === 'daily') === !!row.d) answerPoints.push(p * scale);
+                });
+                if (question && points.length) {
+                    perQuestion.push({ key, question, n: points.length, avg: points.reduce((s, p) => s + p, 0) / points.length });
+                }
+            });
+            answersNote.textContent = statsSummary(answerPoints) + (answerPoints.length ? ' (target 500)' : '');
+            document.getElementById('stats-answers-chart').innerHTML = histogramSvg(answerPoints, 0, 1000, 20, 500);
+
+            // Each question's average; the list shows the ones furthest from 500
+            const minGuesses = Number(document.getElementById('stats-min-guesses').value) || 1;
+            const shown = perQuestion.filter(q => q.n >= minGuesses);
+            questionsNote.textContent = shown.length
+                ? `${shown.length} question${shown.length !== 1 ? 's' : ''} · mean of averages ${(shown.reduce((s, q) => s + q.avg, 0) / shown.length).toFixed(0)}`
+                : 'No questions with that many guesses yet';
+            document.getElementById('stats-questions-chart').innerHTML = histogramSvg(shown.map(q => q.avg), 0, 1000, 20, 500);
+            list.innerHTML = shown.sort((a, b) => Math.abs(b.avg - 500) - Math.abs(a.avg - 500)).slice(0, 25).map(q => `
+                <li>
+                    <div class="stats-q-row">
+                        <span class="stats-q-avg">${q.avg.toFixed(0)}</span>
+                        <span class="stats-q-text">${escapeHtml(q.question.text)}</span>
+                        <span class="stats-q-meta">${q.n} · B ${q.question.multiplier || 1}</span>
+                        <button class="guesses-btn" onclick="toggleGuessChart('${q.key}')">Guesses</button>
+                    </div>
+                    <div class="guess-chart" data-key="${q.key}"></div>
+                </li>`).join('');
+            shown.slice(0, 25).forEach(q => { if (openGuessCharts.has(q.key)) renderGuessChart(q.key); });
         }
 
         // The leaderboard shows one of: a day's daily quiz scores (today by default), every
@@ -4989,6 +5309,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById(`${tabName}-tab`).classList.add('active');
             document.body.classList.toggle('calibrating', tabName === 'calibrate');
             if (tabName === 'calibrate') renderCalibrate();
+            if (tabName === 'stats') loadStats();
 
             // Check if leaving an active test (a daily quiz keeps its progress and can be continued)
             if (tabName !== 'test' && testState.isActive && testState.isDaily) {
