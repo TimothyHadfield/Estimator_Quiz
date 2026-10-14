@@ -15,7 +15,7 @@
         },
         "multiplier": {
           ".write": true,
-          ".validate": "newData.isNumber() && newData.val() >= 0.3 && newData.val() <= 3 && newData.parent().child('text').exists()"
+          ".validate": "newData.isNumber() && newData.val() >= 0.05 && newData.val() <= 10 && newData.parent().child('text').exists()"
         },
         "goodMarks": {
           "$g": {
@@ -269,6 +269,23 @@
         },
         "$other": {
           ".validate": false
+        }
+      }
+    },
+    "guesses": {
+      "$q": {
+        "$g": {
+          ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
+          ".validate": "newData.hasChildren(['g', 't']) && newData.child('g').isNumber() && newData.child('g').val() > -1000000000000000 && newData.child('g').val() < 1000000000000000 && newData.child('t').isNumber()",
+          "g": {
+            ".validate": true
+          },
+          "t": {
+            ".validate": true
+          },
+          "$other": {
+            ".validate": false
+          }
         }
       }
     }

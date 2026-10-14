@@ -519,6 +519,49 @@
             font-size: 0.95em;
         }
 
+        .question-range {
+            color: #aaa;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .guesses-btn {
+            background: rgba(100, 181, 246, 0.15);
+            color: #64b5f6;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        .guess-chart:empty {
+            display: none;
+        }
+
+        .guess-chart {
+            margin-top: 8px;
+        }
+
+        .guess-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+        }
+
+        .guess-svg .gc-range { fill: rgba(255, 255, 255, 0.07); }
+        .guess-svg .gc-axis { stroke: rgba(255, 255, 255, 0.3); stroke-width: 1; }
+        .guess-svg .gc-tick { fill: #999; font-size: 11px; text-anchor: middle; }
+        .guess-svg .gc-dot { fill: #64b5f6; fill-opacity: 0.7; stroke: #1a1a2e; stroke-width: 1; }
+        .guess-svg .gc-answer { stroke: #4caf50; stroke-width: 2; }
+        .guess-svg .gc-answer-label { fill: #4caf50; font-size: 11px; text-anchor: middle; }
+
+        .guess-chart-note {
+            color: #999;
+            font-size: 0.8em;
+        }
+
         .question-stats {
             display: flex;
             gap: 15px;
@@ -764,6 +807,21 @@
             background: rgba(76, 175, 80, 0.4);
         }
 
+        .source-btn {
+            display: inline-block;
+            background: rgba(100, 181, 246, 0.2);
+            color: #64b5f6;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .source-btn:hover {
+            background: rgba(100, 181, 246, 0.4);
+        }
         .good-btn.marked {
             background: #4caf50;
             color: #fff;
@@ -1380,6 +1438,21 @@
 
         .result-display .points-earned.bad {
             color: #f44336;
+        }
+
+        /* The three buttons under an answer stay on one line on a phone */
+        @media (max-width: 480px) {
+            .result-display {
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+            .result-display .good-btn,
+            .result-display .report-btn,
+            .result-display .source-btn {
+                padding: 7px 10px;
+                margin-left: 2px;
+            }
         }
 
         /* Final Results */
@@ -2286,13 +2359,13 @@
                         <ul>
                             <li><strong>Higher B</strong> = More forgiving scoring (easier to get points)</li>
                             <li><strong>Lower B</strong> = Stricter scoring (harder to get points)</li>
-                            <li><strong>Default B = 1</strong> - Standard difficulty</li>
+                            <li>Each question's B is set so an average player scores <strong>about 500</strong> on it</li>
                         </ul>
                         <p>The system automatically adjusts multipliers to balance question difficulty:</p>
                         <ul>
-                            <li>After a question is answered <strong>5 times</strong>, its average score is compared to the overall "True Average"</li>
-                            <li>If players score <strong>higher than average</strong> on a question, its multiplier decreases (making it harder)</li>
-                            <li>If players score <strong>lower than average</strong>, its multiplier increases (making it easier)</li>
+                            <li>After a question is answered <strong>5 times</strong> in practice, its average score is compared to 500</li>
+                            <li>If players score <strong>higher than 500</strong> on a question, its multiplier decreases (making it harder)</li>
+                            <li>If players score <strong>lower than 500</strong>, its multiplier increases (making it easier)</li>
                             <li>This helps ensure all questions contribute similarly to overall scores</li>
                         </ul>
                         <p>You can manually adjust any question's multiplier in the Questions tab. Manual changes reset the question's average tracking.</p>
@@ -2544,6 +2617,7 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="points-earned" id="points-earned">+0 points</div>
                     <button class="good-btn" id="good-question-btn" onclick="markGoodQuestion()">Good question</button>
                     <button class="report-btn" onclick="openReportModal()">Report Question</button>
+                    <a class="source-btn" id="source-btn" target="_blank" rel="noopener">Sources</a>
                 </div>
             </div>
 
@@ -3271,13 +3345,18 @@ Population of Tokyo?, 13960000"></textarea>
 
         // ===== DAILY QUIZ =====
         // Same 5 questions for everyone on the same (local) date. The questions come from
-        // daily/<date> (written ahead by tools/make-daily-schedule.mjs). Scoring uses
-        // multiplier 1 and does not touch question stats, so a guess is worth the same all day.
+        // daily/<date> (written ahead by tools/make-daily-schedule.mjs). From
+        // DAILY_MULTIPLIERS_FROM on, scoring uses each question's multiplier (before that, 1).
+        // The daily never touches question stats, so a guess is worth the same all day.
 
         const DAILY_LENGTH = 5;
+        const DAILY_MULTIPLIERS_FROM = '2026-10-15';
         const DAILY_FIRST_DAY = '2026-10-09';
         const DAILY_SHARE_LINK = 'timothyhadfield.github.io/Estimator_Quiz';
         let dailyQuestions = { date: null, list: null };
+        // The daily needs the live questions (multiplier, source): resolved by the first questions load
+        let questionsLoadedResolve;
+        const questionsLoaded = new Promise(resolve => { questionsLoadedResolve = resolve; });
         let dailyLocal = {};       // per-date results kept on this device
         let dailyBoardRef = null;
         let dailyShown = null;     // date whose results are on screen
@@ -3474,7 +3553,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         // Start (or continue) the daily on the normal question screen
         function runDaily(date, name) {
-            loadDailyQuestions(date).then(list => {
+            Promise.all([loadDailyQuestions(date), questionsLoaded]).then(([list]) => {
                 const entry = dailyLocal[date] || { name, pts: [], guesses: [], maxes: [], done: false };
                 if (entry.done) {
                     showDailyResults(date);
@@ -3494,7 +3573,8 @@ Population of Tokyo?, 13960000"></textarea>
                         _key: item.key,
                         text: item.text,
                         answer: item.answer,
-                        multiplier: 1
+                        multiplier: date >= DAILY_MULTIPLIERS_FROM && live ? (live.multiplier || 1) : 1,
+                        source: live ? live.source : ''
                     };
                 });
                 testState.answers = entry.pts.map((points, i) => ({
@@ -3502,7 +3582,7 @@ Population of Tokyo?, 13960000"></textarea>
                     userAnswer: entry.guesses[i],
                     correctAnswer: list[i].answer,
                     points,
-                    multiplier: 1
+                    multiplier: testState.shuffledQuestions[i].multiplier
                 }));
                 testState.totalScore = entry.pts.reduce((sum, p) => sum + p, 0);
                 testState.isActive = true;
@@ -4259,6 +4339,12 @@ Population of Tokyo?, 13960000"></textarea>
                 }));
             }
 
+            // Every guess is kept (number and time only) for the operator's guess chart
+            if (question._key !== undefined) {
+                database.ref('guesses/' + question._key).push({ g: userAnswer, t: Date.now() })
+                    .catch(err => console.warn('Guess not logged:', err));
+            }
+
             // Update true average tracking
             if (!testState.isDaily) {
                 trueAverageData.totalPoints += points;
@@ -4289,6 +4375,11 @@ Population of Tokyo?, 13960000"></textarea>
             } else {
                 pointsEl.classList.add('bad');
             }
+
+            const sourceBtn = document.getElementById('source-btn');
+            const source = question.source || '';
+            sourceBtn.href = /^https?:\/\//.test(source) ? source : '#';
+            sourceBtn.style.display = /^https?:\/\//.test(source) ? '' : 'none';
 
             document.getElementById('result-display').classList.add('show');
             document.getElementById('running-total').textContent = testState.totalScore.toFixed(1);
@@ -4602,12 +4693,13 @@ Population of Tokyo?, 13960000"></textarea>
                     </div>
                     <div class="question-meta">
                         <span class="question-answer">Answer: ${formatNumber(question.answer)}</span>
+                        ${question.low > 0 ? `<span class="question-range" title="Guessed spread of ordinary players' guesses (10th to 90th percentile); the multiplier was set from it">Range: ${formatNumber(question.low)} – ${formatNumber(question.high)}</span>` : ''}
                         ${question.category ? `<span class="category-tag">${escapeHtml(question.category)}</span>` : '<span class="category-tag" style="background: rgba(136,136,136,0.3); color: #888;">Uncategorized</span>'}
                     </div>
                     <div class="question-stats">
                         <div class="question-multiplier">
                             <span class="mult-label">Multiplier (B):</span>
-                            <input type="number" step="0.1" min="0.3" max="3" value="${multiplier}"
+                            <input type="number" step="0.01" min="${MULTIPLIER_MIN}" max="${MULTIPLIER_MAX}" value="${multiplier}"
                                    onchange="updateQuestionMultiplier('${question.id}', this.value)"
                                    onclick="event.stopPropagation()" title="Higher = easier, Lower = harder">
                         </div>
@@ -4616,6 +4708,7 @@ Population of Tokyo?, 13960000"></textarea>
                             <span class="avg-value">${qAvg !== null ? qAvg.toFixed(1) : '--'}</span>
                             <span class="avg-count">(${avgCount}/5 answers)</span>
                         </div>
+                        <button class="guesses-btn" onclick="toggleGuessChart('${question._key}')">Guesses</button>
                         ${reportCount > 0 ? `
                         <div class="question-reported" onclick="viewQuestionReports('${question.id}', event)" title="View reports">
                             <span>⚠ ${reportCount} report${reportCount !== 1 ? 's' : ''}</span>
@@ -4623,8 +4716,82 @@ Population of Tokyo?, 13960000"></textarea>
                         </div>
                         ` : ''}
                     </div>
+                    <div class="guess-chart" id="guess-chart-${question._key}"></div>
                 </li>
             `}).join('');
+            openGuessCharts.forEach(key => renderGuessChart(key));
+        }
+
+        // ===== GUESS CHART (operator) =====
+        // Every logged guess for one question as a dot on a log scale, with the answer
+        // and the guessed range, and the average score those guesses get at the current multiplier.
+        const openGuessCharts = new Set();
+        const guessData = {};   // key -> [numbers]
+
+        function toggleGuessChart(key) {
+            if (openGuessCharts.has(key)) {
+                openGuessCharts.delete(key);
+                renderGuessChart(key);
+                return;
+            }
+            openGuessCharts.add(key);
+            const box = document.getElementById('guess-chart-' + key);
+            if (box) box.innerHTML = '<div class="guess-chart-note">Loading…</div>';
+            database.ref('guesses/' + key).once('value').then(snapshot => {
+                guessData[key] = Object.values(snapshot.val() || {}).map(row => row && row.g).filter(g => typeof g === 'number');
+                renderGuessChart(key);
+            }).catch(err => {
+                if (box) box.innerHTML = '<div class="guess-chart-note">Could not load guesses.</div>';
+                console.warn('Guesses not loaded:', err);
+            });
+        }
+
+        function renderGuessChart(key) {
+            const box = document.getElementById('guess-chart-' + key);
+            if (!box) return;
+            const question = questions.find(q => String(q._key) === String(key));
+            if (!openGuessCharts.has(key) || !question) { box.innerHTML = ''; return; }
+            const all = guessData[key];
+            if (!all) return;
+            const shown = all.filter(g => g > 0);
+            const hidden = all.length - shown.length;
+            const scores = all.map(g => calculatePoints(g, question.answer, question.multiplier || 1, question.text));
+            const avg = scores.length ? scores.reduce((s, p) => s + p, 0) / scores.length : null;
+
+            const W = 600, H = 96, left = 12, right = 12, plotTop = 8, plotBottom = 62;
+            const ends = [...shown, question.answer, question.low, question.high].filter(v => v > 0);
+            let lo = Math.log10(Math.min(...ends)), hi = Math.log10(Math.max(...ends));
+            const pad = Math.max(0.15, (hi - lo) * 0.06);
+            lo -= pad; hi += pad;
+            const x = v => left + (Math.log10(v) - lo) / (hi - lo) * (W - left - right);
+
+            // Ticks: powers of ten, or 1-2-5 steps when the span is under two decades
+            const ticks = [];
+            const steps = hi - lo < 2 ? [1, 2, 5] : [1];
+            for (let p = Math.floor(lo); p <= Math.ceil(hi); p++) {
+                steps.forEach(s => { const v = s * Math.pow(10, p); if (Math.log10(v) >= lo && Math.log10(v) <= hi) ticks.push(v); });
+            }
+            const short = v => v >= 1e12 ? v / 1e12 + 'T' : v >= 1e9 ? v / 1e9 + 'B' : v >= 1e6 ? v / 1e6 + 'M' : v >= 1e3 ? v / 1e3 + 'K' : String(+v.toPrecision(3));
+
+            let svg = `<svg viewBox="0 0 ${W} ${H}" class="guess-svg" role="img" aria-label="Guesses on a log scale">`;
+            if (question.low > 0 && question.high > question.low) {
+                svg += `<rect x="${x(question.low)}" y="${plotTop}" width="${x(question.high) - x(question.low)}" height="${plotBottom - plotTop}" class="gc-range"><title>Guessed range ${formatNumber(question.low)} – ${formatNumber(question.high)}</title></rect>`;
+            }
+            svg += `<line x1="${left}" x2="${W - right}" y1="${plotBottom}" y2="${plotBottom}" class="gc-axis"/>`;
+            ticks.forEach(v => {
+                svg += `<line x1="${x(v)}" x2="${x(v)}" y1="${plotBottom}" y2="${plotBottom + 4}" class="gc-axis"/><text x="${x(v)}" y="${plotBottom + 16}" class="gc-tick">${short(v)}</text>`;
+            });
+            all.forEach((g, i) => {
+                if (!(g > 0)) return;
+                const y = plotTop + 8 + ((i * 0.6180339887) % 1) * (plotBottom - plotTop - 16);
+                svg += `<circle cx="${x(g)}" cy="${y.toFixed(1)}" r="4" class="gc-dot"><title>${formatNumber(g)} → ${scores[i].toFixed(0)} pts</title></circle>`;
+            });
+            svg += `<line x1="${x(question.answer)}" x2="${x(question.answer)}" y1="${plotTop - 4}" y2="${plotBottom}" class="gc-answer"><title>Answer ${formatNumber(question.answer)}</title></line>`;
+            svg += `<text x="${x(question.answer)}" y="${H - 4}" class="gc-answer-label">answer</text></svg>`;
+
+            box.innerHTML = svg + `<div class="guess-chart-note">${all.length} guess${all.length !== 1 ? 'es' : ''}` +
+                (avg !== null ? ` · avg ${avg.toFixed(0)} pts at B ${question.multiplier || 1}` : '') +
+                (hidden ? ` · ${hidden} zero or negative not shown` : '') + `</div>`;
         }
 
         // The leaderboard shows one of: a day's daily quiz scores (today by default), every
@@ -4739,23 +4906,24 @@ Population of Tokyo?, 13960000"></textarea>
 
         // ===== MULTIPLIER ADJUSTMENT =====
 
+        // Every question aims for an average of half its maximum (500 of 1000). Multipliers
+        // start from a guessed range of ordinary players' guesses (low/high on the question).
+        const MULTIPLIER_MIN = 0.05;
+        const MULTIPLIER_MAX = 10;
+
+        function clampMultiplier(value) {
+            const clamped = Math.max(MULTIPLIER_MIN, Math.min(MULTIPLIER_MAX, value));
+            return Math.round(clamped * 1000) / 1000;
+        }
+
         function adjustQuestionMultiplier(question) {
-            const trueAverage = getTrueAverage();
+            const target = dailyQuestionMax(question.text) / 2;
             const questionAverage = question.avgPoints / question.avgCount;
 
-            // Calculate how much to adjust based on difference from true average
-            const difference = questionAverage - trueAverage;
-
-            // Adjust multiplier proportionally to the difference
-            // If question avg is higher than true avg, make it harder (decrease multiplier)
-            // If question avg is lower than true avg, make it easier (increase multiplier)
-            // Adjustment amount scales with the magnitude of the difference
-            const adjustmentFactor = difference / 500; // Scale factor for adjustment
-            const adjustment = -adjustmentFactor * 0.1; // Max ~0.2 adjustment per cycle
-
-            // Apply adjustment with bounds (multiplier between 0.3 and 3)
-            question.multiplier = Math.max(0.3, Math.min(3, (question.multiplier || 1) + adjustment));
-            question.multiplier = Math.round(question.multiplier * 100) / 100; // Round to 2 decimals
+            // Scale the multiplier by a step that grows with the miss: an average far above the
+            // target makes it stricter (smaller), far below makes it more forgiving (larger)
+            const miss = (questionAverage - target) / target;   // -1 .. 1
+            question.multiplier = clampMultiplier((question.multiplier || 1) * Math.exp(-0.4 * miss));
 
             // Reset the question's average tracking for the next cycle
             // (the caller saves these fields)
@@ -4777,8 +4945,7 @@ Population of Tokyo?, 13960000"></textarea>
             const question = questions.find(q => q.id === questionId);
             if (!question) return;
 
-            question.multiplier = Math.max(0.3, Math.min(3, parseFloat(newMultiplier) || 1));
-            question.multiplier = Math.round(question.multiplier * 100) / 100;
+            question.multiplier = clampMultiplier(parseFloat(newMultiplier) || 1);
 
             // Reset average tracking when manually editing
             question.avgPoints = 0;
@@ -4980,6 +5147,7 @@ Population of Tokyo?, 13960000"></textarea>
                 });
                 renderQuestions();
                 renderCalibrate();
+                questionsLoadedResolve();
             });
 
             // Listen for categories changes
