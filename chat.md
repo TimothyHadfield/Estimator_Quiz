@@ -119,3 +119,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** `backups/multiplier/` (brief, 20 in/out files, `compute.cjs`, report); `/questions` low/high/multiplier for all 2,354 + avg reset; rules (multiplier 0.05–10, `guesses/`) deployed; app commit `3b349e8`.
 - **Verified how:** live dump after update: 2,354 with a range, 0 with avgCount>0. Headless WebKit 393px local build, daily for 2026-10-15: multipliers [1.864,1.31,0.821,1.198,0.345] loaded, guess 1000 vs 17,985 scored 90.4 (hand calc 90.6 ok), Sources opens the Wikipedia source, buttons on one row, page height 677 = live baseline; guess write landed in `guesses/3586` then removed (5 test entries). Chart rendered with injected data at 393 and 1440, no console errors. REST: unauthenticated read of `guesses`, guess to a non-question, string guess, and multiplier 20 all denied.
 - **Open:** see NOT verified (ranges are guesses; tiny B on well-known numbers; operator chart not seen under Tim's login).
+
+## 2026-10-14 · Operator Stats tab (same chat)
+- **Asked:** "could you make a statistics tab in the opperator pannel that shows the distribution of points scored in daily quizes and practice quizes as well as individual questions as charts?"
+- **Decided (Claude):** four histograms (daily totals, practice points-per-question, every answer, per-question averages) + list of questions furthest from 500; guesses now store points and daily flag; tab name "Stats", layout and colours are Claude's (flagged).
+- **Built:** commit `fb5a586`; rules allow `p` (0–1000) and `d` (boolean) on guesses, deployed.
+- **Verified how:** headless WebKit 393px and 1440px with `setOperatorMode(true)` and injected guesses (live dailyScores/records real: 10 daily totals mean 1,992; 9 practice tests mean 429/question): no exceptions, no horizontal overflow, screenshots looked at. REST: guess with p+d accepted (then removed), p=2000 denied.
+- **Open:** not seen under Tim's login (the real `guesses` read is owner-only); guesses only exist from 2026-10-14 so the answer/question panels start nearly empty.
