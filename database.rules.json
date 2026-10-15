@@ -15,7 +15,7 @@
         },
         "multiplier": {
           ".write": true,
-          ".validate": "newData.isNumber() && newData.val() >= 0.05 && newData.val() <= 10 && newData.parent().child('text').exists()"
+          ".validate": "newData.isNumber() && newData.val() >= 0.3 && newData.val() <= 10 && newData.parent().child('text').exists()"
         },
         "goodMarks": {
           "$g": {
