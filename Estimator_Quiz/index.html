@@ -21,6 +21,22 @@
             box-sizing: border-box;
         }
 
+        /* Scroll bars: thin and dark instead of Windows' wide white bar (phones already overlay theirs) */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.22) transparent;
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
+
+        /* Lists that scroll inside a panel keep a lane for the bar so it never sits on a row */
+        #leaderboard, .leaderboard, .you-scroll, .questions-list, .daily-archive-list, .daily-board, .account-list {
+            scrollbar-gutter: stable;
+        }
+
         /* The solid colour is what iPhone Safari paints its top and bottom bars with (a
            gradient alone leaves them white). overscroll-behavior stops the page bouncing. */
         html {
