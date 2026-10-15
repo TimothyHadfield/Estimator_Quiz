@@ -3146,6 +3146,20 @@ Population of Tokyo?, 13960000"></textarea>
         // Fixed test categories
         const TEST_CATEGORIES = ['Industry', 'Science', 'History', 'Entertainment', 'Fine Arts'];
 
+        // Every question has two tags (2026-10-15): what kind of number the answer is, and what
+        // it's about. Players see their strengths by either; the operator filters by them.
+        const QUESTION_KINDS = {
+            money: 'Money', people: 'People', distance: 'Distance', time: 'Time', weight: 'Weight',
+            speed: 'Speed', area: 'Area & volume', count: 'Counting things', science: 'Science units', percent: 'Percent'
+        };
+        const QUESTION_SUBJECTS = {
+            nature: 'Nature', space: 'Science & space', body: 'Human body', history: 'History', places: 'Places',
+            business: 'Business', sports: 'Sports', entertainment: 'Entertainment', food: 'Food', everyday: 'Everyday life'
+        };
+        function kindLabel(id) { return QUESTION_KINDS[id] || 'Untagged'; }
+        function subjectLabel(id) { return QUESTION_SUBJECTS[id] || 'Untagged'; }
+        function questionByKey(key) { return questions.find(q => String(q._key) === String(key)); }
+
         // ===== OPERATOR LOGIN SYSTEM =====
 
         // There is no operator button: the owner signs in through the account circle like
