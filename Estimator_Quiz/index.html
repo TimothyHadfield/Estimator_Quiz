@@ -491,6 +491,53 @@
         .stats-svg .st-hvalue { fill: #999; font-size: 11px; text-anchor: start; }
         .stats-svg .st-track { fill: rgba(255, 255, 255, 0.05); }
 
+        /* Operator: pool on rows and in the add/edit form, answer-feedback chips and panel, backup */
+        @media (min-width: 769px) {
+            .add-questions .form-row { grid-template-columns: 1fr 1fr 1fr; }
+        }
+
+        /* Five filters no longer fit beside the search box: search gets its own row, filters one row under it */
+        @media (min-width: 601px) {
+            .question-filters input[type="search"] { flex-basis: 100%; }
+        }
+
+        .q-chip.pool {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ccc;
+        }
+
+        .q-chip.fb {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ffb74d;
+        }
+
+        .fb-list li {
+            cursor: pointer;
+        }
+
+        .fb-list li:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .fb-meta {
+            color: #ffb74d;
+            font-size: 0.78em;
+            margin-left: 42px;
+        }
+
+        .backup-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .backup-note {
+            color: #aaa;
+            font-size: 0.85em;
+        }
+
         /* Questions List */
         .questions-list-section {
             background: rgba(255,255,255,0.05);
@@ -2867,7 +2914,7 @@
             <div class="import-section">
                 <h2>Import Questions from Table/CSV</h2>
                 <div class="import-info">
-                    <p>Paste data from a spreadsheet or CSV file. Format: <code>Question, Answer</code> or <code>Question, Answer, Kind, Subject</code></p>
+                    <p>Paste data from a spreadsheet or CSV file. Format: <code>Question, Answer</code> or <code>Question, Answer, Kind, Subject, Pool</code> (Pool: practice or daily; blank = practice)</p>
                     <p>Supports comma, tab, or semicolon separators. One question per line.</p>
                 </div>
                 <textarea class="paste-area" id="import-paste" placeholder="Paste your data here...
@@ -2904,6 +2951,13 @@ Population of Tokyo?, 13960000"></textarea>
                         <label for="question-subject">Subject</label>
                         <select id="question-subject"></select>
                     </div>
+                    <div class="form-group">
+                        <label for="question-pool">Pool</label>
+                        <select id="question-pool">
+                            <option value="practice">Practice</option>
+                            <option value="daily">Daily</option>
+                        </select>
+                    </div>
                 </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-primary" id="question-submit-btn" onclick="addOrUpdateQuestion()">Add Question</button>
@@ -2926,6 +2980,18 @@ Population of Tokyo?, 13960000"></textarea>
                         <option value="daily">Daily</option>
                         <option value="practice">Practice</option>
                     </select>
+                    <select id="questions-feedback" onchange="renderQuestions()">
+                        <option value="">All feedback</option>
+                        <option value="any">Has feedback</option>
+                        <option value="many">Too many points</option>
+                        <option value="few">Not enough points</option>
+                        <option value="vague">Vague</option>
+                        <option value="wordy">Wordy</option>
+                        <option value="confusing">Confusing</option>
+                        <option value="wrong">Wrong answer</option>
+                        <option value="easy">Too easy</option>
+                        <option value="noclue">No way to guess</option>
+                    </select>
                     <select id="questions-sort" onchange="renderQuestions()">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
@@ -2937,6 +3003,7 @@ Population of Tokyo?, 13960000"></textarea>
                         <option value="log-avg-low">Lowest avg points</option>
                         <option value="reported">Reported First</option>
                         <option value="most-reports">Most Reports</option>
+                        <option value="most-feedback">Most feedback</option>
                     </select>
                 </div>
                 <ul class="questions-list" id="questions-list">
@@ -2987,6 +3054,12 @@ Population of Tokyo?, 13960000"></textarea>
                     <div id="stats-side-chart"></div>
                 </div>
                 <div class="form-section stats-panel">
+                    <div class="stats-head"><h2>Feedback</h2></div>
+                    <div class="stats-summary" id="stats-feedback-summary"></div>
+                    <div id="stats-feedback-chart"></div>
+                    <ul class="stats-question-list fb-list" id="stats-feedback-list"></ul>
+                </div>
+                <div class="form-section stats-panel">
                     <div class="stats-head">
                         <h2>Questions</h2>
                         <select id="stats-min-guesses" onchange="renderStats()">
@@ -3016,6 +3089,10 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="stats-summary" id="stats-players-summary"></div>
                     <div id="stats-players-chart"></div>
                 </div>
+            </div>
+            <div class="backup-row">
+                <button class="btn btn-secondary btn-small" id="backup-btn" onclick="downloadBackup()">Download backup</button>
+                <span class="backup-note" id="backup-note"></span>
             </div>
         </div>
 
@@ -4802,6 +4879,8 @@ Population of Tokyo?, 13960000"></textarea>
                 // Optional third and fourth columns: kind and subject (id or label, e.g. "distance" or "Distance")
                 const kind = tagId(QUESTION_KINDS, parts[2]);
                 const subject = tagId(QUESTION_SUBJECTS, parts[3]);
+                // Optional fifth column: pool ("daily"; anything else or blank = practice)
+                const pool = String(parts[4] || '').trim().toLowerCase() === 'daily' ? 'daily' : 'practice';
 
                 const answer = parseFloat(answerText.replace(/,/g, ''));
 
@@ -4815,6 +4894,7 @@ Population of Tokyo?, 13960000"></textarea>
                     text: questionText,
                     answer: answer,
                     createdAt: Date.now(),
+                    pool,
                     multiplier: 1,
                     avgPoints: 0,
                     avgCount: 0
@@ -4972,6 +5052,7 @@ Population of Tokyo?, 13960000"></textarea>
             switchTab('questions');
             document.getElementById('questions-search').value = '';
             document.getElementById('questions-pool').value = '';
+            document.getElementById('questions-feedback').value = '';
             document.getElementById('questions-kind').value = field === 'kind' ? (id || '__untagged__') : '';
             document.getElementById('questions-subject').value = field === 'subject' ? (id || '__untagged__') : '';
             renderQuestions();
@@ -4997,6 +5078,7 @@ Population of Tokyo?, 13960000"></textarea>
             // Kind and subject ('' = untagged; null removes the field on an edit)
             const kind = document.getElementById('question-kind').value;
             const subject = document.getElementById('question-subject').value;
+            const pool = document.getElementById('question-pool').value === 'daily' ? 'daily' : 'practice';
 
             if (editingQuestionId) {
                 const question = questions.find(q => q.id === editingQuestionId);
@@ -5005,7 +5087,8 @@ Population of Tokyo?, 13960000"></textarea>
                     question.answer = answer;
                     question.kind = kind || undefined;
                     question.subject = subject || undefined;
-                    dbWrite(questionRef(question).update({ text, answer, kind: kind || null, subject: subject || null }));
+                    question.pool = pool;
+                    dbWrite(questionRef(question).update({ text, answer, kind: kind || null, subject: subject || null, pool }));
                     showNotification('Question updated!', 'success');
                 }
                 cancelQuestionEdit();
@@ -5016,6 +5099,7 @@ Population of Tokyo?, 13960000"></textarea>
                     text,
                     answer,
                     createdAt: Date.now(),
+                    pool,
                     multiplier: 1,        // B value for scoring formula
                     avgPoints: 0,         // Running total of points for this question
                     avgCount: 0           // Number of times answered (resets after multiplier adjustment)
@@ -5042,6 +5126,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('question-answer').value = question.answer;
             document.getElementById('question-kind').value = QUESTION_KINDS[question.kind] ? question.kind : '';
             document.getElementById('question-subject').value = QUESTION_SUBJECTS[question.subject] ? question.subject : '';
+            document.getElementById('question-pool').value = question.pool === 'daily' ? 'daily' : 'practice';
 
             document.getElementById('question-form-title').textContent = 'Edit Question';
             document.getElementById('question-submit-btn').textContent = 'Update Question';
@@ -5068,6 +5153,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('question-answer').value = '';
             document.getElementById('question-kind').value = '';
             document.getElementById('question-subject').value = '';
+            document.getElementById('question-pool').value = 'practice';
         }
 
         // "Add questions" folds the import and add/edit forms open or shut (closed by default)
@@ -5087,6 +5173,7 @@ Population of Tokyo?, 13960000"></textarea>
         function openQuestionsTab() {
             requestAnimationFrame(fitQuestionsList);
             if (!statsGuesses) loadGuessLog().then(renderQuestions).catch(err => console.warn('Questions: guesses not loaded:', err));
+            if (!statsFeedback) loadFeedback().then(renderQuestions).catch(err => console.warn('Questions: feedback not loaded:', err));
         }
 
         // The list ends at the bottom of the screen and scrolls inside itself, so the page doesn't
@@ -5548,8 +5635,11 @@ Population of Tokyo?, 13960000"></textarea>
 
             const tagMatches = (value, wanted, labels) =>
                 !wanted || (wanted === '__untagged__' ? !labels[value] : value === wanted);
-            const filtering = !!(search || kind || subject || pool);
+            const fbWanted = feedbackFilterValue();
+            const fbCounts = feedbackByKey();
+            const filtering = !!(search || kind || subject || pool || fbWanted);
             let filteredQuestions = questions.filter(q =>
+                feedbackMatches(fbCounts[q._key], fbWanted) &&
                 tagMatches(q.kind, kind, QUESTION_KINDS) &&
                 tagMatches(q.subject, subject, QUESTION_SUBJECTS) &&
                 (!pool || (pool === 'practice') === (q.pool === 'practice')) &&
@@ -5585,6 +5675,8 @@ Population of Tokyo?, 13960000"></textarea>
                         return (bReports > 0 ? 1 : 0) - (aReports > 0 ? 1 : 0);
                     case 'most-reports':
                         return bReports - aReports;
+                    case 'most-feedback':
+                        return (fbCounts[b._key] ? fbCounts[b._key].total : 0) - (fbCounts[a._key] ? fbCounts[a._key].total : 0);
                     default:
                         return (b.createdAt || 0) - (a.createdAt || 0);
                 }
@@ -5628,7 +5720,7 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="question-meta">
                         <span class="question-answer">Answer: ${formatNumber(question.answer)}</span>
                         ${question.low > 0 ? `<span class="question-range" title="Guessed spread of ordinary players' guesses (10th to 90th percentile); the multiplier was set from it">Range: ${formatNumber(question.low)} – ${formatNumber(question.high)}</span>` : ''}
-                        ${kindTag}${subjectTag}
+                        ${kindTag}${subjectTag}${poolChipHtml(question)}${feedbackChipsHtml(fbCounts[question._key])}
                     </div>
                     <div class="question-stats">
                         <div class="question-multiplier">
@@ -5655,6 +5747,206 @@ Population of Tokyo?, 13960000"></textarea>
                 </li>
             `}).join('');
             openGuessCharts.forEach(key => renderGuessChart(key));
+        }
+
+        // ===== OPERATOR: POOL =====
+        // Which list a question is in: practice tests use 'practice', the daily schedule uses 'daily'.
+        // Older questions with no pool show "No pool" (they can come up in both).
+        function poolChipHtml(question) {
+            if (question.pool === 'practice') return '<span class="q-chip pool">Practice</span>';
+            if (question.pool === 'daily') return '<span class="q-chip pool">Daily</span>';
+            return '<span class="q-chip untagged">No pool</span>';
+        }
+
+        // ===== OPERATOR: FEEDBACK =====
+        // Players' taps under answers: feedback/<question key>/<push id> = {k, t, g, p, a, b, d?}.
+        // Owner-read only. Loaded once for the Questions tab, again on every Stats visit.
+        const FEEDBACK_KINDS = {
+            many: 'Too many points',
+            few: 'Not enough points',
+            vague: 'Vague',
+            wordy: 'Wordy',
+            confusing: 'Confusing',
+            wrong: 'Wrong answer',
+            easy: 'Too easy',
+            noclue: 'No way to guess'
+        };
+        let statsFeedback = null;      // key -> [{k, t, g, p, a, b, d?}]
+        let feedbackLoading = null;
+        let feedbackLoadFailed = false;
+        let feedbackCountsCache = null, feedbackCountsOf = null;
+
+        function loadFeedback(force) {
+            if (statsFeedback && !force) return Promise.resolve(statsFeedback);
+            if (feedbackLoading) return feedbackLoading;
+            feedbackLoading = database.ref('feedback').once('value').then(snapshot => {
+                const out = {};
+                Object.entries(snapshot.val() || {}).forEach(([key, rows]) => {
+                    const list = Object.values(rows || {}).filter(row => row && FEEDBACK_KINDS[row.k]);
+                    if (list.length) out[key] = list;
+                });
+                statsFeedback = out;
+                feedbackLoadFailed = false;
+                feedbackLoading = null;
+                return statsFeedback;
+            }, err => {
+                feedbackLoading = null;
+                feedbackLoadFailed = true;
+                throw err;
+            });
+            return feedbackLoading;
+        }
+
+        // Per question: {total, many: n, few: n, ...}
+        function feedbackByKey() {
+            if (!statsFeedback) return {};
+            if (feedbackCountsOf === statsFeedback) return feedbackCountsCache;
+            const out = {};
+            Object.entries(statsFeedback).forEach(([key, rows]) => {
+                const c = { total: 0 };
+                rows.forEach(row => { c[row.k] = (c[row.k] || 0) + 1; c.total++; });
+                out[key] = c;
+            });
+            feedbackCountsCache = out;
+            feedbackCountsOf = statsFeedback;
+            return out;
+        }
+
+        function feedbackFilterValue() {
+            const select = document.getElementById('questions-feedback');
+            return select ? select.value : '';
+        }
+
+        // '' = no filter, 'any' = has any feedback, otherwise one kind
+        function feedbackMatches(counts, wanted) {
+            if (!wanted) return true;
+            if (!counts) return false;
+            return wanted === 'any' ? counts.total > 0 : (counts[wanted] || 0) > 0;
+        }
+
+        // "↑3 too many · ↓1 not enough · Vague 2"
+        function feedbackSummaryText(counts) {
+            return Object.keys(FEEDBACK_KINDS).filter(k => counts[k]).map(k =>
+                k === 'many' ? `↑${counts[k]} too many` : k === 'few' ? `↓${counts[k]} not enough` : `${FEEDBACK_KINDS[k]} ${counts[k]}`
+            ).join(' · ');
+        }
+
+        function feedbackChipsHtml(counts) {
+            if (!counts || !counts.total) return '';
+            return `<span class="q-chip fb" title="Player feedback">${escapeHtml(feedbackSummaryText(counts))}</span>`;
+        }
+
+        function loadStatsFeedback() {
+            renderStatsFeedback();
+            loadFeedback(true).then(renderStatsFeedback).catch(err => {
+                console.warn('Stats: feedback not loaded:', err);
+                renderStatsFeedback();
+            });
+        }
+
+        function renderStatsFeedback() {
+            const note = document.getElementById('stats-feedback-summary');
+            if (!note) return;
+            const chart = document.getElementById('stats-feedback-chart');
+            const list = document.getElementById('stats-feedback-list');
+            if (!statsFeedback) {
+                note.textContent = feedbackLoadFailed ? 'Could not load feedback' : 'Loading…';
+                chart.innerHTML = list.innerHTML = '';
+                return;
+            }
+            const counts = feedbackByKey();
+            const totals = {};
+            Object.keys(FEEDBACK_KINDS).forEach(k => { totals[k] = 0; });
+            let all = 0;
+            Object.values(counts).forEach(c => {
+                Object.keys(FEEDBACK_KINDS).forEach(k => { totals[k] += c[k] || 0; });
+                all += c.total;
+            });
+            const keys = Object.keys(counts);
+            if (!all) {
+                note.textContent = 'No feedback yet';
+                chart.innerHTML = list.innerHTML = '';
+                return;
+            }
+            note.textContent = `${all.toLocaleString('en-US')} total · ${keys.length.toLocaleString('en-US')} question${keys.length !== 1 ? 's' : ''}`;
+            chart.innerHTML = feedbackBarsSvg(Object.keys(FEEDBACK_KINDS).map(k => ({ label: FEEDBACK_KINDS[k], n: totals[k] })));
+            list.innerHTML = keys.sort((a, b) => counts[b].total - counts[a].total).slice(0, 15).map(key => {
+                const question = questionByKey(key);
+                return `
+                <li onclick="openQuestionFromFeedback('${escapeHtml(key)}')" title="Open in Questions">
+                    <div class="stats-q-row">
+                        <span class="stats-q-avg">${counts[key].total}</span>
+                        <span class="stats-q-text">${escapeHtml(question ? question.text : 'Removed question ' + key)}</span>
+                    </div>
+                    <div class="fb-meta">${escapeHtml(feedbackSummaryText(counts[key]))}</div>
+                </li>`;
+            }).join('');
+        }
+
+        // Horizontal count bars, one per feedback kind, scaled to the biggest
+        function feedbackBarsSvg(rows) {
+            const W = 400, rowH = 22, labelW = 124, valueW = 40, top = 2;
+            const H = top * 2 + rows.length * rowH;
+            const barMax = W - labelW - valueW;
+            const peak = Math.max(1, ...rows.map(r => r.n));
+            let svg = `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Feedback by kind">`;
+            rows.forEach((r, i) => {
+                const y = top + i * rowH;
+                svg += `<text x="0" y="${y + 15}" class="st-hlabel">${escapeHtml(r.label)}</text>`;
+                svg += `<rect x="${labelW}" y="${y + 4}" width="${barMax}" height="${rowH - 8}" rx="3" class="st-track"/>`;
+                if (r.n) svg += `<rect x="${labelW}" y="${y + 4}" width="${Math.max(2, r.n / peak * barMax).toFixed(1)}" height="${rowH - 8}" rx="3" class="st-bar"><title>${escapeHtml(r.label)}: ${r.n}</title></rect>`;
+                svg += `<text x="${labelW + barMax + 6}" y="${y + 15}" class="st-hvalue">${r.n}</text>`;
+            });
+            return svg + '</svg>';
+        }
+
+        // A row in the Feedback panel opens that question in the Questions list (search by its text)
+        function openQuestionFromFeedback(key) {
+            const question = questionByKey(key);
+            if (!question) return;
+            switchTab('questions');
+            document.getElementById('questions-search').value = question.text;
+            document.getElementById('questions-kind').value = '';
+            document.getElementById('questions-subject').value = '';
+            document.getElementById('questions-pool').value = '';
+            document.getElementById('questions-feedback').value = '';
+            renderQuestions();
+            document.getElementById('questions-list').scrollTop = 0;
+        }
+
+        // ===== OPERATOR: BACKUP =====
+        // One JSON file of every game node the owner can read (never users/). A node that
+        // fails to load is left out and named in the note.
+        const BACKUP_NODES = ['questions', 'daily', 'dailyScores', 'records', 'guesses', 'feedback', 'calibration', 'trueAverage', 'scoring'];
+
+        function downloadBackup() {
+            const button = document.getElementById('backup-btn');
+            const note = document.getElementById('backup-note');
+            button.disabled = true;
+            note.textContent = 'Reading…';
+            return Promise.allSettled(BACKUP_NODES.map(node => database.ref(node).once('value'))).then(results => {
+                const data = {};
+                const skipped = [];
+                results.forEach((r, i) => {
+                    if (r.status === 'fulfilled') data[BACKUP_NODES[i]] = r.value.val();
+                    else skipped.push(BACKUP_NODES[i]);
+                });
+                const d = new Date();
+                const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                const blob = new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `estimator-backup-${date}.json`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 10000);
+                const kb = Math.round(blob.size / 1024).toLocaleString('en-US');
+                note.textContent = skipped.length ? `${kb} KB · skipped ${skipped.join(', ')}` : `${kb} KB`;
+                button.disabled = false;
+                return { file: link.download, bytes: blob.size, skipped };
+            });
         }
 
         // ===== GUESS CHART (operator) =====
@@ -5753,6 +6045,7 @@ Population of Tokyo?, 13960000"></textarea>
                 console.warn('Stats: guesses not loaded:', err);
                 showNotification('Could not load guesses', 'error');
             });
+            loadStatsFeedback();
         }
 
         // Points a logged guess earned: stored with it (every row has p since 2026-10-15),
