@@ -75,26 +75,6 @@
             display: none;
         }
 
-        /* Current Category Banner */
-        .current-category-banner {
-            text-align: center;
-            padding: 12px 20px;
-            background: rgba(102, 126, 234, 0.2);
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(102, 126, 234, 0.3);
-        }
-
-        .current-category-banner span {
-            color: #aaa;
-        }
-
-        .current-category-banner .category-name {
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
         .tabs {
             display: flex;
             justify-content: center;
@@ -303,121 +283,197 @@
             color: #666;
         }
 
-        /* Categories Tab */
-        .categories-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .categories-section h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-        }
-
-        .category-cards {
+        /* Types tab (operator): one card per kind and per subject */
+        .types-groups {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-items: start;
         }
 
-        .category-card {
+        @media (max-width: 700px) {
+            .types-groups { grid-template-columns: 1fr; }
+        }
+
+        .types-group {
+            padding: 16px;
+            margin-bottom: 0;
+            min-width: 0;
+        }
+
+        .types-group h2 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .types-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .type-card {
             background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 8px 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .category-card:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        .category-card.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .category-card.selected::after {
-            content: '✓';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #667eea;
+            text-align: left;
             color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            font: inherit;
+            min-width: 0;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .type-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+        }
+
+        .type-card-top {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 6px;
         }
 
-        .category-card .cat-name {
-            font-size: 1.2em;
+        .type-name {
             font-weight: 600;
-            color: #fff;
-            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .category-card .cat-count {
-            color: #888;
+        .type-avg {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .type-meta {
+            color: #999;
+            font-size: 0.78em;
+            margin-top: 2px;
+            line-height: 1.45;
+        }
+
+        /* Questions tab: tags on each row, the log's guesses and average, folded add forms */
+        .q-chip {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.78em;
+            background: rgba(102, 126, 234, 0.2);
+            color: #a9b6ff;
+        }
+
+        .q-chip.subject {
+            background: rgba(240, 147, 251, 0.15);
+            color: #f3b2fb;
+        }
+
+        .q-chip.untagged {
+            background: rgba(136, 136, 136, 0.25);
+            color: #999;
+        }
+
+        .q-log {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .q-log b {
+            font-weight: bold;
+        }
+
+        .questions-list-section h2 .question-count {
+            margin-right: auto;
+        }
+
+        .add-toggle {
+            font-weight: normal;
+            font-size: 0.85rem;
+        }
+
+        .add-toggle.open {
+            background: rgba(102, 126, 234, 0.35);
+        }
+
+        .add-questions {
+            display: none;
+        }
+
+        .add-questions.open {
+            display: block;
+        }
+
+        .add-questions .import-section,
+        .add-questions .form-section {
+            background: rgba(255,255,255,0.03);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .add-questions h2 {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+
+        .question-filters {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .question-filters input[type="search"] {
+            flex: 1 1 160px;
+            min-width: 0;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
             font-size: 0.9em;
         }
 
-        .category-card .cat-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
+        .question-filters input[type="search"]:focus {
+            outline: 2px solid #667eea;
         }
 
-        .category-card .cat-actions button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 15px;
+        .question-filters select {
+            -webkit-appearance: none;
+            appearance: none;
             cursor: pointer;
-            font-size: 0.85em;
-            transition: all 0.3s;
+            max-width: 100%;
         }
 
-        .category-card .select-btn {
-            background: rgba(102, 126, 234, 0.3);
-            color: #667eea;
+        .add-questions .form-group select {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
         }
 
-        .category-card .select-btn:hover {
-            background: rgba(102, 126, 234, 0.5);
+        @media (max-width: 600px) {
+            .filter-controls.question-filters {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .question-filters input[type="search"] {
+                grid-column: 1 / -1;
+            }
+
+            .question-filters select {
+                width: 100%;
+            }
         }
 
-        .category-card.selected .select-btn {
-            background: #667eea;
-            color: white;
+        .questions-list {
+            overflow-y: auto;
         }
 
-        .category-card .delete-btn {
-            background: rgba(244, 67, 54, 0.2);
-            color: #f44336;
-        }
-
-        .category-card .delete-btn:hover {
-            background: rgba(244, 67, 54, 0.4);
-        }
-
-        .category-card .clear-btn {
-            background: rgba(255, 152, 0, 0.2);
-            color: #ff9800;
-        }
-
-        .category-card .clear-btn:hover {
-            background: rgba(255, 152, 0, 0.4);
-        }
+        /* Stats: horizontal bars (by type) */
+        .stats-svg .st-hlabel { fill: #ccc; font-size: 12px; text-anchor: start; }
+        .stats-svg .st-hvalue { fill: #999; font-size: 11px; text-anchor: start; }
+        .stats-svg .st-track { fill: rgba(255, 255, 255, 0.05); }
 
         /* Questions List */
         .questions-list-section {
@@ -2427,7 +2483,7 @@
             }
 
             body:not(.operator-mode) .tabs,
-            body:not(.operator-mode) #categories-tab,
+            body:not(.operator-mode) #types-tab,
             body:not(.operator-mode) #questions-tab,
             body:not(.operator-mode) #stats-tab,
             body:not(.operator-mode) #calibrate-tab,
@@ -2637,9 +2693,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .category-cards {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -2650,14 +2703,9 @@
             <p>Test your estimation skills with numerical questions</p>
         </header>
 
-        <div class="current-category-banner admin-only" id="current-category-banner">
-            <span>Adding questions to: </span>
-            <span class="category-name" id="current-category-name">Uncategorized</span>
-        </div>
-
         <div class="tabs">
             <button class="tab-btn" onclick="switchTab('info')">Info</button>
-            <button class="tab-btn admin-only" onclick="switchTab('categories')">Categories</button>
+            <button class="tab-btn admin-only" onclick="switchTab('types')">Types</button>
             <button class="tab-btn admin-only" onclick="switchTab('questions')">Questions</button>
             <button class="tab-btn admin-only" onclick="switchTab('stats')">Stats</button>
             <button class="tab-btn account-only" onclick="switchTab('calibrate')">Calibrate</button>
@@ -2740,34 +2788,38 @@
             </div>
         </div>
 
-        <!-- Categories Tab -->
-        <div id="categories-tab" class="tab-content">
-            <div class="categories-section">
-                <h2>Create New Category</h2>
-                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="new-category" placeholder="Category name (e.g., 'Science', 'Geography')" style="flex: 1; min-width: 250px; padding: 12px; border: none; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; font-size: 1em;" onkeypress="if(event.key==='Enter')addCategory()">
-                    <button class="btn btn-primary" onclick="addCategory()">Create Category</button>
+        <!-- Types Tab (operator): questions grouped by what kind of number and what subject,
+             with how players do on each. Tapping a card opens the Questions list filtered to it -->
+        <div id="types-tab" class="tab-content">
+            <div class="types-groups">
+                <div class="form-section types-group">
+                    <h2>Kind</h2>
+                    <div class="types-cards" id="types-kind-cards"></div>
                 </div>
-            </div>
-
-            <div class="categories-section">
-                <h2>Your Categories</h2>
-                <p style="color: #aaa; margin-bottom: 15px;">Select a category to add questions to it. New questions will automatically be added to the selected category.</p>
-                <div class="category-cards" id="category-cards">
-                    <!-- Categories will be rendered here -->
+                <div class="form-section types-group">
+                    <h2>Subject</h2>
+                    <div class="types-cards" id="types-subject-cards"></div>
                 </div>
             </div>
         </div>
 
         <!-- Questions Tab -->
         <div id="questions-tab" class="tab-content active">
+            <div class="questions-list-section">
+                <h2>
+                    Your Questions
+                    <span class="question-count" id="question-count">0 questions</span>
+                    <button class="btn btn-secondary btn-small add-toggle" id="add-toggle" onclick="toggleAddQuestions()">Add questions</button>
+                </h2>
+
+            <!-- Import + add/edit forms, folded away until "Add questions" (or ✎ on a row) opens them -->
+            <div class="add-questions" id="add-questions">
             <!-- Import Section -->
             <div class="import-section">
                 <h2>Import Questions from Table/CSV</h2>
                 <div class="import-info">
-                    <p>Paste data from a spreadsheet or CSV file. Format: <code>Question, Answer</code> or <code>Question, Answer, Category</code></p>
+                    <p>Paste data from a spreadsheet or CSV file. Format: <code>Question, Answer</code> or <code>Question, Answer, Kind, Subject</code></p>
                     <p>Supports comma, tab, or semicolon separators. One question per line.</p>
-                    <p><strong>Note:</strong> If no category is specified in the import, questions go to the currently selected category.</p>
                 </div>
                 <textarea class="paste-area" id="import-paste" placeholder="Paste your data here...
 Example:
@@ -2784,7 +2836,7 @@ Population of Tokyo?, 13960000"></textarea>
             </div>
 
             <!-- Add Question Form -->
-            <div class="form-section">
+            <div class="form-section" id="question-form">
                 <h2 id="question-form-title">Add New Question</h2>
                 <div class="form-group">
                     <label for="question-text">Question *</label>
@@ -2794,31 +2846,37 @@ Population of Tokyo?, 13960000"></textarea>
                     <label for="question-answer">Correct Answer (number) *</label>
                     <input type="number" id="question-answer" placeholder="e.g., 2790" step="any">
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="question-kind">Kind</label>
+                        <select id="question-kind"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="question-subject">Subject</label>
+                        <select id="question-subject"></select>
+                    </div>
+                </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-primary" id="question-submit-btn" onclick="addOrUpdateQuestion()">Add Question</button>
-                    <button class="btn btn-secondary" id="question-cancel-btn" onclick="cancelQuestionEdit()" style="display: none;">Cancel</button>
+                    <button class="btn btn-secondary" id="question-cancel-btn" onclick="cancelQuestionEdit(); if (addOpenedByEdit) toggleAddQuestions(false);" style="display: none;">Cancel</button>
                 </div>
             </div>
+            </div>
 
-            <!-- Questions List -->
-            <div class="questions-list-section">
-                <h2>
-                    Your Questions
-                    <span class="question-count" id="question-count">0 questions</span>
-                </h2>
                 <div class="true-average-display" id="true-average-display">
                     <span class="true-avg-label">True Average:</span>
                     <span class="true-avg-value" id="true-avg-value">--</span>
                     <span class="true-avg-info">(avg points per question across all answers)</span>
                 </div>
-                <div class="filter-controls">
-                    <label style="color: #aaa;">Filter by category:</label>
-                    <select id="questions-filter" onchange="renderQuestions()">
-                        <option value="">All Categories</option>
+                <div class="filter-controls question-filters">
+                    <input type="search" id="questions-search" placeholder="Search" oninput="renderQuestionsSoon()">
+                    <select id="questions-kind" onchange="renderQuestions()"></select>
+                    <select id="questions-subject" onchange="renderQuestions()"></select>
+                    <select id="questions-pool" onchange="renderQuestions()">
+                        <option value="">All pools</option>
+                        <option value="daily">Daily</option>
+                        <option value="practice">Practice</option>
                     </select>
-                </div>
-                <div class="sort-controls">
-                    <label>Sort by:</label>
                     <select id="questions-sort" onchange="renderQuestions()">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
@@ -2826,6 +2884,8 @@ Population of Tokyo?, 13960000"></textarea>
                         <option value="multiplier-low">Multiplier (Low to High)</option>
                         <option value="avg-high">Avg Score (High to Low)</option>
                         <option value="avg-low">Avg Score (Low to High)</option>
+                        <option value="most-guesses">Most guesses</option>
+                        <option value="log-avg-low">Lowest avg points</option>
                         <option value="reported">Reported First</option>
                         <option value="most-reports">Most Reports</option>
                     </select>
@@ -2890,6 +2950,22 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="stats-summary" id="stats-questions-summary"></div>
                     <div id="stats-questions-chart"></div>
                     <ul class="stats-question-list" id="stats-question-list"></ul>
+                </div>
+                <div class="form-section stats-panel">
+                    <div class="stats-head">
+                        <h2>By type</h2>
+                        <select id="stats-type-mode" onchange="renderStats()">
+                            <option value="kind">Kind</option>
+                            <option value="subject">Subject</option>
+                        </select>
+                    </div>
+                    <div class="stats-summary" id="stats-type-summary"></div>
+                    <div id="stats-type-chart"></div>
+                </div>
+                <div class="form-section stats-panel">
+                    <div class="stats-head"><h2>Players</h2></div>
+                    <div class="stats-summary" id="stats-players-summary"></div>
+                    <div id="stats-players-chart"></div>
                 </div>
             </div>
         </div>
@@ -4566,7 +4642,6 @@ Population of Tokyo?, 13960000"></textarea>
 
             checkOperatorSession();
             renderAll();
-            updateCurrentCategoryBanner();
 
             // If not operator, make sure we're on a visible tab
             if (!isOperator) {
@@ -4601,7 +4676,6 @@ Population of Tokyo?, 13960000"></textarea>
             let imported = 0;
             let skipped = 0;
             const updates = {};
-            let categoriesChanged = false;
 
             for (const line of lines) {
                 // Try different separators: tab, comma, semicolon
@@ -4623,8 +4697,9 @@ Population of Tokyo?, 13960000"></textarea>
 
                 const questionText = parts[0];
                 const answerText = parts[1];
-                // Use specified category, or fall back to currently selected category
-                const categoryText = parts[2] || selectedCategory;
+                // Optional third and fourth columns: kind and subject (id or label, e.g. "distance" or "Distance")
+                const kind = tagId(QUESTION_KINDS, parts[2]);
+                const subject = tagId(QUESTION_SUBJECTS, parts[3]);
 
                 const answer = parseFloat(answerText.replace(/,/g, ''));
 
@@ -4633,22 +4708,17 @@ Population of Tokyo?, 13960000"></textarea>
                     continue;
                 }
 
-                // Add category if it doesn't exist and is specified
-                if (categoryText && !categories.includes(categoryText)) {
-                    categories.push(categoryText);
-                    categoriesChanged = true;
-                }
-
                 const newQuestion = {
                     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
                     text: questionText,
                     answer: answer,
-                    category: categoryText,
                     createdAt: Date.now(),
                     multiplier: 1,
                     avgPoints: 0,
                     avgCount: 0
                 };
+                if (kind) newQuestion.kind = kind;
+                if (subject) newQuestion.subject = subject;
                 const key = newQuestionKey();
                 updates['questions/' + key] = newQuestion;
                 questions.push({ ...newQuestion, _key: key });
@@ -4657,7 +4727,6 @@ Population of Tokyo?, 13960000"></textarea>
             }
 
             if (imported > 0) {
-                if (categoriesChanged) updates['categories'] = categories;
                 dbWrite(database.ref().update(updates));
                 renderAll();
                 pasteArea.value = '';
@@ -4689,99 +4758,122 @@ Population of Tokyo?, 13960000"></textarea>
             return result;
         }
 
-        // ===== CATEGORY MANAGEMENT =====
+        // ===== TYPES TAB (operator) =====
+        // Replaced the old Categories tab on 2026-10-15 (the old category field is no longer used
+        // in play). Every question has a kind and a subject; each card shows how many questions
+        // carry the tag and how players do on them (from the guess log). Tap a card to list them.
 
-        function addCategory() {
-            const input = document.getElementById('new-category');
-            const name = input.value.trim();
-
-            if (!name) {
-                showNotification('Please enter a category name', 'error');
-                return;
-            }
-
-            if (categories.includes(name)) {
-                showNotification('Category already exists', 'error');
-                return;
-            }
-
-            categories.push(name);
-            selectedCategory = name; // Auto-select the new category
-            input.value = '';
-            dbWrite(database.ref('categories').set(categories));
-            renderAll();
-            updateCurrentCategoryBanner();
-            showNotification(`Category "${name}" created and selected!`, 'success');
+        // A tag from an import column: its id, or the id whose label matches (any case)
+        function tagId(list, text) {
+            const t = String(text || '').trim().toLowerCase();
+            if (!t) return '';
+            if (list[t]) return t;
+            return Object.keys(list).find(id => list[id].toLowerCase() === t) || '';
         }
 
-        function selectCategory(name) {
-            selectedCategory = name;
-            renderCategoryCards();
-            updateCurrentCategoryBanner();
-            showNotification(`Now adding questions to "${name || 'Uncategorized'}"`, 'info');
+        // The guess log (owner-read). Fetched once for Types and Questions; Stats refetches on every visit
+        let guessLogLoading = null;
+
+        function loadGuessLog(force) {
+            if (statsGuesses && !force) return Promise.resolve(statsGuesses);
+            if (guessLogLoading) return guessLogLoading;
+            guessLogLoading = database.ref('guesses').once('value').then(snapshot => {
+                statsGuesses = {};
+                Object.entries(snapshot.val() || {}).forEach(([key, rows]) => {
+                    statsGuesses[key] = Object.values(rows || {}).filter(row => row && typeof row.g === 'number');
+                    guessData[key] = statsGuesses[key].map(row => row.g);
+                });
+                guessLogLoading = null;
+                return statsGuesses;
+            }, err => {
+                guessLogLoading = null;
+                throw err;
+            });
+            return guessLogLoading;
         }
 
-        function deleteCategory(name, event) {
-            event.stopPropagation(); // Prevent selecting when clicking delete
+        // Per question, from the guess log: answers n, average points, average share of the
+        // question's max (0–1) and how many guesses were under the answer
+        let guessStatsCache = null, guessStatsLog = null, guessStatsQuestions = null;
 
-            const questionsInCategory = questions.filter(q => q.category === name).length;
+        function guessStatsByKey() {
+            if (!statsGuesses) return {};
+            if (guessStatsCache && guessStatsLog === statsGuesses && guessStatsQuestions === questions) return guessStatsCache;
+            const out = {};
+            Object.entries(statsGuesses).forEach(([key, rows]) => {
+                const question = questionByKey(key);
+                if (!question) return;
+                const max = dailyQuestionMax(question.text);
+                let sum = 0, n = 0, low = 0;
+                rows.forEach(row => {
+                    const p = guessPoints(question, row);
+                    if (p === null) return;
+                    sum += p;
+                    n++;
+                    if (Number(row.g) < guessAnswer(question, row)) low++;
+                });
+                if (n) out[key] = { n, pts: sum / n, frac: sum / n / max, low };
+            });
+            guessStatsCache = out;
+            guessStatsLog = statsGuesses;
+            guessStatsQuestions = questions;
+            return out;
+        }
 
-            let message = `Delete category "${name}"?`;
-            if (questionsInCategory > 0) {
-                message += ` (${questionsInCategory} question${questionsInCategory !== 1 ? 's' : ''} will become uncategorized)`;
-            }
-
-            if (!confirm(message)) return;
-
-            categories = categories.filter(c => c !== name);
-            const updates = { categories: categories };
-
-            // Remove category from questions (only their category field)
+        // One group per tag (field = 'kind' or 'subject'), in the fixed order, plus "Untagged" if any
+        function typeGroups(field, labels) {
+            const stats = guessStatsByKey();
+            const groups = {};
+            const blank = (id, label) => ({ id, label, daily: 0, practice: 0, n: 0, fracSum: 0, low: 0, bs: [] });
+            Object.keys(labels).forEach(id => { groups[id] = blank(id, labels[id]); });
             questions.forEach(q => {
-                if (q.category === name) {
-                    q.category = '';
-                    updates['questions/' + q._key + '/category'] = '';
-                }
+                const id = labels[q[field]] ? q[field] : '';
+                const group = groups[id] || (groups[id] = blank('', 'Untagged'));
+                if (q.pool === 'practice') group.practice++; else group.daily++;
+                group.bs.push(Number(q.multiplier) || 1);
+                const s = stats[q._key];
+                if (s) { group.n += s.n; group.fracSum += s.frac * s.n; group.low += s.low; }
             });
-
-            // If deleted category was selected, reset to uncategorized
-            if (selectedCategory === name) {
-                selectedCategory = '';
-            }
-
-            dbWrite(database.ref().update(updates));
-            renderAll();
-            updateCurrentCategoryBanner();
-            showNotification(`Category "${name}" deleted`, 'info');
+            return Object.values(groups).filter(g => g.id || g.daily + g.practice);
         }
 
-        function clearCategoryQuestions(name, event) {
-            event.stopPropagation(); // Prevent selecting when clicking clear
-
-            const categoryLabel = name || 'Uncategorized';
-            const questionsInCategory = questions.filter(q => q.category === name).length;
-
-            if (questionsInCategory === 0) {
-                showNotification(`No questions in "${categoryLabel}"`, 'info');
-                return;
-            }
-
-            if (!confirm(`Delete all ${questionsInCategory} question${questionsInCategory !== 1 ? 's' : ''} from "${categoryLabel}"?`)) return;
-
-            const updates = {};
-            questions.filter(q => q.category === name).forEach(q => {
-                updates['questions/' + q._key] = null;
-            });
-            questions = questions.filter(q => q.category !== name);
-
-            dbWrite(database.ref().update(updates));
-            renderAll();
-            showNotification(`Cleared ${questionsInCategory} question${questionsInCategory !== 1 ? 's' : ''} from "${categoryLabel}"`, 'success');
+        function typeCardHtml(field, g) {
+            const avg = g.n ? g.fracSum / g.n : null;
+            const bs = [...g.bs].sort((a, b) => a - b);
+            const medianB = bs.length ? bs[Math.floor((bs.length - 1) / 2)] : null;
+            return `
+                <button class="type-card" onclick="openQuestionsByType('${field}', '${g.id}')">
+                    <div class="type-card-top">
+                        <span class="type-name">${escapeHtml(g.label)}</span>
+                        <span class="type-avg" style="color: ${avg !== null ? scoreColor(avg) : '#666'}" title="Average points, share of the max">${avg !== null ? Math.round(avg * 100) + '%' : '–'}</span>
+                    </div>
+                    <div class="type-meta">${g.daily.toLocaleString('en-US')} daily · ${g.practice.toLocaleString('en-US')} practice</div>
+                    <div class="type-meta">${g.n ? `${g.n} answers · ${Math.round(g.low / g.n * 100)}% low` : 'No answers yet'}${medianB !== null ? ` · B ${+medianB.toFixed(2)}` : ''}</div>
+                </button>`;
         }
 
-        function updateCurrentCategoryBanner() {
-            const nameEl = document.getElementById('current-category-name');
-            nameEl.textContent = selectedCategory || 'Uncategorized';
+        function renderTypes() {
+            const kinds = document.getElementById('types-kind-cards');
+            if (!kinds) return;
+            kinds.innerHTML = typeGroups('kind', QUESTION_KINDS).map(g => typeCardHtml('kind', g)).join('');
+            document.getElementById('types-subject-cards').innerHTML =
+                typeGroups('subject', QUESTION_SUBJECTS).map(g => typeCardHtml('subject', g)).join('');
+        }
+
+        function loadTypes() {
+            renderTypes();
+            loadGuessLog().then(renderTypes).catch(err => console.warn('Types: guesses not loaded:', err));
+        }
+
+        // A card opens the Questions list showing only that kind or subject ('' id = untagged)
+        function openQuestionsByType(field, id) {
+            switchTab('questions');
+            document.getElementById('questions-search').value = '';
+            document.getElementById('questions-pool').value = '';
+            document.getElementById('questions-kind').value = field === 'kind' ? (id || '__untagged__') : '';
+            document.getElementById('questions-subject').value = field === 'subject' ? (id || '__untagged__') : '';
+            renderQuestions();
+            document.getElementById('questions-list').scrollTop = 0;
         }
 
         // ===== QUESTIONS MANAGEMENT =====
@@ -4800,33 +4892,38 @@ Population of Tokyo?, 13960000"></textarea>
                 return;
             }
 
+            // Kind and subject ('' = untagged; null removes the field on an edit)
+            const kind = document.getElementById('question-kind').value;
+            const subject = document.getElementById('question-subject').value;
+
             if (editingQuestionId) {
-                // Update existing question (keep its original category unless changed)
                 const question = questions.find(q => q.id === editingQuestionId);
                 if (question) {
                     question.text = text;
                     question.answer = answer;
-                    // Keep category as-is when editing
-                    dbWrite(questionRef(question).update({ text, answer }));
+                    question.kind = kind || undefined;
+                    question.subject = subject || undefined;
+                    dbWrite(questionRef(question).update({ text, answer, kind: kind || null, subject: subject || null }));
                     showNotification('Question updated!', 'success');
                 }
                 cancelQuestionEdit();
+                if (addOpenedByEdit) toggleAddQuestions(false);
             } else {
-                // Add new question to selected category
                 const newQuestion = {
                     id: Date.now().toString(),
                     text,
                     answer,
-                    category: selectedCategory,
                     createdAt: Date.now(),
                     multiplier: 1,        // B value for scoring formula
                     avgPoints: 0,         // Running total of points for this question
                     avgCount: 0           // Number of times answered (resets after multiplier adjustment)
                 };
+                if (kind) newQuestion.kind = kind;
+                if (subject) newQuestion.subject = subject;
                 const key = newQuestionKey();
                 dbWrite(database.ref('questions/' + key).set(newQuestion));
                 questions.push({ ...newQuestion, _key: key });
-                showNotification(`Question added to "${selectedCategory || 'Uncategorized'}"!`, 'success');
+                showNotification('Question added!', 'success');
             }
 
             clearQuestionForm();
@@ -4841,13 +4938,19 @@ Population of Tokyo?, 13960000"></textarea>
 
             document.getElementById('question-text').value = question.text;
             document.getElementById('question-answer').value = question.answer;
+            document.getElementById('question-kind').value = QUESTION_KINDS[question.kind] ? question.kind : '';
+            document.getElementById('question-subject').value = QUESTION_SUBJECTS[question.subject] ? question.subject : '';
 
             document.getElementById('question-form-title').textContent = 'Edit Question';
             document.getElementById('question-submit-btn').textContent = 'Update Question';
             document.getElementById('question-cancel-btn').style.display = 'inline-block';
 
-            // Scroll to form
-            document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+            // Open the folded forms (closing them again after the edit if they were shut) and scroll to the form
+            if (!document.getElementById('add-questions').classList.contains('open')) {
+                toggleAddQuestions(true);
+                addOpenedByEdit = true;
+            }
+            document.getElementById('question-form').scrollIntoView({ behavior: 'smooth' });
         }
 
         function cancelQuestionEdit() {
@@ -4861,7 +4964,37 @@ Population of Tokyo?, 13960000"></textarea>
         function clearQuestionForm() {
             document.getElementById('question-text').value = '';
             document.getElementById('question-answer').value = '';
+            document.getElementById('question-kind').value = '';
+            document.getElementById('question-subject').value = '';
         }
+
+        // "Add questions" folds the import and add/edit forms open or shut (closed by default)
+        let addOpenedByEdit = false;
+
+        function toggleAddQuestions(open) {
+            const panel = document.getElementById('add-questions');
+            const show = open === undefined ? !panel.classList.contains('open') : open;
+            panel.classList.toggle('open', show);
+            document.getElementById('add-toggle').classList.toggle('open', show);
+            addOpenedByEdit = false;
+            if (!show && editingQuestionId) cancelQuestionEdit();
+            requestAnimationFrame(fitQuestionsList);
+        }
+
+        // Opening the Questions tab: fetch the guess log once so rows can show guesses and averages
+        function openQuestionsTab() {
+            requestAnimationFrame(fitQuestionsList);
+            if (!statsGuesses) loadGuessLog().then(renderQuestions).catch(err => console.warn('Questions: guesses not loaded:', err));
+        }
+
+        // The list ends at the bottom of the screen and scrolls inside itself, so the page doesn't
+        function fitQuestionsList() {
+            const list = document.getElementById('questions-list');
+            if (!list || !list.offsetParent) return;
+            const top = list.getBoundingClientRect().top + window.scrollY;
+            list.style.maxHeight = Math.max(300, window.innerHeight - top - 50) + 'px';
+        }
+        window.addEventListener('resize', () => requestAnimationFrame(fitQuestionsList));
 
         function deleteQuestion(questionId) {
             const question = questions.find(q => q.id === questionId);
@@ -5264,72 +5397,48 @@ Population of Tokyo?, 13960000"></textarea>
         // ===== RENDERING =====
 
         function renderAll() {
-            renderCategoryCards();
+            renderTypes();
             renderQuestions();
             renderRecords();
             updateCategorySelects();
         }
 
-        function renderCategoryCards() {
-            const container = document.getElementById('category-cards');
-
-            // Always show Uncategorized option
-            const uncategorizedCount = questions.filter(q => !q.category).length;
-
-            let html = `
-                <div class="category-card ${selectedCategory === '' ? 'selected' : ''}" onclick="selectCategory('')">
-                    <div class="cat-name">Uncategorized</div>
-                    <div class="cat-count">${uncategorizedCount} question${uncategorizedCount !== 1 ? 's' : ''}</div>
-                    <div class="cat-actions">
-                        <button class="select-btn">${selectedCategory === '' ? 'Selected' : 'Select'}</button>
-                        ${uncategorizedCount > 0 ? `<button class="clear-btn" onclick="clearCategoryQuestions('', event)">Clear All</button>` : ''}
-                    </div>
-                </div>
-            `;
-
-            if (categories.length === 0) {
-                html += `
-                    <div class="no-categories-message" style="grid-column: 1 / -1;">
-                        <p>Create categories above to organize your questions!</p>
-                    </div>
-                `;
-            } else {
-                categories.forEach(cat => {
-                    const count = questions.filter(q => q.category === cat).length;
-                    const isSelected = selectedCategory === cat;
-                    html += `
-                        <div class="category-card ${isSelected ? 'selected' : ''}" onclick="selectCategory('${escapeHtml(cat)}')">
-                            <div class="cat-name">${escapeHtml(cat)}</div>
-                            <div class="cat-count">${count} question${count !== 1 ? 's' : ''}</div>
-                            <div class="cat-actions">
-                                <button class="select-btn">${isSelected ? 'Selected' : 'Select'}</button>
-                                ${count > 0 ? `<button class="clear-btn" onclick="clearCategoryQuestions('${escapeHtml(cat)}', event)">Clear All</button>` : ''}
-                                <button class="delete-btn" onclick="deleteCategory('${escapeHtml(cat)}', event)">Delete</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
-            container.innerHTML = html;
+        // Fills the Questions tab's kind and subject choices (the filters and the add/edit form).
+        // Kept under its old name: other code still calls it after records change
+        function updateCategorySelects() {
+            const fill = (id, first, labels, untagged) => {
+                const select = document.getElementById(id);
+                if (!select) return;
+                const value = select.value;
+                select.innerHTML = `<option value="">${first}</option>` +
+                    Object.entries(labels).map(([key, label]) => `<option value="${key}">${escapeHtml(label)}</option>`).join('') +
+                    (untagged ? '<option value="__untagged__">Untagged</option>' : '');
+                select.value = value;
+                if (select.selectedIndex < 0) select.value = '';
+            };
+            fill('questions-kind', 'All kinds', QUESTION_KINDS, true);
+            fill('questions-subject', 'All subjects', QUESTION_SUBJECTS, true);
+            fill('question-kind', 'Untagged', QUESTION_KINDS, false);
+            fill('question-subject', 'Untagged', QUESTION_SUBJECTS, false);
         }
 
-        function updateCategorySelects() {
-            // Update questions filter select
-            const filterSelect = document.getElementById('questions-filter');
-            const filterValue = filterSelect.value;
-            filterSelect.innerHTML = '<option value="">All Categories</option>' +
-                '<option value="__uncategorized__">Uncategorized</option>' +
-                categories.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
-            filterSelect.value = filterValue;
+        // Typing in the search box redraws once typing pauses (the list can hold 2,000+ rows)
+        let renderQuestionsTimer = null;
 
+        function renderQuestionsSoon() {
+            clearTimeout(renderQuestionsTimer);
+            renderQuestionsTimer = setTimeout(renderQuestions, 150);
         }
 
         function renderQuestions() {
             const list = document.getElementById('questions-list');
             const count = document.getElementById('question-count');
-            const filter = document.getElementById('questions-filter').value;
+            const search = document.getElementById('questions-search').value.trim().toLowerCase();
+            const kind = document.getElementById('questions-kind').value;
+            const subject = document.getElementById('questions-subject').value;
+            const pool = document.getElementById('questions-pool').value;
             const sortBy = document.getElementById('questions-sort').value;
+            const logStats = guessStatsByKey();
 
             // Update true average display
             const trueAvg = getTrueAverage();
@@ -5340,12 +5449,14 @@ Population of Tokyo?, 13960000"></textarea>
                 trueAvgEl.textContent = '--';
             }
 
-            let filteredQuestions = [...questions];
-            if (filter === '__uncategorized__') {
-                filteredQuestions = filteredQuestions.filter(q => !q.category);
-            } else if (filter) {
-                filteredQuestions = filteredQuestions.filter(q => q.category === filter);
-            }
+            const tagMatches = (value, wanted, labels) =>
+                !wanted || (wanted === '__untagged__' ? !labels[value] : value === wanted);
+            const filtering = !!(search || kind || subject || pool);
+            let filteredQuestions = questions.filter(q =>
+                tagMatches(q.kind, kind, QUESTION_KINDS) &&
+                tagMatches(q.subject, subject, QUESTION_SUBJECTS) &&
+                (!pool || (pool === 'practice') === (q.pool === 'practice')) &&
+                (!search || String(q.text || '').toLowerCase().includes(search) || String(q.title || '').toLowerCase().includes(search)));
 
             // Sort questions
             filteredQuestions.sort((a, b) => {
@@ -5353,6 +5464,7 @@ Population of Tokyo?, 13960000"></textarea>
                 const bAvg = b.avgCount > 0 ? b.avgPoints / b.avgCount : 0;
                 const aReports = (a.reports || []).length;
                 const bReports = (b.reports || []).length;
+                const aLog = logStats[a._key], bLog = logStats[b._key];
 
                 switch (sortBy) {
                     case 'oldest':
@@ -5367,6 +5479,11 @@ Population of Tokyo?, 13960000"></textarea>
                         return bAvg - aAvg;
                     case 'avg-low':
                         return aAvg - bAvg;
+                    case 'most-guesses':
+                        return (bLog ? bLog.n : 0) - (aLog ? aLog.n : 0);
+                    case 'log-avg-low':
+                        // Share of the max, so percentage questions compare; never-guessed questions last
+                        return (aLog ? aLog.frac : 2) - (bLog ? bLog.frac : 2);
                     case 'reported':
                         return (bReports > 0 ? 1 : 0) - (aReports > 0 ? 1 : 0);
                     case 'most-reports':
@@ -5376,13 +5493,16 @@ Population of Tokyo?, 13960000"></textarea>
                 }
             });
 
-            count.textContent = `${filteredQuestions.length} question${filteredQuestions.length !== 1 ? 's' : ''}${filter ? ' (filtered)' : ''}`;
+            count.textContent = filtering
+                ? `${filteredQuestions.length.toLocaleString('en-US')} of ${questions.length.toLocaleString('en-US')}`
+                : `${questions.length.toLocaleString('en-US')} question${questions.length !== 1 ? 's' : ''}`;
+            requestAnimationFrame(fitQuestionsList);
 
             if (filteredQuestions.length === 0) {
                 list.innerHTML = `
                     <div class="no-questions-message">
-                        <h3>No questions ${filter ? 'in this category' : 'yet'}!</h3>
-                        <p>${filter ? 'Try a different filter or add questions to this category.' : 'Add some questions above or import from a file.'}</p>
+                        <h3>No questions ${filtering ? 'match' : 'yet'}!</h3>
+                        <p>${filtering ? 'Try a different search or filter.' : 'Add some questions above or import from a file.'}</p>
                     </div>
                 `;
                 return;
@@ -5393,6 +5513,11 @@ Population of Tokyo?, 13960000"></textarea>
                 const avgCount = question.avgCount || 0;
                 const qAvg = avgCount > 0 ? (question.avgPoints / avgCount) : null;
                 const reportCount = (question.reports || []).length;
+                const log = logStats[question._key];
+                const kindTag = QUESTION_KINDS[question.kind]
+                    ? `<span class="q-chip">${escapeHtml(kindLabel(question.kind))}</span>` : '<span class="q-chip untagged">No kind</span>';
+                const subjectTag = QUESTION_SUBJECTS[question.subject]
+                    ? `<span class="q-chip subject">${escapeHtml(subjectLabel(question.subject))}</span>` : '<span class="q-chip untagged">No subject</span>';
 
                 return `
                 <li class="question-item">
@@ -5406,7 +5531,7 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="question-meta">
                         <span class="question-answer">Answer: ${formatNumber(question.answer)}</span>
                         ${question.low > 0 ? `<span class="question-range" title="Guessed spread of ordinary players' guesses (10th to 90th percentile); the multiplier was set from it">Range: ${formatNumber(question.low)} – ${formatNumber(question.high)}</span>` : ''}
-                        ${question.category ? `<span class="category-tag">${escapeHtml(question.category)}</span>` : '<span class="category-tag" style="background: rgba(136,136,136,0.3); color: #888;">Uncategorized</span>'}
+                        ${kindTag}${subjectTag}
                     </div>
                     <div class="question-stats">
                         <div class="question-multiplier">
@@ -5421,6 +5546,7 @@ Population of Tokyo?, 13960000"></textarea>
                             <span class="avg-count">(${avgCount}/5 answers)</span>
                         </div>
                         <button class="guesses-btn" onclick="toggleGuessChart('${question._key}')">Guesses</button>
+                        ${log ? `<span class="q-log" title="From the guess log">${log.n} guess${log.n !== 1 ? 'es' : ''} · avg <b style="color: ${scoreColor(log.frac)}">${Math.round(log.pts)}</b></span>` : ''}
                         ${reportCount > 0 ? `
                         <div class="question-reported" onclick="viewQuestionReports('${question.id}', event)" title="View reports">
                             <span>⚠ ${reportCount} report${reportCount !== 1 ? 's' : ''}</span>
@@ -5524,12 +5650,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         function loadStats() {
             renderStats();
-            database.ref('guesses').once('value').then(snapshot => {
-                statsGuesses = {};
-                Object.entries(snapshot.val() || {}).forEach(([key, rows]) => {
-                    statsGuesses[key] = Object.values(rows || {}).filter(row => row && typeof row.g === 'number');
-                    guessData[key] = statsGuesses[key].map(row => row.g);
-                });
+            loadGuessLog(true).then(() => {
                 renderStats();
             }).catch(err => {
                 console.warn('Stats: guesses not loaded:', err);
@@ -5622,13 +5743,17 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('stats-practice-summary').textContent = statsSummary(practice) + (practice.length ? ' points per question' : '');
             document.getElementById('stats-practice-chart').innerHTML = histogramSvg(practice, 0, 1000, 20, 500);
 
+            renderStatsPlayers(dates);
+
             const answersNote = document.getElementById('stats-answers-summary');
             const questionsNote = document.getElementById('stats-questions-summary');
             const list = document.getElementById('stats-question-list');
             if (!statsGuesses) {
-                answersNote.textContent = questionsNote.textContent = document.getElementById('stats-side-summary').textContent = 'Loading…';
+                answersNote.textContent = questionsNote.textContent = document.getElementById('stats-side-summary').textContent =
+                    document.getElementById('stats-type-summary').textContent = 'Loading…';
                 return;
             }
+            renderStatsTypes();
 
             // Every logged answer (percentage questions scaled to 1,000)
             const mode = document.getElementById('stats-answers-mode').value;
@@ -5688,6 +5813,86 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="guess-chart" data-key="${q.key}"></div>
                 </li>`).join('');
             shown.slice(0, 25).forEach(q => { if (openGuessCharts.has(q.key)) renderGuessChart(q.key); });
+        }
+
+        // "By type": average points (share of the max) per kind or subject, best first, n = answers
+        function renderStatsTypes() {
+            const field = document.getElementById('stats-type-mode').value;
+            const groups = typeGroups(field, field === 'subject' ? QUESTION_SUBJECTS : QUESTION_KINDS);
+            const rows = groups.filter(g => g.n).map(g => ({ label: g.label, frac: g.fracSum / g.n, n: g.n }))
+                .sort((a, b) => b.frac - a.frac);
+            const answers = rows.reduce((s, r) => s + r.n, 0);
+            document.getElementById('stats-type-summary').textContent = rows.length
+                ? `${answers.toLocaleString('en-US')} answers · ${rows.length} of ${groups.length} types answered · % of max points`
+                : 'No data yet';
+            document.getElementById('stats-type-chart').innerHTML = rows.length ? hbarsSvg(rows) : '';
+        }
+
+        // Horizontal bars, 0–100% of the max, coloured red → green, with a green line at 50% (the target)
+        function hbarsSvg(rows) {
+            const W = 400, rowH = 22, labelW = 112, valueW = 74, top = 2;
+            const H = top * 2 + rows.length * rowH;
+            const barMax = W - labelW - valueW;
+            let svg = `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Average points by type">`;
+            rows.forEach((r, i) => {
+                const y = top + i * rowH;
+                const pct = Math.round(r.frac * 100);
+                svg += `<text x="0" y="${y + 15}" class="st-hlabel">${escapeHtml(r.label)}</text>`;
+                svg += `<rect x="${labelW}" y="${y + 4}" width="${barMax}" height="${rowH - 8}" rx="3" class="st-track"/>`;
+                svg += `<rect x="${labelW}" y="${y + 4}" width="${Math.max(2, Math.min(1, r.frac) * barMax).toFixed(1)}" height="${rowH - 8}" rx="3" style="fill: ${scoreColor(r.frac)}"><title>${escapeHtml(r.label)}: ${pct}% from ${r.n} answers</title></rect>`;
+                svg += `<text x="${labelW + barMax + 6}" y="${y + 15}" class="st-hvalue">${pct}% · ${r.n}</text>`;
+            });
+            svg += `<line x1="${labelW + barMax / 2}" x2="${labelW + barMax / 2}" y1="0" y2="${H}" class="st-target"><title>Target 50%</title></line>`;
+            return svg + '</svg>';
+        }
+
+        // "Players": daily plays per day (bars) and how many different players there have been
+        // (accounts by id, name-only players by name, the same way the all-time board counts them)
+        function renderStatsPlayers(datesNewestFirst) {
+            const dates = [...datesNewestFirst].sort();
+            const counts = [];
+            const players = new Set();
+            dates.forEach(date => {
+                let n = 0;
+                Object.entries(dailyScoresAll[date] || {}).forEach(([id, row]) => {
+                    if (!row || typeof row.score !== 'number') return;
+                    n++;
+                    players.add(id.startsWith('u_') ? id : 'n_' + String(row.name).trim().toLowerCase());
+                });
+                counts.push(n);
+            });
+            const plays = counts.reduce((s, c) => s + c, 0);
+            document.getElementById('stats-players-summary').textContent = plays
+                ? `${plays.toLocaleString('en-US')} plays · ${players.size.toLocaleString('en-US')} players · ${(plays / dates.length).toFixed(1)} a day`
+                : 'No data yet';
+            document.getElementById('stats-players-chart').innerHTML = plays ? dayBarsSvg(dates, counts) : '';
+        }
+
+        // One bar per day, oldest on the left; dates under the first, middle and last bars
+        function dayBarsSvg(dates, counts) {
+            const W = 400, H = 130, left = 28, right = 8, top = 8, bottom = 106;
+            const peak = Math.max(1, ...counts);
+            const slot = (W - left - right) / dates.length;
+            const y = c => bottom - c / peak * (bottom - top);
+            const short = d => dailyLabel(d).replace(/,? \d{4}$/, '');
+            let svg = `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Plays per day">`;
+            [0.5, 1].forEach(f => {
+                const c = Math.round(peak * f);
+                svg += `<line x1="${left}" x2="${W - right}" y1="${y(c)}" y2="${y(c)}" class="st-grid"/><text x="${left - 5}" y="${y(c) + 4}" class="st-ylabel">${c}</text>`;
+            });
+            counts.forEach((c, i) => {
+                if (!c) return;
+                const x0 = left + i * slot + Math.min(1, slot * 0.1);
+                svg += `<rect x="${x0.toFixed(1)}" y="${y(c).toFixed(1)}" width="${Math.max(1, slot - 2 * Math.min(1, slot * 0.1)).toFixed(1)}" height="${(bottom - y(c)).toFixed(1)}" rx="2" class="st-bar"><title>${dailyLabel(dates[i])}: ${c}</title></rect>`;
+            });
+            svg += `<line x1="${left}" x2="${W - right}" y1="${bottom}" y2="${bottom}" class="st-axis"/>`;
+            const marks = [...new Set([0, Math.floor((dates.length - 1) / 2), dates.length - 1])];
+            marks.forEach((i, k) => {
+                const anchor = marks.length > 1 && k === marks.length - 1 ? ' style="text-anchor: end"' : marks.length > 1 && k === 0 ? ' style="text-anchor: start"' : '';
+                const x = k === 0 && marks.length > 1 ? left : k === marks.length - 1 && marks.length > 1 ? W - right : left + (i + 0.5) * slot;
+                svg += `<text x="${x.toFixed(1)}" y="${bottom + 15}" class="st-xlabel"${anchor}>${short(dates[i])}</text>`;
+            });
+            return svg + '</svg>';
         }
 
         // The leaderboard shows one of: a day's daily quiz scores (today by default), every
@@ -6216,6 +6421,8 @@ Population of Tokyo?, 13960000"></textarea>
             document.body.classList.toggle('calibrating', tabName === 'calibrate');
             if (tabName === 'calibrate') renderCalibrate();
             if (tabName === 'stats') loadStats();
+            if (tabName === 'types') loadTypes();
+            if (tabName === 'questions') openQuestionsTab();
             if (tabName === 'records') requestAnimationFrame(fitLeaderboard);
 
             // Check if leaving an active test (a daily quiz keeps its progress and can be continued)
@@ -6374,6 +6581,7 @@ Population of Tokyo?, 13960000"></textarea>
                     if (q.reports) q.reports = q.reports.filter(Boolean);
                 });
                 renderQuestions();
+                renderTypes();
                 renderCalibrate();
                 questionsLoadedResolve();
             });
@@ -6382,8 +6590,6 @@ Population of Tokyo?, 13960000"></textarea>
             database.ref('categories').on('value', (snapshot) => {
                 const data = snapshot.val();
                 categories = data ? Object.values(data).filter(Boolean) : [];
-                renderCategoryCards();
-                updateCategorySelects();
             });
 
             // Daily quiz scores for every day (the leaderboard's day and all-time average views)
