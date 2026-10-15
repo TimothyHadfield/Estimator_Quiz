@@ -1455,6 +1455,25 @@
         .answer-input-container {
             max-width: 300px;
             margin: 0 auto 30px;
+            position: relative;
+        }
+
+        /* "(~142 million)" under the answer box; sits in the box's bottom margin so nothing moves */
+        .answer-scale {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.8em;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.6);
+            pointer-events: none;
+        }
+
+        body.touch-keys .answer-scale {
+            font-size: 0.7em;
+            line-height: 12px;
         }
 
         .answer-input-container input {
@@ -2870,6 +2889,7 @@ Population of Tokyo?, 13960000"></textarea>
                     <h3 id="current-question-text">Loading question...</h3>
                     <div class="answer-input-container">
                         <input type="text" inputmode="decimal" autocomplete="off" id="test-answer" placeholder="Your answer" oninput="formatAnswerInput(this)" onkeypress="if(event.key==='Enter')submitAnswer()">
+                        <div class="answer-scale" id="answer-scale"></div>
                     </div>
                     <!-- Touch screens: our own number keys, so the phone's keyboard never opens -->
                     <div class="number-pad" id="number-pad" onclick="numberPadPress(event)">
@@ -4677,6 +4697,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('running-total').textContent = testState.totalScore.toFixed(1);
             document.getElementById('current-question-text').textContent = question.text;
             document.getElementById('test-answer').value = '';
+            updateAnswerScale(NaN);
             document.getElementById('test-answer').focus();
 
             document.getElementById('submit-answer-btn').style.display = 'inline-block';
@@ -4712,6 +4733,23 @@ Population of Tokyo?, 13960000"></textarea>
             formatAnswerInput(input);
         }
 
+        // Tim (2026-10-14): "if the user is doing more than a million, put a little number in
+        // parenthesis that shows what they put but in the order of magnitude" ("142,340,000" -> "(~142 million)")
+        const ANSWER_SCALES = [[1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']];
+        function answerScaleText(value) {
+            const size = Math.abs(value);
+            if (!isFinite(size) || size < 1e6) return '';
+            let i = ANSWER_SCALES.findIndex(([unit]) => size >= unit);
+            let shown = Number((size / ANSWER_SCALES[i][0]).toPrecision(3));
+            if (shown >= 1000 && i > 0) { i--; shown = Number((size / ANSWER_SCALES[i][0]).toPrecision(3)); }
+            const exact = shown * ANSWER_SCALES[i][0] === size;
+            return `(${exact ? '' : '~'}${value < 0 ? '-' : ''}${shown.toLocaleString('en-US')} ${ANSWER_SCALES[i][1]})`;
+        }
+        function updateAnswerScale(value) {
+            const el = document.getElementById('answer-scale');
+            if (el) el.textContent = answerScaleText(value);
+        }
+
         // Shows the answer box with thousands commas while typing ("1234567" -> "1,234,567")
         // and keeps the cursor where it was, counted in typed characters, not commas.
         function formatAnswerInput(input) {
@@ -4725,6 +4763,7 @@ Population of Tokyo?, 13960000"></textarea>
             const whole = (dot === -1 ? digits : digits.slice(0, dot)).replace(/^0+(?=\d)/, '');
             const decimals = dot === -1 ? '' : '.' + digits.slice(dot + 1).replace(/\./g, '');
             const formatted = (negative ? '-' : '') + whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + decimals;
+            updateAnswerScale(parseFloat(formatted.replace(/,/g, '')));
             if (formatted === raw) return;
 
             input.value = formatted;
