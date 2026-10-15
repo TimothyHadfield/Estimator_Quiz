@@ -1625,10 +1625,92 @@
         }
 
         .breakdown-item {
-            display: flex;
-            justify-content: space-between;
             padding: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Tapped open: the whole question, then the guess and the answer */
+        .breakdown-item.open .breakdown-question {
+            white-space: normal;
+            color: #ddd;
+        }
+
+        .breakdown-full {
+            color: #ccc;
+            margin-bottom: 4px;
+        }
+
+        .breakdown-detail {
+            display: none;
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 6px;
+        }
+
+        .breakdown-item.open .breakdown-detail {
+            display: block;
+        }
+
+        .leaderboard-item.tappable {
+            cursor: pointer;
+        }
+
+        .leaderboard-detail {
+            list-style: none;
+            margin: -4px 0 10px;
+            max-height: none;
+            padding: 8px 12px;
+        }
+
+        .detail-note {
+            color: #888;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .past-quizzes-btn {
+            display: block;
+            margin: -18px auto 20px;
+            background: none;
+            border: none;
+            color: #8fa2ff;
+            font-family: inherit;
+            font-size: 0.95em;
+            cursor: pointer;
+            padding: 6px 12px;
+        }
+
+        .daily-archive-list {
+            list-style: none;
+            max-height: 50vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .daily-archive-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            cursor: pointer;
+            color: #ddd;
+        }
+
+        .archive-play {
+            color: #8fa2ff;
+            font-weight: 600;
         }
 
         .breakdown-item:last-child {
@@ -2688,6 +2770,7 @@ Population of Tokyo?, 13960000"></textarea>
                     </div>
                     <button class="btn btn-primary" id="daily-card-btn">Play</button>
                 </div>
+                <button class="past-quizzes-btn" onclick="openDailyArchive()">Past quizzes</button>
                 <div class="test-mode-options">
                     <div class="test-mode-option selected" onclick="selectTestMode('estimation', this)">
                         <div class="mode-icon">🎯</div>
@@ -2700,15 +2783,24 @@ Population of Tokyo?, 13960000"></textarea>
             <!-- Daily Quiz Intro -->
             <div class="test-intro" id="daily-intro" style="display: none;">
                 <h2>Daily Quiz <span id="daily-intro-number"></span></h2>
-                <p>5 questions. Everyone gets the same ones today. One try.</p>
+                <p id="daily-intro-text">5 questions. Everyone gets the same ones today. One try.</p>
 
                 <div class="name-input-container">
                     <input type="text" id="daily-player-name" placeholder="Enter your name" maxlength="30" onkeypress="if(event.key==='Enter')startDaily()">
                 </div>
 
                 <div class="test-intro-buttons">
-                    <button class="btn btn-secondary" onclick="backToModeSelection()">Back</button>
+                    <button class="btn btn-secondary" onclick="leaveDaily()">Back</button>
                     <button class="btn btn-primary" onclick="startDaily()" style="font-size: 1.1em; padding: 12px 35px;">Start</button>
+                </div>
+            </div>
+
+            <!-- Past daily quizzes -->
+            <div class="test-intro" id="daily-archive" style="display: none;">
+                <h2>Past quizzes</h2>
+                <ul class="daily-archive-list" id="daily-archive-list"></ul>
+                <div class="test-intro-buttons">
+                    <button class="btn btn-secondary" onclick="resetTest()">Back</button>
                 </div>
             </div>
 
@@ -2785,6 +2877,9 @@ Population of Tokyo?, 13960000"></textarea>
             </div>
 
             <div class="final-results" id="final-results">
+                <div id="daily-final-buttons" style="display: none; justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="leaveDaily()">Done</button>
+                </div>
                 <h2 id="final-title">Quiz Complete!</h2>
                 <div class="final-score" id="final-score">0</div>
                 <div class="final-score-label" id="final-score-label">Total Points (Higher is Better)</div>
@@ -2802,9 +2897,6 @@ Population of Tokyo?, 13960000"></textarea>
                 <div id="final-buttons" style="display: flex; gap: 15px; justify-content: center;">
                     <button class="btn btn-primary" onclick="resetTest()">Try Again</button>
                     <button class="btn btn-secondary" onclick="switchTab('records')">View Records</button>
-                </div>
-                <div id="daily-final-buttons" style="display: none; justify-content: center;">
-                    <button class="btn btn-secondary" onclick="resetTest()">Done</button>
                 </div>
             </div>
 
@@ -3325,7 +3417,7 @@ Population of Tokyo?, 13960000"></textarea>
 
                 const daily = (accountData && accountData.daily) || {};
                 const dates = Object.keys(daily).sort().reverse();
-                const streak = dailyStreak(dates);
+                const streak = dailyStreak(dates.filter(date => !daily[date].late));
                 document.getElementById('account-stats').textContent =
                     `Streak: ${streak} day${streak !== 1 ? 's' : ''} · Played: ${dates.length}`;
                 document.getElementById('account-daily-list').innerHTML = dates.length === 0
@@ -3516,7 +3608,9 @@ Population of Tokyo?, 13960000"></textarea>
         const DAILY_MULTIPLIERS_FROM = '2026-10-15';
         const DAILY_FIRST_DAY = '2026-10-09';
         const DAILY_SHARE_LINK = 'timothyhadfield.github.io/Estimator_Quiz';
-        let dailyQuestions = { date: null, list: null };
+        const dailyQuestionCache = {};   // date -> that day's 5 questions
+        let dailyFrom = 'home';    // where Back/Done on the daily goes: 'home' or 'archive'
+        let dailyIntroDate = null; // date the daily intro is showing
         // The daily needs the live questions (multiplier, source): resolved by the first questions load
         let questionsLoadedResolve;
         const questionsLoaded = new Promise(resolve => { questionsLoadedResolve = resolve; });
@@ -3611,7 +3705,9 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function dailyAccountRecord(entry) {
-            return { score: entry.score, max: entry.max, pts: entry.pts, guesses: entry.guesses, maxes: entry.maxes };
+            const record = { score: entry.score, max: entry.max, pts: entry.pts, guesses: entry.guesses, maxes: entry.maxes };
+            if (entry.late) record.late = true;
+            return record;
         }
 
         function renderDailyCard() {
@@ -3661,7 +3757,7 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function loadDailyQuestions(date) {
-            if (dailyQuestions.date === date && dailyQuestions.list) return Promise.resolve(dailyQuestions.list);
+            if (dailyQuestionCache[date]) return Promise.resolve(dailyQuestionCache[date]);
             return database.ref('daily/' + date).once('value').then(snapshot => {
                 let list;
                 if (snapshot.exists()) {
@@ -3670,24 +3766,26 @@ Population of Tokyo?, 13960000"></textarea>
                     list = seededDailyPick(date);
                 }
                 if (list.length < DAILY_LENGTH) throw new Error('Daily quiz has too few questions');
-                dailyQuestions = { date, list };
+                dailyQuestionCache[date] = list;
                 return list;
             });
         }
 
         function hideTestScreens() {
-            ['test-mode-selection', 'test-intro', 'daily-intro', 'test-question-container', 'final-results'].forEach(id => {
+            ['test-mode-selection', 'test-intro', 'daily-intro', 'daily-archive', 'test-question-container', 'final-results'].forEach(id => {
                 document.getElementById(id).style.display = 'none';
             });
             document.body.classList.remove('answering');
         }
 
-        function openDaily() {
+        // Today's quiz from the home card, or a past day's from the Past quizzes list
+        function openDaily(date, from) {
             if (!accountReady) {
                 showNotification('Loading…', 'info');
                 return;
             }
-            const date = dailyToday();
+            date = date || dailyToday();
+            dailyFrom = from || 'home';
             const entry = dailyLocal[date];
             if (entry && entry.done) {
                 showDailyResults(date);
@@ -3695,7 +3793,11 @@ Population of Tokyo?, 13960000"></textarea>
                 runDaily(date, entry.name);
             } else {
                 hideTestScreens();
+                dailyIntroDate = date;
                 document.getElementById('daily-intro-number').textContent = dailyLabel(date);
+                document.getElementById('daily-intro-text').textContent = date < dailyToday()
+                    ? '5 questions from a past day. One try. Not on the leaderboard.'
+                    : '5 questions. Everyone gets the same ones today. One try.';
                 const nameInput = document.getElementById('daily-player-name');
                 let lastName = '';
                 try { lastName = localStorage.getItem('estimatorQuizName') || ''; } catch (e) {}
@@ -3711,13 +3813,48 @@ Population of Tokyo?, 13960000"></textarea>
                 return;
             }
             try { localStorage.setItem('estimatorQuizName', name); } catch (e) {}
-            runDaily(dailyToday(), name);
+            runDaily(dailyIntroDate || dailyToday(), name);
+        }
+
+        // Back from the daily intro, Done on the results: return to where the player came from
+        function leaveDaily() {
+            if (dailyFrom === 'archive') {
+                if (dailyBoardRef) dailyBoardRef.off();
+                dailyBoardRef = null;
+                dailyShown = null;
+                openDailyArchive();
+            } else {
+                resetTest();
+            }
+        }
+
+        // Past quizzes, like the NYT archive: every day from day 1 to yesterday. They can be
+        // played once each, but go to the player's own history only, not the leaderboard.
+        function openDailyArchive() {
+            hideTestScreens();
+            const today = dailyToday();
+            const rows = [];
+            for (let day = dailyDayIndex(today) - 1; day >= dailyDayIndex(DAILY_FIRST_DAY); day--) {
+                const date = new Date(day * 86400000).toISOString().slice(0, 10);
+                const entry = dailyLocal[date];
+                let status = '<span class="archive-play">Play</span>';
+                if (entry && entry.done) {
+                    status = `<span>${dailyScoreText(entry)} <span class="squares-together">${dailySquares(entry)}</span></span>`;
+                } else if (entry && entry.pts && entry.pts.length > 0) {
+                    status = '<span class="archive-play">Continue</span>';
+                }
+                rows.push(`<li onclick="openDaily('${date}', 'archive')"><span>${dailyLabel(date)}</span>${status}</li>`);
+            }
+            document.getElementById('daily-archive-list').innerHTML = rows.join('') || '<li>No past quizzes yet</li>';
+            document.getElementById('daily-archive').style.display = 'block';
         }
 
         // Start (or continue) the daily on the normal question screen
         function runDaily(date, name) {
             Promise.all([loadDailyQuestions(date), questionsLoaded]).then(([list]) => {
                 const entry = dailyLocal[date] || { name, pts: [], guesses: [], maxes: [], done: false };
+                // Played after its day (from Past quizzes): kept off the leaderboard and the streak
+                if (!entry.pts.length && date < dailyToday()) entry.late = true;
                 if (entry.done) {
                     showDailyResults(date);
                     return;
@@ -3789,9 +3926,12 @@ Population of Tokyo?, 13960000"></textarea>
             entry.id = currentUser ? 'u_' + currentUser.uid : database.ref('dailyScores/' + date).push().key;
             saveDailyLocal();
 
-            // One row on today's board. A signed-in player who already has one is refused by the rules.
-            database.ref('dailyScores/' + date + '/' + entry.id).set({ name: entry.name, score: entry.score })
-                .catch(err => console.warn('Daily score not saved:', err));
+            // One row on today's board, with each answer so others can tap it open. A signed-in
+            // player who already has one is refused by the rules. Past-day plays stay off the board.
+            if (!entry.late) {
+                database.ref('dailyScores/' + date + '/' + entry.id).set({ name: entry.name, score: entry.score, pts: entry.pts, g: entry.guesses })
+                    .catch(err => console.warn('Daily score not saved:', err));
+            }
             if (currentUser) {
                 dbWrite(database.ref('users/' + currentUser.uid + '/daily/' + date).set(dailyAccountRecord(entry)));
             }
@@ -3815,21 +3955,15 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('final-buttons').style.display = 'none';
             document.getElementById('daily-final-buttons').style.display = 'flex';
 
+            document.querySelector('#daily-final .daily-board-title').textContent =
+                date === dailyToday() ? 'Today' : dailyLabel(date);
+
             const breakdown = document.getElementById('score-breakdown');
             breakdown.innerHTML = '<h3>Question Breakdown</h3>';
             loadDailyQuestions(date).then(list => {
                 if (dailyShown !== date) return;
-                breakdown.innerHTML = '<h3>Question Breakdown</h3>' + list.map((item, i) => {
-                    const points = entry.pts[i] || 0;
-                    const fraction = points / dailyQuestionMax(item.text);
-                    const pointsClass = fraction >= 0.8 ? 'good' : fraction >= 0.4 ? 'medium' : 'bad';
-                    return `
-                        <div class="breakdown-item">
-                            <span class="breakdown-question">${i + 1}. ${escapeHtml(item.text)}</span>
-                            <span class="breakdown-points ${pointsClass}">+${points.toFixed(1)}</span>
-                        </div>
-                    `;
-                }).join('');
+                breakdown.innerHTML = '<h3>Question Breakdown</h3>' + list.map((item, i) =>
+                    breakdownItemHtml(i, item.text, entry.guesses[i], item.answer, entry.pts[i] || 0, item.key)).join('');
             }).catch(() => {});
 
             if (dailyBoardRef) dailyBoardRef.off();
@@ -3858,7 +3992,44 @@ Population of Tokyo?, 13960000"></textarea>
             // The link goes first, without "https://" and with a comma right after it, so iPhone
             // Messages keeps it as small inline text instead of splitting off a big link preview.
             // The short address is the repo root, whose index.html forwards to the app.
-            return `${DAILY_SHARE_LINK}, ${dailyLabel(date)}\n${dailyScoreText(entry)}\n${dailySquares(entry)}`;
+            // One line per question: its square, its short title and the points it scored. No year in the date.
+            const squares = Array.from(dailySquares(entry));
+            const list = dailyQuestionCache[date] || [];
+            const lines = (entry.pts || []).map((p, i) => {
+                const title = list[i] ? questionTitle(list[i].key) : '';
+                return `${squares[i] || ''} ${title ? title + ': ' : ''}${Math.round(p).toLocaleString('en-US')}`;
+            });
+            const day = dailyLabel(date).replace(/, \d{4}$/, '');
+            return `${DAILY_SHARE_LINK}, ${day}\n${dailyScoreText(entry)}\n${lines.join('\n')}`;
+        }
+
+        // One row of a question breakdown. Tapping it opens the full question with the guess and answer.
+        // Row shows the question's short title; tapped open, the full question, the guess and the answer.
+        function breakdownItemHtml(i, text, guess, answer, points, key) {
+            const fraction = points / dailyQuestionMax(text);
+            const pointsClass = fraction >= 0.8 ? 'good' : fraction >= 0.4 ? 'medium' : 'bad';
+            const commas = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
+            const guessText = typeof guess === 'number' ? commas(guess) : '–';
+            const title = questionTitle(key);
+            return `
+                <div class="breakdown-item" onclick="this.classList.toggle('open')">
+                    <div class="breakdown-row">
+                        <span class="breakdown-question">${i + 1}. ${escapeHtml(title || text)}</span>
+                        <span class="breakdown-points ${pointsClass}">+${points.toFixed(1)}</span>
+                    </div>
+                    <div class="breakdown-detail">
+                        ${title ? `<div class="breakdown-full">${escapeHtml(text)}</div>` : ''}
+                        Guess ${guessText} · Answer ${commas(answer)}
+                    </div>
+                </div>
+            `;
+        }
+
+        // A question's 2–3 word title (questions/<key>/title), or '' when it has none
+        function questionTitle(key) {
+            if (key === undefined || key === null) return '';
+            const question = questions.find(q => String(q._key) === String(key));
+            return question && question.title ? String(question.title) : '';
         }
 
         function shareDaily() {
@@ -4518,6 +4689,7 @@ Population of Tokyo?, 13960000"></textarea>
             }
 
             testState.answers.push({
+                key: question._key,
                 question: question.text,
                 userAnswer,
                 correctAnswer,
@@ -4640,6 +4812,8 @@ Population of Tokyo?, 13960000"></textarea>
             };
             // Signed in: the row is tied to the account, so a later name change can follow it
             if (currentUser) newRecord.uid = currentUser.uid;
+            // Each answer, so a tap on the row in Records can show it
+            newRecord.answers = testState.answers.map(a => ({ k: String(a.key), g: a.userAnswer, p: a.points }));
             records.push(newRecord);
             records.sort((a, b) => b.score - a.score); // Higher score is better
             records = records.slice(0, 100);
@@ -4660,16 +4834,7 @@ Population of Tokyo?, 13960000"></textarea>
             const breakdown = document.getElementById('score-breakdown');
             let breakdownHtml = '<h3>Question Breakdown</h3>';
             testState.answers.forEach((a, i) => {
-                let pointsClass = 'good';
-                if (a.points < 400) pointsClass = 'bad';
-                else if (a.points < 800) pointsClass = 'medium';
-
-                breakdownHtml += `
-                    <div class="breakdown-item">
-                        <span class="breakdown-question">${i + 1}. ${escapeHtml(a.question)}</span>
-                        <span class="breakdown-points ${pointsClass}">+${a.points.toFixed(1)}</span>
-                    </div>
-                `;
+                breakdownHtml += breakdownItemHtml(i, a.question, a.userAnswer, a.correctAnswer, a.points, a.key);
             });
             breakdown.innerHTML = breakdownHtml;
 
@@ -5125,18 +5290,70 @@ Population of Tokyo?, 13960000"></textarea>
             if (rows.length === 0) {
                 return `<div class="no-records"><h3>${emptyTitle}</h3><p>${emptyText}</p></div>`;
             }
+            leaderboardShown = rows;
             return rows.map((row, i) => {
                 const medal = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                const tappable = row.detail ? 'tappable' : '';
                 return `
-                    <li class="leaderboard-item ${medal} ${row.mine ? 'mine' : ''}">
+                    <li class="leaderboard-item ${medal} ${row.mine ? 'mine' : ''} ${tappable}" ${row.detail ? `onclick="toggleLeaderboardDetail(this, ${i})"` : ''}>
                         <span class="rank ${medal}">#${i + 1}</span>
                         <div class="leaderboard-info">
                             <div class="leaderboard-name">${escapeHtml(String(row.name))}</div>
                             ${row.meta ? `<div class="leaderboard-meta">${row.meta}</div>` : ''}
                         </div>
-                        <span class="leaderboard-score">${Math.round(row.score).toLocaleString('en-US')}</span>
+                        <span class="leaderboard-score">${Number(row.score).toLocaleString('en-US', { maximumFractionDigits: row.decimals || 0 })}</span>
                     </li>
                 `;
+            }).join('');
+        }
+
+        // Tapping a leaderboard row opens that player's answers and points under it
+        let leaderboardShown = [];
+
+        function toggleLeaderboardDetail(item, i) {
+            const next = item.nextElementSibling;
+            if (next && next.classList.contains('leaderboard-detail')) {
+                next.remove();
+                return;
+            }
+            const detail = document.createElement('li');
+            detail.className = 'leaderboard-detail score-breakdown';
+            item.after(detail);
+            const row = leaderboardShown[i];
+            if (!row || !row.detail) return;
+            const info = row.detail;
+
+            if (info.date) {
+                // A day's daily: answers stay hidden until you've played that day yourself
+                const own = dailyLocal[info.date];
+                if (!own || !own.done) {
+                    detail.innerHTML = '<p class="detail-note">Play this quiz to see the answers.</p>';
+                    return;
+                }
+                const pts = info.pts || (row.mine ? own.pts : null);
+                const guesses = info.g || (row.mine ? own.guesses : null);
+                if (!pts) {
+                    detail.innerHTML = '<p class="detail-note">Answers weren\'t saved for this score.</p>';
+                    return;
+                }
+                detail.innerHTML = '<p class="detail-note">Loading…</p>';
+                loadDailyQuestions(info.date).then(list => {
+                    detail.innerHTML = list.map((item, j) =>
+                        breakdownItemHtml(j, item.text, guesses ? guesses[j] : undefined, item.answer, pts[j] || 0, item.key)).join('');
+                }).catch(() => { detail.innerHTML = '<p class="detail-note">Couldn\'t load the questions.</p>'; });
+                return;
+            }
+
+            // A practice test: questions looked up by key
+            const answers = info.answers;
+            if (!answers || !answers.length) {
+                detail.innerHTML = '<p class="detail-note">Answers weren\'t saved for this test.</p>';
+                return;
+            }
+            detail.innerHTML = answers.map((a, j) => {
+                const question = questions.find(q => String(q._key) === String(a.k));
+                if (!question) return '';
+                return breakdownItemHtml(j, question.text, a.g, question.answer, a.p || 0, a.k);
             }).join('');
         }
 
@@ -5182,7 +5399,8 @@ Population of Tokyo?, 13960000"></textarea>
                 const mine = [myId, (dailyLocal[view] || {}).id].filter(Boolean);
                 const rows = Object.entries(dailyScoresAll[view] || {})
                     .filter(([, row]) => row && typeof row.score === 'number')
-                    .map(([id, row]) => ({ name: row.name, score: row.score, mine: mine.includes(id) }))
+                    .map(([id, row]) => ({ name: row.name, score: row.score, mine: mine.includes(id),
+                        detail: { date: view, pts: row.pts || null, g: row.g || null } }))
                     .sort((a, b) => b.score - a.score).slice(0, 50);
                 list.innerHTML = leaderboardRows(rows, 'No scores yet', 'Play the daily quiz to appear here.');
                 return;
@@ -5201,30 +5419,13 @@ Population of Tokyo?, 13960000"></textarea>
                 return;
             }
 
-            list.innerHTML = filteredRecords.map((record, index) => {
-                let rankClass = '';
-                let itemClass = '';
-                if (index === 0) { rankClass = 'gold'; itemClass = 'gold'; }
-                else if (index === 1) { rankClass = 'silver'; itemClass = 'silver'; }
-                else if (index === 2) { rankClass = 'bronze'; itemClass = 'bronze'; }
-
-                const date = new Date(record.date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                });
-
-                return `
-                    <li class="leaderboard-item ${itemClass}">
-                        <span class="rank ${rankClass}">#${index + 1}</span>
-                        <div class="leaderboard-info">
-                            <div class="leaderboard-name">${escapeHtml(record.name)}</div>
-                            <div class="leaderboard-meta">${record.questionsAnswered} questions</div>
-                        </div>
-                        <span class="leaderboard-score">${record.score.toFixed(1)}</span>
-                    </li>
-                `;
-            }).join('');
+            list.innerHTML = leaderboardRows(filteredRecords.map(record => ({
+                name: record.name,
+                score: record.score,
+                decimals: 1,
+                meta: `${record.questionsAnswered} questions`,
+                detail: { answers: record.answers ? listFromSnapshot(record.answers) : null }
+            })), '', '');
         }
 
         // ===== MULTIPLIER ADJUSTMENT =====
