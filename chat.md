@@ -126,3 +126,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** commit `fb5a586`; rules allow `p` (0–1000) and `d` (boolean) on guesses, deployed.
 - **Verified how:** headless WebKit 393px and 1440px with `setOperatorMode(true)` and injected guesses (live dailyScores/records real: 10 daily totals mean 1,992; 9 practice tests mean 429/question): no exceptions, no horizontal overflow, screenshots looked at. REST: guess with p+d accepted (then removed), p=2000 denied.
 - **Open:** not seen under Tim's login (the real `guesses` read is owner-only); guesses only exist from 2026-10-14 so the answer/question panels start nearly empty.
+
+## 2026-10-14 · Data analysis, softer scoring, no magnitude units (same chat)
+- **Asked:** "Could you analyze the data we currently have and draw some pre-liminary conclusions?" · then "people should get more points for worse guesses like you said. Do improvements 1 and 2 now… no questions should have orders of magnitude in the question such as "how many millions ....". Fix these questions and answers."
+- **Decided:** 1 = B floor 0.3; 2 = every guessed range widened 15% (log scale) and B re-solved; 3 (global tuning at ~200 answers) not authorized. Context mentions of "million" (population lead-ins) kept.
+- **Built:** commit `eda47ed` (MULTIPLIER_MIN 0.3, rules ≥0.3 deployed); live `/questions` low/high/multiplier/avg for all 2,354, 46 texts+answers reworded (`backups/multiplier/unit-fix.cjs`, `fix-report.txt`); 19 future `daily` items patched.
+- **Verified how:** fresh live dump: 2,354 questions, min B 0.3, every range wider than before, every future daily item matches its live question's text/answer, today and past daily byte-identical; leftover "million" texts read by hand (13, all context). Headless WebKit 393px local build: MULTIPLIER_MIN 0.3, no failed requests, no overflow.
+- **Open:** a full game with the reworded questions not played headlessly (would write live guesses).
