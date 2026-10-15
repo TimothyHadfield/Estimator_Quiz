@@ -2208,7 +2208,11 @@
         /* Arrived here from your history: your row lights up for a moment */
         .leaderboard-item.flash {
             box-shadow: 0 0 0 3px #8fa2ff;
-            transition: box-shadow 0.4s;
+            animation: row-pulse 0.7s ease-in-out 2;
+        }
+
+        @keyframes row-pulse {
+            50% { box-shadow: 0 0 0 6px rgba(143,162,255,0.45); }
         }
 
         .account-list li.tappable {
@@ -2950,7 +2954,7 @@ Population of Tokyo?, 13960000"></textarea>
             <div class="records-section" id="estimation-records-section">
                 <h2>Leaderboard</h2>
                 <div class="records-filter">
-                    <select id="leaderboard-view" onchange="renderRecords()" aria-label="Leaderboard to show"></select>
+                    <select id="leaderboard-view" onchange="leaderboardFocus = null; renderRecords()" aria-label="Leaderboard to show"></select>
                     <button class="past-quizzes-btn" id="leaderboard-day-link" style="display: none; margin: 8px auto 0;"></button>
                 </div>
                 <ul class="leaderboard" id="leaderboard">
@@ -3716,7 +3720,28 @@ Population of Tokyo?, 13960000"></textarea>
                     if (before !== null && after !== null) showScoreNotice(before, after);
                 });
             }).catch(err => console.warn('Scoring check failed:', err))
-              .finally(() => { scoringCheckRunning = false; });
+              .finally(() => { scoringCheckRunning = false; backfillBoardAnswers(); });
+        }
+
+        // Leaderboard rows saved before 2026-10-14 have no answers. This device still has its
+        // own, so it adds them (and the current score) to its rows once. The rules only allow
+        // this on a row that has no answers yet, with the same name.
+        const ANSWERS_BACKFILLED_KEY = 'estimatorQuizAnswersBackfilled';
+        function backfillBoardAnswers() {
+            try { if (localStorage.getItem(ANSWERS_BACKFILLED_KEY)) return; } catch (e) { return; }
+            const dates = Object.keys(dailyLocal).filter(date => {
+                const e = dailyLocal[date];
+                return e && e.done && !e.late && e.id && e.guesses && e.pts && e.guesses.length === 5 && e.pts.length === 5;
+            });
+            Promise.all(dates.map(date => {
+                const e = dailyLocal[date];
+                const ref = database.ref('dailyScores/' + date + '/' + e.id);
+                return ref.once('value').then(snap => {
+                    const row = snap.val();
+                    if (!row || row.g) return;
+                    return ref.update({ g: e.guesses, pts: e.pts, score: e.score });
+                }).catch(err => console.warn('Answers not added to the board:', err));
+            })).then(() => { try { localStorage.setItem(ANSWERS_BACKFILLED_KEY, '1'); } catch (e) {} });
         }
 
         // ===== DAILY QUIZ =====
@@ -5449,11 +5474,12 @@ Population of Tokyo?, 13960000"></textarea>
                 return `<div class="no-records"><h3>${emptyTitle}</h3><p>${emptyText}</p></div>`;
             }
             leaderboardShown = rows;
+            const focus = leaderboardFocusIndex(rows);
             return rows.map((row, i) => {
                 const medal = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
                 const tappable = row.detail ? 'tappable' : '';
                 return `
-                    <li class="leaderboard-item ${medal} ${row.mine ? 'mine' : ''} ${tappable}" ${row.detail ? `onclick="toggleLeaderboardDetail(this, ${i})"` : ''}>
+                    <li class="leaderboard-item ${medal} ${row.mine ? 'mine' : ''} ${tappable} ${i === focus ? 'flash' : ''}" ${row.detail ? `onclick="toggleLeaderboardDetail(this, ${i})"` : ''}>
                         <span class="rank ${medal}">#${i + 1}</span>
                         <div class="leaderboard-info">
                             <div class="leaderboard-name">${escapeHtml(String(row.name))}</div>
@@ -5467,6 +5493,16 @@ Population of Tokyo?, 13960000"></textarea>
 
         // Jump to the Records tab on one leaderboard (a date, or 'practice') with your row lit up.
         // Practice rows are matched by score and length, since a test in the account has no record id.
+        // The highlight stays (through live re-renders) until the player picks another leaderboard
+        let leaderboardFocus = null;
+
+        function leaderboardFocusIndex(rows) {
+            const f = leaderboardFocus;
+            if (!f || document.getElementById('leaderboard-view').value !== f.view) return -1;
+            return rows.findIndex(row => row.mine &&
+                (f.view !== 'practice' || (Math.abs(Number(row.score) - f.score) < 0.05 && row.n === f.n)));
+        }
+
         function showOnLeaderboard(view, score, n) {
             closeAccountModal();
             if (testState.isActive && !testState.isDaily && !confirm('Leave the test? Your progress will be lost.')) return;
@@ -5474,17 +5510,15 @@ Population of Tokyo?, 13960000"></textarea>
             switchTab('records');
             const select = document.getElementById('leaderboard-view');
             select.value = view;
+            leaderboardFocus = { view, score, n };
             renderRecords();
             const items = document.querySelectorAll('#leaderboard .leaderboard-item');
-            const i = leaderboardShown.findIndex(row => row.mine &&
-                (view !== 'practice' || (Math.abs(Number(row.score) - score) < 0.05 && row.n === n)));
+            const i = leaderboardFocusIndex(leaderboardShown);
             if (i < 0 || !items[i]) {
                 if (view !== 'practice' && select.value !== view) showNotification('Not on the leaderboard (played later)', 'info');
                 return;
             }
-            items[i].classList.add('flash');
             items[i].scrollIntoView({ block: 'center', behavior: 'smooth' });
-            setTimeout(() => items[i].classList.remove('flash'), 2500);
         }
 
         // Under a day's leaderboard: play that day, or open your results for it
