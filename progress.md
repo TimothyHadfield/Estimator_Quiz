@@ -1,7 +1,7 @@
 # Estimator Quiz — progress (handoff for Claude)
 
 ## START HERE
-_Last updated 2026-10-14 night (past quizzes, titles, rescoring, links live; Stats Under/over chart live; nothing in progress; no agents running). Old Goal blocks: `docs/archive/progress-2026-10-14.md`. For Claude only; Tim doesn't read this. Catch-up authorizes nothing: only "Authorized next steps" below is approved work._
+_Last updated 2026-10-15 (formatting pass `b016682` live: whole numbers, red→green scores, compact phone header, scrolling Records list, results reorder + laptop board-beside, "(2.5× low)", plain-link extras; nothing in progress; no agents running). Old Goal blocks: `docs/archive/progress-2026-10-14.md`. For Claude only; Tim doesn't read this. Catch-up authorizes nothing: only "Authorized next steps" below is approved work._
 1. Read this file (it's short on purpose).
 2. Read `direction.md` if it exists (it overrules everything). It does not exist yet: Tim has not said what he wants built next.
 3. Skim the last 3 entries of `chat.md`. Older history: `docs/archive/` (none yet).
@@ -67,6 +67,8 @@ _Last updated 2026-10-14 night (past quizzes, titles, rescoring, links live; Sta
 - **Parent folder is a different repo with the same remote.** `Code Projects/` is its own git repo whose `origin` is also Estimator_Quiz (old state, 3 commits behind, guard blocks commits there). Always run git from inside this project folder and check `git rev-parse --show-toplevel` ends in `Learning & Quizzes/Estimator_Quiz`.
 - **The app lives one folder down**: `Estimator_Quiz/index.html`, so the live URL has the name twice. The repo-root `index.html` (added 2026-10-10) only forwards the short address to the app; don't move the app (the live link and README point at the nested path).
 - **Pushing redeploys the live site** (GitHub Pages from `main`, root). Docs-only pushes are harmless.
+- **Phone fit is tight**: home measured exactly 659px at 393px wide (2026-10-15). Any added vertical px on home or the question screen makes the page scroll; re-measure `scrollHeight`. Off home, `body.compact-header` (set by `syncCompactHeader` via a MutationObserver) hides the subtitle; on laptop `body.board-beside` puts the daily results board in the side panel and `hideTestScreens` must clear it.
+- **Headless results tests**: inject a fake `dailyLocal[date]` and call `showDailyResults(date)`; never finish/submit (writes live). The fake entry triggers the "Scoring updated" modal; click OK.
 - **Live data is real.** The database holds players' accounts, daily scores, leaderboard records and question stats. No deletes or migrations without Tim's explicit go, and back up first.
 - **The database root is no longer publicly readable** (2026-10-09). Public reads are per node: `questions`, `categories`, `records`, `trueAverage`, `daily`, `dailyScores`. `users/` is private. A full backup now needs the owner login: `firebase database:get / --project estimator-quiz -o backups/<name>.json` (PowerShell). Never read `users/` beyond the test account.
 - **Test account:** `claude-test` (email + password in `.claude/test/credentials.md`, gitignored; uid `aS4hKdbcpVcs4dGiSl6tznu9yTy1`). Created through the site's Create account button. In daily checks always pass `--local estimatorQuizTestDate=2020-01-02` (a scheduled test date) so the real Today board is untouched, then delete `dailyScores/2020-01-02`. The account already has a result for that date, so a signed-in rerun shows Results instead of playing; use another past date (falls back to the seeded pick) or a name-only run.
