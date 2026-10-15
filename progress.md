@@ -70,6 +70,7 @@ _Last updated 2026-10-15 evening (stats feature live `190e5ad`: Records You view
 - Global `~/.claude/CLAUDE.md` rules apply (commit and push each finished change, $0, verify at 390px and laptop, never touch live user data without his go).
 
 ## Traps / rules that bite
+- **Scroll bars (2026-10-15, `9bf24ea`):** Tim saw Windows' wide white bars covering content. Global thin dark `scrollbar-color` + `::-webkit-scrollbar`, and `scrollbar-gutter: stable` on inner scroll lists. phone-view/headless Chrome HIDE scroll bars; to see them launch Chrome with `ignoreDefaultArgs: ['--hide-scrollbars']` (script kept in the session scratchpad as `sb.mjs`). Local port 8765 was taken over by another session's Python server mid-session; check the page title isn't "Error response" before trusting a screenshot.
 - **Parent folder is a different repo with the same remote.** `Code Projects/` is its own git repo whose `origin` is also Estimator_Quiz (old state, 3 commits behind, guard blocks commits there). Always run git from inside this project folder and check `git rev-parse --show-toplevel` ends in `Learning & Quizzes/Estimator_Quiz`.
 - **The app lives one folder down**: `Estimator_Quiz/index.html`, so the live URL has the name twice. The repo-root `index.html` (added 2026-10-10) only forwards the short address to the app; don't move the app (the live link and README point at the nested path).
 - **Pushing redeploys the live site** (GitHub Pages from `main`, root). Docs-only pushes are harmless.
