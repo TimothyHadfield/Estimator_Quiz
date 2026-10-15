@@ -998,6 +998,39 @@
             cursor: default;
         }
 
+        /* Under an answer: points feel off? and what's wrong with the question (logged only) */
+        .feedback-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .fb-btn, .fb-chip {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            color: #9aa4b5;
+            font-size: 0.8em;
+            padding: 4px 11px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+
+        .fb-chip { font-size: 0.75em; padding: 3px 9px; }
+
+        .fb-btn:hover:not(:disabled), .fb-chip:hover:not(:disabled) { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+        .fb-btn.sent, .fb-chip.sent {
+            background: #667eea;
+            border-color: #667eea;
+            color: #fff;
+            cursor: default;
+        }
+
+        .fb-btn:disabled:not(.sent) { opacity: 0.35; cursor: default; }
+
         .calibrate-box {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
@@ -3131,9 +3164,19 @@ Population of Tokyo?, 13960000"></textarea>
                 <div class="result-display" id="result-display">
                     <div class="correct-answer">Correct Answer: <span id="correct-answer-value">0</span></div>
                     <div class="points-earned" id="points-earned">+0 points</div>
-                    <button class="good-btn" id="good-question-btn" onclick="markGoodQuestion()">Good question</button>
-                    <button class="report-btn" onclick="openReportModal()">Report Question</button>
-                    <a class="source-btn" id="source-btn" target="_blank" rel="noopener">Sources</a>
+                    <!-- Feedback for later analysis only: nothing here changes a question or a score -->
+                    <div class="feedback-row" id="feedback-points">
+                        <button class="fb-btn" data-k="many" onclick="sendFeedback(this)">Too many points</button>
+                        <button class="fb-btn" data-k="few" onclick="sendFeedback(this)">Not enough points</button>
+                    </div>
+                    <div class="feedback-row" id="feedback-flags">
+                        <button class="fb-chip" data-k="vague" onclick="sendFeedback(this)">Vague</button>
+                        <button class="fb-chip" data-k="wordy" onclick="sendFeedback(this)">Wordy</button>
+                        <button class="fb-chip" data-k="confusing" onclick="sendFeedback(this)">Confusing</button>
+                        <button class="fb-chip" data-k="wrong" onclick="sendFeedback(this)">Wrong answer</button>
+                        <button class="fb-chip" data-k="easy" onclick="sendFeedback(this)">Too easy</button>
+                        <button class="fb-chip" data-k="noclue" onclick="sendFeedback(this)">No way to guess</button>
+                    </div>
                 </div>
             </div>
 
@@ -4572,30 +4615,35 @@ Population of Tokyo?, 13960000"></textarea>
             closeReportModal();
         }
 
-        // ===== GOOD QUESTION MARKS =====
+        // ===== ANSWER FEEDBACK =====
+        // Under each answer: "Too many / Not enough points" (is B right?) and what's wrong with
+        // the question. Each tap is logged to feedback/<question key>/<push> = {k, t, g, p, a, b, d?}
+        // (create-only, operator-read) for analysis later. Nothing is changed automatically.
 
-        // Question ids marked good in this visit (so the button stays marked)
-        const markedGoodIds = new Set();
-
-        function updateGoodButton(question) {
-            const btn = document.getElementById('good-question-btn');
-            const marked = !!question && markedGoodIds.has(question.id);
-            btn.classList.toggle('marked', marked);
-            btn.textContent = marked ? '✓ Good question' : 'Good question';
+        function resetFeedbackButtons() {
+            document.querySelectorAll('#result-display .fb-btn, #result-display .fb-chip').forEach(b => {
+                b.classList.remove('sent');
+                b.disabled = false;
+            });
         }
 
-        function markGoodQuestion() {
+        function sendFeedback(btn) {
+            if (btn.disabled) return;
             const question = testState.shuffledQuestions[testState.currentIndex];
-            if (!question || markedGoodIds.has(question.id)) return;
+            const answer = testState.answers[testState.answers.length - 1];
+            if (!question || question._key === undefined || !answer) return;
 
-            markedGoodIds.add(question.id);
-            updateGoodButton(question);
+            btn.classList.add('sent');
+            btn.disabled = true;
+            // Too many and not enough points rule each other out
+            if (btn.classList.contains('fb-btn')) {
+                document.querySelectorAll('#feedback-points .fb-btn').forEach(b => { b.disabled = true; });
+            }
 
-            // Append just this mark under the question (never rewrite the question list)
-            dbWrite(questionRef(question).child('goodMarks').push({
-                date: Date.now(),
-                playerName: testState.playerName
-            }));
+            const row = { k: btn.dataset.k, t: Date.now(), g: answer.userAnswer, p: answer.points, a: Number(question.answer), b: question.multiplier || 1 };
+            if (testState.isDaily) row.d = true;
+            database.ref('feedback/' + question._key).push(row)
+                .catch(err => console.warn('Feedback not saved:', err));
         }
 
         function clearQuestionReports(questionId, event) {
@@ -5091,7 +5139,7 @@ Population of Tokyo?, 13960000"></textarea>
             document.getElementById('result-display').classList.remove('show');
             document.getElementById('test-answer').disabled = false;
             document.getElementById('number-pad').classList.remove('answered');
-            updateGoodButton(question);
+            resetFeedbackButtons();
         }
 
         // Touch screens use our own number keys under the answer box instead of the phone's
@@ -5241,11 +5289,6 @@ Population of Tokyo?, 13960000"></textarea>
             } else {
                 pointsEl.classList.add('bad');
             }
-
-            const sourceBtn = document.getElementById('source-btn');
-            const source = question.source || '';
-            sourceBtn.href = /^https?:\/\//.test(source) ? source : '#';
-            sourceBtn.style.display = /^https?:\/\//.test(source) ? '' : 'none';
 
             document.getElementById('result-display').classList.add('show');
             document.getElementById('running-total').textContent = Math.round(testState.totalScore).toLocaleString('en-US');

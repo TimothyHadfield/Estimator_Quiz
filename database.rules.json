@@ -353,6 +353,38 @@
           }
         }
       }
+    },
+    "feedback": {
+      "$q": {
+        "$f": {
+          ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
+          ".validate": "newData.hasChildren(['k', 't']) && newData.child('t').isNumber()",
+          "k": {
+            ".validate": "newData.isString() && newData.val().matches(/^(many|few|vague|wordy|confusing|wrong|easy|noclue)$/)"
+          },
+          "t": {
+            ".validate": true
+          },
+          "g": {
+            ".validate": "newData.isNumber() && newData.val() > -1000000000000000 && newData.val() < 1000000000000000"
+          },
+          "p": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+          },
+          "a": {
+            ".validate": "newData.isNumber()"
+          },
+          "b": {
+            ".validate": "newData.isNumber()"
+          },
+          "d": {
+            ".validate": "newData.isBoolean()"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
     }
   }
 }
