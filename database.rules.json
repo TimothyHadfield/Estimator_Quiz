@@ -125,6 +125,9 @@
     "categories": {
       ".read": true
     },
+    "scoring": {
+      ".read": true
+    },
     "daily": {
       ".read": true
     },
@@ -292,10 +295,33 @@
             "category": {
               ".validate": true
             },
+            "answers": {
+              "$i": {
+                ".validate": "$i.matches(/^[0-9]+$/) && newData.hasChildren(['k', 'g', 'p']) && newData.child('k').isString() && newData.child('k').val().length <= 40 && newData.child('g').isNumber() && newData.child('p').isNumber() && newData.child('p').val() >= 0 && newData.child('p').val() <= 1000",
+                "k": {
+                  ".validate": true
+                },
+                "g": {
+                  ".validate": true
+                },
+                "p": {
+                  ".validate": true
+                },
+                "$other": {
+                  ".validate": false
+                }
+              }
+            },
             "$other": {
               ".validate": false
             }
           }
+        },
+        "scoringSeen": {
+          ".validate": "newData.isNumber()"
+        },
+        "scoreNotice": {
+          ".validate": false
         },
         "$other": {
           ".validate": false

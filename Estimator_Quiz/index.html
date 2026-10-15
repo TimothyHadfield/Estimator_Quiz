@@ -2186,6 +2186,16 @@
             background: rgba(102, 126, 234, 0.2);
         }
 
+        /* Arrived here from your history: your row lights up for a moment */
+        .leaderboard-item.flash {
+            box-shadow: 0 0 0 3px #8fa2ff;
+            transition: box-shadow 0.4s;
+        }
+
+        .account-list li.tappable {
+            cursor: pointer;
+        }
+
         /* Accounts */
         .profile-btn {
             position: absolute;
@@ -2909,6 +2919,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <h2>Leaderboard</h2>
                 <div class="records-filter">
                     <select id="leaderboard-view" onchange="renderRecords()" aria-label="Leaderboard to show"></select>
+                    <button class="past-quizzes-btn" id="leaderboard-day-link" style="display: none; margin: 8px auto 0;"></button>
                 </div>
                 <ul class="leaderboard" id="leaderboard">
                     <!-- Records will be rendered here -->
@@ -2962,6 +2973,18 @@ Population of Tokyo?, 13960000"></textarea>
             </div>
             <div class="login-error" id="account-error"></div>
             <button class="account-link" id="account-close" onclick="closeAccountModal()" style="margin-bottom: 0;">Close</button>
+        </div>
+    </div>
+
+    <!-- Shown once after the scoring changes and past scores were recalculated -->
+    <div class="report-modal" id="score-notice">
+        <div class="report-modal-content" style="text-align: center;">
+            <h3>Scoring updated</h3>
+            <p style="color: #aaa; margin-bottom: 15px;">The scoring changed, so your past scores were recalculated.</p>
+            <p id="score-notice-change" style="font-size: 1.3em; font-weight: bold; margin-bottom: 20px;"></p>
+            <div class="report-modal-buttons" style="justify-content: center;">
+                <button class="btn btn-primary" onclick="document.getElementById('score-notice').classList.remove('show')">OK</button>
+            </div>
         </div>
     </div>
 
@@ -3369,6 +3392,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (!user) {
                 accountReady = true;
                 renderAccount();
+                checkScoringVersion();
                 return;
             }
 
@@ -3385,6 +3409,7 @@ Population of Tokyo?, 13960000"></textarea>
                 spreadAccountName();
                 accountReady = true;
                 renderAccount();
+                checkScoringVersion();
             }, err => {
                 console.warn('Could not load account:', err);
                 accountData = {};
@@ -3422,7 +3447,7 @@ Population of Tokyo?, 13960000"></textarea>
                     `Streak: ${streak} day${streak !== 1 ? 's' : ''} · Played: ${dates.length}`;
                 document.getElementById('account-daily-list').innerHTML = dates.length === 0
                     ? '<li>No daily quizzes yet</li>'
-                    : dates.map(date => `<li><span>${dailyLabel(date)}</span><span>${dailyScoreText(daily[date])}</span></li>`).join('');
+                    : dates.map(date => `<li class="tappable" onclick="showOnLeaderboard('${date}')"><span>${dailyLabel(date)}</span><span>${dailyScoreText(daily[date])}</span></li>`).join('');
 
                 const tests = Object.values((accountData && accountData.tests) || {}).sort((a, b) => b.date - a.date);
                 document.getElementById('account-tests-list').innerHTML = tests.length === 0
@@ -3430,7 +3455,7 @@ Population of Tokyo?, 13960000"></textarea>
                     : tests.map(t => {
                         const label = t.mode === 'compare' ? 'Which is Bigger?' : 'Estimation';
                         const score = t.mode === 'compare' ? `${t.score} / ${t.n}` : `${Number(t.score).toLocaleString('en-US')} (${t.n} Q)`;
-                        return `<li><span>${label} · ${new Date(t.date).toLocaleDateString()}</span><span>${score}</span></li>`;
+                        return `<li class="tappable" onclick="showOnLeaderboard('practice', ${Number(t.score)}, ${Number(t.n)})"><span>${label} · ${new Date(t.date).toLocaleDateString()}</span><span>${score}</span></li>`;
                     }).join('');
             }
 
@@ -3591,21 +3616,85 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         // Save a finished normal test to the signed-in player's account
-        function saveTestToAccount(mode, score, n, category) {
+        function saveTestToAccount(mode, score, n, category, answers) {
             if (!currentUser) return;
-            dbWrite(database.ref('users/' + currentUser.uid + '/tests').push({
-                mode, score, n, category: String(category || 'all'), date: Date.now()
-            }));
+            const test = { mode, score, n, category: String(category || 'all'), date: Date.now() };
+            if (answers) test.answers = answers;
+            dbWrite(database.ref('users/' + currentUser.uid + '/tests').push(test));
+        }
+
+        // ===== RESCORING AFTER A SCORING CHANGE =====
+        // When the scoring changes, the owner runs tools/rescore.cjs: it recalculates every saved
+        // score that has its answers (accounts, board rows, practice records), writes each account
+        // users/<uid>/scoreNotice = {v, from, to} (daily average before and after) and bumps
+        // scoring/v. Here each player is told once; a device without an account recalculates its
+        // own saved dailies the same way.
+        const SCORING_SEEN_KEY = 'estimatorQuizScoringSeen';
+        let scoringCheckRunning = false;
+
+        function dailyAverage(entries) {
+            const done = entries.filter(e => e && e.done && typeof e.score === 'number');
+            return done.length ? done.reduce((s, e) => s + e.score, 0) / done.length : null;
+        }
+
+        function showScoreNotice(from, to) {
+            const fmt = n => Math.round(n).toLocaleString('en-US');
+            document.getElementById('score-notice-change').textContent = `Daily average: ${fmt(from)} → ${fmt(to)}`;
+            document.getElementById('score-notice').classList.add('show');
+        }
+
+        function checkScoringVersion() {
+            if (scoringCheckRunning || !accountReady) return;
+            scoringCheckRunning = true;
+            Promise.all([questionsLoaded, database.ref('scoring/v').once('value')]).then(([, snap]) => {
+                const v = Number(snap.val()) || 0;
+                let seen = 0;
+                try { seen = Number(localStorage.getItem(SCORING_SEEN_KEY)) || 0; } catch (e) {}
+                const markSeen = () => { try { localStorage.setItem(SCORING_SEEN_KEY, String(v)); } catch (e) {} };
+
+                if (currentUser && accountData) {
+                    // The rescore script already updated the account; just tell the player once
+                    const notice = accountData.scoreNotice;
+                    if (notice && notice.v > (accountData.scoringSeen || 0)) {
+                        if (typeof notice.from === 'number' && typeof notice.to === 'number') showScoreNotice(notice.from, notice.to);
+                        dbWrite(database.ref('users/' + currentUser.uid + '/scoringSeen').set(notice.v));
+                    }
+                    markSeen();
+                    return;
+                }
+                if (seen >= v) return;
+                const dates = Object.keys(dailyLocal).filter(d => dailyLocal[d] && dailyLocal[d].guesses && dailyLocal[d].guesses.length);
+                if (!dates.length) { markSeen(); return; }
+
+                // No account: recalculate this device's saved dailies with today's scoring
+                const before = dailyAverage(dates.map(d => dailyLocal[d]));
+                return Promise.all(dates.map(date => loadDailyQuestions(date).then(list => {
+                    const entry = dailyLocal[date];
+                    entry.pts = entry.guesses.map((g, i) => {
+                        const item = list[i];
+                        const live = questions.find(q => String(q._key) === String(item.key));
+                        return calculatePoints(g, item.answer, live ? (live.multiplier || 1) : 1, item.text);
+                    });
+                    if (entry.done) entry.score = Math.round(entry.pts.reduce((s, p) => s + p, 0) * 10) / 10;
+                }).catch(() => {}))).then(() => {
+                    saveDailyLocal();
+                    markSeen();
+                    renderDailyCard();
+                    const after = dailyAverage(dates.map(d => dailyLocal[d]));
+                    if (before !== null && after !== null) showScoreNotice(before, after);
+                });
+            }).catch(err => console.warn('Scoring check failed:', err))
+              .finally(() => { scoringCheckRunning = false; });
         }
 
         // ===== DAILY QUIZ =====
         // Same 5 questions for everyone on the same (local) date. The questions come from
-        // daily/<date> (written ahead by tools/make-daily-schedule.mjs). From
-        // DAILY_MULTIPLIERS_FROM on, scoring uses each question's multiplier (before that, 1).
+        // daily/<date> (written ahead by tools/make-daily-schedule.mjs). Scoring uses each
+        // question's live multiplier; when the scoring changes, past scores are recalculated
+        // (see RESCORING above).
         // The daily never touches question stats, so a guess is worth the same all day.
 
         const DAILY_LENGTH = 5;
-        const DAILY_MULTIPLIERS_FROM = '2026-10-15';
         const DAILY_FIRST_DAY = '2026-10-09';
         const DAILY_SHARE_LINK = 'timothyhadfield.github.io/Estimator_Quiz';
         const dailyQuestionCache = {};   // date -> that day's 5 questions
@@ -3689,7 +3778,8 @@ Population of Tokyo?, 13960000"></textarea>
             let changed = false;
 
             Object.keys(remote).forEach(date => {
-                if (!dailyLocal[date] || !dailyLocal[date].done) {
+                // The account's copy wins when it differs (e.g. recalculated after a scoring change)
+                if (!dailyLocal[date] || !dailyLocal[date].done || dailyLocal[date].score !== remote[date].score) {
                     dailyLocal[date] = Object.assign({ name: accountData.name, id: 'u_' + currentUser.uid }, remote[date], { done: true });
                     changed = true;
                 }
@@ -3873,7 +3963,7 @@ Population of Tokyo?, 13960000"></textarea>
                         _key: item.key,
                         text: item.text,
                         answer: item.answer,
-                        multiplier: date >= DAILY_MULTIPLIERS_FROM && live ? (live.multiplier || 1) : 1,
+                        multiplier: live ? (live.multiplier || 1) : 1,
                         source: live ? live.source : ''
                     };
                 });
@@ -4818,7 +4908,7 @@ Population of Tokyo?, 13960000"></textarea>
             records.sort((a, b) => b.score - a.score); // Higher score is better
             records = records.slice(0, 100);
             dbWrite(database.ref('records').push(newRecord));
-            saveTestToAccount('estimation', newRecord.score, newRecord.questionsAnswered, 'all');
+            saveTestToAccount('estimation', newRecord.score, newRecord.questionsAnswered, 'all', newRecord.answers);
 
             hideTestScreens();
             dailyShown = null;
@@ -5307,6 +5397,46 @@ Population of Tokyo?, 13960000"></textarea>
             }).join('');
         }
 
+        // Jump to the Records tab on one leaderboard (a date, or 'practice') with your row lit up.
+        // Practice rows are matched by score and length, since a test in the account has no record id.
+        function showOnLeaderboard(view, score, n) {
+            closeAccountModal();
+            if (testState.isActive && !testState.isDaily && !confirm('Leave the test? Your progress will be lost.')) return;
+            if (testState.isActive) resetTest();
+            switchTab('records');
+            const select = document.getElementById('leaderboard-view');
+            select.value = view;
+            renderRecords();
+            const items = document.querySelectorAll('#leaderboard .leaderboard-item');
+            const i = leaderboardShown.findIndex(row => row.mine &&
+                (view !== 'practice' || (Math.abs(Number(row.score) - score) < 0.05 && row.n === n)));
+            if (i < 0 || !items[i]) {
+                if (view !== 'practice' && select.value !== view) showNotification('Not on the leaderboard (played later)', 'info');
+                return;
+            }
+            items[i].classList.add('flash');
+            items[i].scrollIntoView({ block: 'center', behavior: 'smooth' });
+            setTimeout(() => items[i].classList.remove('flash'), 2500);
+        }
+
+        // Under a day's leaderboard: play that day, or open your results for it
+        function leaderboardDayLink(view) {
+            const link = document.getElementById('leaderboard-day-link');
+            if (view === 'average' || view === 'practice') { link.style.display = 'none'; return; }
+            const entry = dailyLocal[view];
+            link.textContent = entry && entry.done ? 'Your results' : view === dailyToday() ? "Play today's quiz" : 'Play this quiz';
+            link.onclick = () => {
+                switchTab('test');
+                if (entry && entry.done) {
+                    dailyFrom = view === dailyToday() ? 'home' : 'archive';
+                    showDailyResults(view);
+                } else {
+                    openDaily(view, view === dailyToday() ? 'home' : 'archive');
+                }
+            };
+            link.style.display = 'block';
+        }
+
         // Tapping a leaderboard row opens that player's answers and points under it
         let leaderboardShown = [];
 
@@ -5374,6 +5504,7 @@ Population of Tokyo?, 13960000"></textarea>
                 '<option value="average">All-time average</option><option value="practice">Practice tests</option>';
             select.value = wanted === 'average' || wanted === 'practice' || dates.includes(wanted) ? wanted : today;
             const view = select.value;
+            leaderboardDayLink(view);
 
             if (view === 'average') {
                 // One row per player: accounts by their id, name-only players by the name they typed
@@ -5424,6 +5555,8 @@ Population of Tokyo?, 13960000"></textarea>
                 score: record.score,
                 decimals: 1,
                 meta: `${record.questionsAnswered} questions`,
+                n: record.questionsAnswered,
+                mine: !!(currentUser && record.uid === currentUser.uid),
                 detail: { answers: record.answers ? listFromSnapshot(record.answers) : null }
             })), '', '');
         }
