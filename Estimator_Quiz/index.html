@@ -3080,7 +3080,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <p id="daily-intro-text">5 questions. Everyone gets the same ones today. One try.</p>
 
                 <div class="name-input-container">
-                    <input type="text" id="daily-player-name" placeholder="Enter your name" maxlength="30" onkeypress="if(event.key==='Enter')startDaily()">
+                    <input type="text" id="daily-player-name" name="nickname" autocomplete="nickname" data-lpignore="true" data-1p-ignore placeholder="Enter your name" maxlength="20" onkeypress="if(event.key==='Enter')startDaily()">
                 </div>
 
                 <div class="test-intro-buttons">
@@ -3104,7 +3104,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <h2>Practice test</h2>
 
                 <div class="name-input-container">
-                    <input type="text" id="player-name" placeholder="Enter your name">
+                    <input type="text" id="player-name" name="nickname" autocomplete="nickname" data-lpignore="true" data-1p-ignore placeholder="Enter your name" maxlength="20">
                 </div>
 
                 <div class="test-length-selection">
@@ -3285,7 +3285,7 @@ Population of Tokyo?, 13960000"></textarea>
             </div>
             <div id="account-signed-in" style="display: none;">
                 <div class="account-email" id="account-email-shown"></div>
-                <input type="text" id="account-name" placeholder="Name" maxlength="30" onchange="accountSaveName()">
+                <input type="text" id="account-name" name="nickname" autocomplete="nickname" data-lpignore="true" data-1p-ignore placeholder="Name" maxlength="20" onchange="accountSaveName()">
                 <div class="account-stats" id="account-stats"></div>
                 <h4>Daily history</h4>
                 <ul class="account-list" id="account-daily-list"></ul>
@@ -3737,9 +3737,14 @@ Population of Tokyo?, 13960000"></textarea>
             accountRef.on('value', snapshot => {
                 accountData = snapshot.val() || {};
                 if (!accountData.name) {
-                    const name = (user.displayName || (user.email || 'Player').split('@')[0]).slice(0, 30);
+                    const name = defaultAccountName(user);
                     accountData.name = name;
                     dbWrite(accountRef.update({ name, created: Date.now() }));
+                } else if (nameProblem(accountData.name) || accountData.name.length > NAME_MAX) {
+                    // An email that autofill saved as the name, or a name from before the 20-character limit
+                    const name = defaultAccountName(user, accountData.name);
+                    accountData.name = name;
+                    dbWrite(accountRef.child('name').set(name));
                 }
                 syncDailyWithAccount();
                 spreadAccountName();
@@ -3908,9 +3913,40 @@ Population of Tokyo?, 13960000"></textarea>
 
         let forgotWaitUntil = 0;
 
+        // Player names: at most NAME_MAX characters (the rules say the same) and never an email
+        // (browsers' password autofill used to drop the sign-in email into the Name box)
+        const NAME_MAX = 20;
+
+        function cleanName(raw) {
+            return String(raw || '').replace(/\s+/g, ' ').trim().slice(0, NAME_MAX).trim();
+        }
+
+        function nameProblem(name) {
+            if (!name) return 'Please enter your name';
+            if (name.includes('@')) return 'Use a name, not an email';
+            return '';
+        }
+
+        // A name for an account that has none (or an old one that's too long or an email)
+        function defaultAccountName(user, current) {
+            const base = String(current || user.displayName || user.email || 'Player').split('@')[0].replace(/\s+/g, ' ').trim();
+            // Too long: keep whole words where possible ("Mary Anne Van Der Berg" -> "Mary Anne Van Der")
+            const cut = base.length > NAME_MAX ? base.slice(0, NAME_MAX + 1).replace(/\s+\S*$/, '') : base;
+            return cleanName(cut) || cleanName(base) || 'Player';
+        }
+
         function accountSaveName() {
-            const name = document.getElementById('account-name').value.trim().slice(0, 30);
-            if (!currentUser || !name || name === accountName()) return;
+            const input = document.getElementById('account-name');
+            const name = cleanName(input.value);
+            if (!currentUser) return;
+            const problem = nameProblem(name);
+            if (problem) {
+                showNotification(problem, 'error');
+                input.value = accountName();
+                return;
+            }
+            input.value = name;
+            if (name === accountName()) return;
             dbWrite(database.ref('users/' + currentUser.uid + '/name').set(name));
             // The account listener fires straight away and calls spreadAccountName()
         }
@@ -4267,16 +4303,18 @@ Population of Tokyo?, 13960000"></textarea>
                     : '5 questions. Everyone gets the same ones today. One try.';
                 const nameInput = document.getElementById('daily-player-name');
                 let lastName = '';
-                try { lastName = localStorage.getItem('estimatorQuizName') || ''; } catch (e) {}
+                try { lastName = cleanName(localStorage.getItem('estimatorQuizName')); } catch (e) {}
+                if (nameProblem(lastName)) lastName = '';
                 nameInput.value = accountName() || lastName;
                 document.getElementById('daily-intro').style.display = 'block';
             }
         }
 
         function startDaily() {
-            const name = document.getElementById('daily-player-name').value.trim().slice(0, 30);
-            if (!name) {
-                showNotification('Please enter your name', 'error');
+            const name = cleanName(document.getElementById('daily-player-name').value);
+            const problem = nameProblem(name);
+            if (problem) {
+                showNotification(problem, 'error');
                 return;
             }
             try { localStorage.setItem('estimatorQuizName', name); } catch (e) {}
@@ -5081,10 +5119,10 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function startTest() {
-            const name = document.getElementById('player-name').value.trim();
-
-            if (!name) {
-                showNotification('Please enter your name', 'error');
+            const name = cleanName(document.getElementById('player-name').value);
+            const problem = nameProblem(name);
+            if (problem) {
+                showNotification(problem, 'error');
                 return;
             }
 
