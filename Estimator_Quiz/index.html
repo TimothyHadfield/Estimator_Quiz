@@ -4139,15 +4139,9 @@ Population of Tokyo?, 13960000"></textarea>
             // The link goes first, without "https://" and with a comma right after it, so iPhone
             // Messages keeps it as small inline text instead of splitting off a big link preview.
             // The short address is the repo root, whose index.html forwards to the app.
-            // One line per question: its square, its short title and the points it scored. No year in the date.
-            const squares = Array.from(dailySquares(entry));
-            const list = dailyQuestionCache[date] || [];
-            const lines = (entry.pts || []).map((p, i) => {
-                const title = list[i] ? questionTitle(list[i].key) : '';
-                return `${squares[i] || ''} ${title ? title + ': ' : ''}${Math.round(p).toLocaleString('en-US')}`;
-            });
+            // Tim (2026-10-15) wanted the short three-line version back; the date still has no year.
             const day = dailyLabel(date).replace(/, \d{4}$/, '');
-            return `${DAILY_SHARE_LINK}, ${day}\n${dailyScoreText(entry)}\n${lines.join('\n')}`;
+            return `${DAILY_SHARE_LINK}, ${day}\n${dailyScoreText(entry)}\n${dailySquares(entry)}`;
         }
 
         // One row of a question breakdown. Tapping it opens the full question with the guess and answer.
