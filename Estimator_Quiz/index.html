@@ -1976,6 +1976,51 @@
         .you-bar-value { text-align: right; font-weight: 600; }
         .you-bar-n { color: #777; font-size: 0.85em; }
 
+        /* Tap a bar, row or number to see the answers behind it */
+        .you-tap, .you-num-tap { cursor: pointer; }
+        .you-bar-row.you-tap { border-radius: 4px; }
+        .you-bar-row.you-tap:hover, .you-bar-row.you-picked { background: rgba(102,126,234,0.15); }
+        g.you-tap:hover .you-bar { opacity: 0.8; }
+        g.you-picked .you-bar { stroke: white; stroke-width: 1.5; }
+        .you-num-tap .you-num { text-decoration: underline dotted rgba(255,255,255,0.35); text-underline-offset: 4px; }
+
+        .you-detail {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin: 6px 0 10px;
+        }
+
+        .you-detail-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+        }
+
+        .you-detail-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
+        .you-detail-link {
+            background: none;
+            border: none;
+            color: #8fa2ff;
+            font-family: inherit;
+            font-size: 0.85em;
+            cursor: pointer;
+            padding: 6px 0 0;
+        }
+
         .score-curve .sc-curve { fill: none; stroke-width: 2.5; }
         .score-curve .sc-label { font-size: 11px; }
 
@@ -3223,6 +3268,7 @@ Population of Tokyo?, 13960000"></textarea>
                     <div class="you-scroll" id="you-scroll">
                         <h3 class="you-title">Daily scores</h3>
                         <div id="you-daily-chart"></div>
+                        <div class="you-detail" id="you-day-detail" style="display: none"></div>
                         <div class="you-head">
                             <h3 class="you-title">Strengths</h3>
                             <div class="you-group-switch">
@@ -3232,9 +3278,11 @@ Population of Tokyo?, 13960000"></textarea>
                         </div>
                         <p class="you-summary" id="you-summary"></p>
                         <div id="you-strengths"></div>
+                        <div class="you-detail" id="you-group-detail" style="display: none"></div>
                         <h3 class="you-title">Your guesses</h3>
                         <p class="you-summary" id="you-tendency"></p>
                         <div id="you-side-chart"></div>
+                        <div class="you-detail" id="you-bin-detail" style="display: none"></div>
                     </div>
                 </div>
                 <div id="board-view">
@@ -4536,7 +4584,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         // One row of a question breakdown. Tapping it opens the full question with the guess and answer.
         // Row shows the question's short title; tapped open, the full question, the guess and the answer.
-        function breakdownItemHtml(i, text, guess, answer, points, key) {
+        function breakdownItemHtml(i, text, guess, answer, points, key, meta) {
             const fraction = points / dailyQuestionMax(text);
             const pointsClass = fraction >= 0.8 ? 'good' : fraction >= 0.4 ? 'medium' : 'bad';
             const commas = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
@@ -4550,7 +4598,7 @@ Population of Tokyo?, 13960000"></textarea>
                     </div>
                     <div class="breakdown-detail">
                         ${title ? `<div class="breakdown-full">${escapeHtml(text)}</div>` : ''}
-                        Guess ${guessText} · Answer ${commas(answer)}${missText(guess, Number(answer), text) ? ` · ${missText(guess, Number(answer), text)}` : ''}
+                        Guess ${guessText} · Answer ${commas(answer)}${missText(guess, Number(answer), text) ? ` · ${missText(guess, Number(answer), text)}` : ''}${meta ? ` · ${meta}` : ''}
                     </div>
                 </div>
             `;
@@ -6047,6 +6095,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         function setStrengthGroup(group) {
             strengthGroup = group;
+            if (youOpen && youOpen.type === 'group') youOpen = null;
             document.querySelectorAll('.you-group-switch button').forEach(b => b.classList.toggle('active', b.dataset.group === group));
             renderYou();
         }
@@ -6073,7 +6122,7 @@ Population of Tokyo?, 13960000"></textarea>
                     day.list.forEach((item, i) => {
                         if (typeof entry.pts[i] !== 'number') return;
                         const max = (entry.maxes && entry.maxes[i]) || dailyQuestionMax(item.text);
-                        answers.push({ k: String(item.key), g: Number(entry.guesses[i]), p: entry.pts[i] * 1000 / max, a: Number(item.answer), pct: max === 100 });
+                        answers.push({ k: String(item.key), g: Number(entry.guesses[i]), p: entry.pts[i] * 1000 / max, raw: entry.pts[i], a: Number(item.answer), pct: max === 100, text: item.text, date: day.date, i });
                     });
                 });
                 // Practice: the account's tests, plus this device's log (skipping answers the account already has)
@@ -6092,7 +6141,82 @@ Population of Tokyo?, 13960000"></textarea>
             const q = questionByKey(row.k);
             if (!q) return null;
             const max = dailyQuestionMax(q.text);
-            return { k: String(row.k), g: Number(row.g), p: Number(row.p) * 1000 / max, a: typeof row.a === 'number' ? row.a : Number(q.answer), pct: max === 100 };
+            return { k: String(row.k), g: Number(row.g), p: Number(row.p) * 1000 / max, raw: Number(row.p), a: typeof row.a === 'number' ? row.a : Number(q.answer), pct: max === 100, text: q.text, date: null };
+        }
+
+        // ----- Tapping a chart opens the answers behind it -----
+        // The You view's answers (last collected) and which chart item is open: {type, id}
+        let youAnswers = [];
+        let youOpen = null;
+
+        function toggleYouDetail(type, id) {
+            youOpen = youOpen && youOpen.type === type && String(youOpen.id) === String(id) ? null : { type, id };
+            renderYouDetails();
+            if (youOpen) {
+                const box = document.getElementById(`you-${type}-detail`);
+                requestAnimationFrame(() => box.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+            }
+        }
+
+        // Rows for a list of answers: title (tap for the full question), your guess, the answer, points
+        function youAnswerRows(answers, withDate) {
+            return answers.map((a, n) => breakdownItemHtml(n, a.text, a.g, a.a, a.raw, a.k,
+                withDate ? (a.date ? `Daily ${dailyLabel(a.date)}` : 'Practice') : '')).join('');
+        }
+
+        function renderYouDetails() {
+            ['day', 'group', 'bin'].forEach(type => {
+                const box = document.getElementById(`you-${type}-detail`);
+                if (!box) return;
+                const open = youOpen && youOpen.type === type ? youOpen.id : null;
+                box.style.display = open === null ? 'none' : '';
+                box.innerHTML = open === null ? '' : youDetailHtml(type, open);
+            });
+            // The chart items show which one is open
+            document.querySelectorAll('#you-view [data-you]').forEach(el => {
+                el.classList.toggle('you-picked', !!youOpen && el.dataset.you === `${youOpen.type}:${youOpen.id}`);
+            });
+        }
+
+        function youDetailHtml(type, id) {
+            const close = `<button class="you-detail-close" onclick="toggleYouDetail('${type}', '${id}')" aria-label="Close">✕</button>`;
+            if (type === 'day') {
+                const entry = dailyLocal[id];
+                const rows = youAnswers.filter(a => a.date === id).sort((a, b) => a.i - b.i);
+                const head = `<div class="you-detail-head"><span>${dailyLabel(id)} · <strong style="color: ${scoreColor(entry.score / (entry.max || 5000))}">${Math.round(entry.score).toLocaleString('en-US')}</strong></span>${close}</div>`;
+                const board = entry.late ? '' : `<button class="you-detail-link" onclick="showOnLeaderboard('${id}')">That day's leaderboard</button>`;
+                return head + (rows.length ? youAnswerRows(rows, false) : '<p class="detail-note">Loading…</p>') + board;
+            }
+            if (type === 'group') {
+                const labels = strengthGroup === 'kind' ? QUESTION_KINDS : QUESTION_SUBJECTS;
+                const rows = youAnswers.filter(a => { const q = questionByKey(a.k); return q && q[strengthGroup] === id; })
+                    .sort((a, b) => a.p - b.p);
+                return `<div class="you-detail-head"><span>${labels[id] || id} · ${rows.length} answer${rows.length !== 1 ? 's' : ''}, lowest first</span>${close}</div>` + youAnswerRows(rows, true);
+            }
+            const rows = youAnswers.filter(a => tendencyBin(a) === Number(id))
+                .sort((a, b) => (a.g / a.a) - (b.g / b.a));
+            return `<div class="you-detail-head"><span>${tendencyBinLabel(Number(id))} · ${rows.length} answer${rows.length !== 1 ? 's' : ''}</span>${close}</div>` + youAnswerRows(rows, true);
+        }
+
+        // The guess-tendency chart: 20 bins of log10(guess ÷ answer) from −1 (÷10) to +1 (×10)
+        const TENDENCY_BINS = 20;
+
+        function tendencyBin(a) {
+            if (a.pct || !(a.g > 0) || !(a.a > 0)) return -1;
+            const r = Math.log10(a.g / a.a);
+            return Math.min(TENDENCY_BINS - 1, Math.max(0, Math.floor((r + 1) / 2 * TENDENCY_BINS)));
+        }
+
+        function tendencyBinLabel(i) {
+            // Same wording as the answer screen's "(2.5× low)"
+            const f = v => {
+                const x = Math.pow(10, Math.abs(v));
+                return x < 10 ? x.toFixed(1).replace(/\.0$/, '') : String(Math.round(x));
+            };
+            const v0 = -1 + i * 2 / TENDENCY_BINS, v1 = v0 + 2 / TENDENCY_BINS;
+            if (i === 0) return `${f(v1)}× or more low`;
+            if (i === TENDENCY_BINS - 1) return `${f(v0)}× or more high`;
+            return v1 <= 1e-9 ? `${f(v1)}–${f(v0)}× low` : `${f(v0)}–${f(v1)}× high`;
         }
 
         function renderYou() {
@@ -6102,21 +6226,26 @@ Population of Tokyo?, 13960000"></textarea>
             const avg = scores.length ? scores.reduce((s, v) => s + v, 0) / scores.length : null;
             const best = scores.length ? Math.max(...scores) : null;
             const streak = dailyStreak(done.filter(d => !dailyLocal[d].late));
-            const num = (value, label, color) => `<div><div class="you-num"${color ? ` style="color: ${color}"` : ''}>${value}</div><div class="you-num-label">${label}</div></div>`;
+            const num = (value, label, color, onclick) => `<div${onclick ? ` class="you-num-tap" onclick="${onclick}"` : ''}><div class="you-num"${color ? ` style="color: ${color}"` : ''}>${value}</div><div class="you-num-label">${label}</div></div>`;
+            // Best opens that day's answers
+            const bestDate = best === null ? null : done.find(d => dailyLocal[d].score === best);
             document.getElementById('you-numbers').innerHTML =
                 num(done.length, 'Dailies') +
                 num(avg === null ? '–' : Math.round(avg).toLocaleString('en-US'), 'Average', avg === null ? '' : scoreColor(avg / 5000)) +
-                num(best === null ? '–' : Math.round(best).toLocaleString('en-US'), 'Best', best === null ? '' : scoreColor(best / 5000)) +
+                num(best === null ? '–' : Math.round(best).toLocaleString('en-US'), 'Best', best === null ? '' : scoreColor(best / 5000), bestDate ? `toggleYouDetail('day', '${bestDate}')` : '') +
                 num(streak, 'Streak');
 
             document.getElementById('you-daily-chart').innerHTML = done.length
                 ? dailyBarsSvg(done.slice(-30))
                 : '<p class="you-summary">Play the daily quiz to see your scores here.</p>';
+            if (youOpen && youOpen.type === 'day' && !done.includes(youOpen.id)) youOpen = null;
 
             collectYourAnswers().then(answers => {
                 if (recordsView !== 'you') return;
+                youAnswers = answers;
                 renderStrengths(answers);
                 renderTendency(answers);
+                renderYouDetails();
                 requestAnimationFrame(fitLeaderboard);
             });
         }
@@ -6133,7 +6262,10 @@ Population of Tokyo?, 13960000"></textarea>
             dates.forEach((date, i) => {
                 const e = dailyLocal[date];
                 const x = left + i * slot + slot * 0.15;
-                svg += `<rect x="${x}" y="${y(e.score)}" width="${slot * 0.7}" height="${bottom - y(e.score)}" rx="2" fill="${scoreColor(e.score / (e.max || 5000))}"><title>${dailyLabel(date)}: ${Math.round(e.score).toLocaleString('en-US')}</title></rect>`;
+                // The whole column is the tap target, so short bars are easy to hit
+                svg += `<g class="you-tap" data-you="day:${date}" onclick="toggleYouDetail('day', '${date}')">`
+                    + `<rect x="${left + i * slot}" y="${top}" width="${slot}" height="${bottom - top}" fill="transparent"/>`
+                    + `<rect class="you-bar" x="${x}" y="${y(e.score)}" width="${slot * 0.7}" height="${bottom - y(e.score)}" rx="2" fill="${scoreColor(e.score / (e.max || 5000))}"><title>${dailyLabel(date)}: ${Math.round(e.score).toLocaleString('en-US')}</title></rect></g>`;
             });
             svg += `<line x1="${left}" x2="${W - right}" y1="${y(2500)}" y2="${y(2500)}" class="st-mean"/>`;
             svg += `<line x1="${left}" x2="${W - right}" y1="${bottom}" y2="${bottom}" class="st-axis"/>`;
@@ -6154,7 +6286,7 @@ Population of Tokyo?, 13960000"></textarea>
                 (groups[id] = groups[id] || []).push(a.p);
             });
             const rows = Object.entries(groups).filter(([, ps]) => ps.length >= 2)
-                .map(([id, ps]) => ({ label: labels[id], n: ps.length, avg: ps.reduce((s, p) => s + p, 0) / ps.length }))
+                .map(([id, ps]) => ({ id, label: labels[id], n: ps.length, avg: ps.reduce((s, p) => s + p, 0) / ps.length }))
                 .sort((a, b) => b.avg - a.avg);
             const summary = document.getElementById('you-summary');
             if (rows.length < 2) {
@@ -6164,7 +6296,7 @@ Population of Tokyo?, 13960000"></textarea>
             }
             summary.innerHTML = `Best at <strong>${rows[0].label}</strong>. Hardest: <strong>${rows[rows.length - 1].label}</strong>.`;
             document.getElementById('you-strengths').innerHTML = rows.map(r => `
-                <div class="you-bar-row">
+                <div class="you-bar-row you-tap" data-you="group:${r.id}" onclick="toggleYouDetail('group', '${r.id}')">
                     <span>${r.label} <span class="you-bar-n">${r.n}</span></span>
                     <div class="you-bar-track"><div class="you-bar-fill" style="width: ${Math.max(2, r.avg / 10)}%; background: ${scoreColor(r.avg / 1000)}"></div></div>
                     <span class="you-bar-value" style="color: ${scoreColor(r.avg / 1000)}">${Math.round(r.avg)}</span>
@@ -6187,16 +6319,18 @@ Population of Tokyo?, 13960000"></textarea>
             const side = low >= 0.5 ? `low ${Math.round(low * 100)}%` : `high ${Math.round((1 - low) * 100)}%`;
             note.innerHTML = `You guess <strong>${side}</strong> of the time · typical miss <strong>${typical < 10 ? typical.toFixed(1) : Math.round(typical)}×</strong>`;
 
-            const W = 400, H = 120, left = 10, right = 10, top = 6, bottom = 100, bins = 20;
+            const W = 400, H = 120, left = 10, right = 10, top = 6, bottom = 100, bins = TENDENCY_BINS;
             const counts = new Array(bins).fill(0);
-            ratios.forEach(r => { counts[Math.min(bins - 1, Math.max(0, Math.floor((r + 1) / 2 * bins)))]++; });
+            answers.forEach(a => { const i = tendencyBin(a); if (i >= 0) counts[i]++; });
             const peak = Math.max(1, ...counts);
             const x = v => left + (v + 1) / 2 * (W - left - right);
             let svg = `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Your guesses, low to high">`;
             counts.forEach((c, i) => {
                 if (!c) return;
-                const v0 = -1 + i * 2 / bins, h = c / peak * (bottom - top);
-                svg += `<rect x="${x(v0) + 1}" y="${bottom - h}" width="${x(2 / bins) - x(0) - 2}" height="${h}" rx="2" class="st-bar"><title>${c}</title></rect>`;
+                const v0 = -1 + i * 2 / bins, h = c / peak * (bottom - top), w = x(2 / bins) - x(0);
+                svg += `<g class="you-tap" data-you="bin:${i}" onclick="toggleYouDetail('bin', '${i}')">`
+                    + `<rect x="${x(v0)}" y="${top}" width="${w}" height="${bottom - top}" fill="transparent"/>`
+                    + `<rect class="you-bar st-bar" x="${x(v0) + 1}" y="${bottom - h}" width="${w - 2}" height="${h}" rx="2"><title>${tendencyBinLabel(i)}: ${c}</title></rect></g>`;
             });
             svg += `<line x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${bottom}" class="st-target"/>`;
             svg += `<line x1="${left}" x2="${W - right}" y1="${bottom}" y2="${bottom}" class="st-axis"/>`;
