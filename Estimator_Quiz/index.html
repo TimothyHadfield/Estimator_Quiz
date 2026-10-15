@@ -39,6 +39,11 @@
             overscroll-behavior: none;
         }
 
+        /* Buttons and boxes use the page's font (browsers give them their own by default) */
+        button, input, select, textarea {
+            font-family: inherit;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -1732,6 +1737,15 @@
             font-weight: 600;
         }
 
+        .archive-date {
+            white-space: nowrap;
+        }
+
+        .daily-archive-list li > span:last-child {
+            text-align: right;
+            white-space: nowrap;
+        }
+
         .breakdown-item:last-child {
             border-bottom: none;
         }
@@ -2352,10 +2366,11 @@
 
             body:not(.operator-mode) .info-open-btn,
             body.account-signed-in:not(.operator-mode) .calibrate-open-btn {
+                /* Top-left of the page, beside the title, so it never sits on the leaderboard */
                 display: block;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
+                position: absolute;
+                top: 20px;
+                left: 20px;
                 padding: 8px 15px;
                 background: rgba(255,255,255,0.1);
                 border: 1px solid rgba(255,255,255,0.2);
@@ -2374,8 +2389,12 @@
             }
 
             body.account-signed-in:not(.operator-mode) .calibrate-open-btn {
-                bottom: 62px;
+                top: 62px;
             }
+
+            /* The operator's "Player view" button already sits top-left */
+            body.operator-signed-in:not(.operator-mode) .info-open-btn { top: 64px; }
+            body.operator-signed-in.account-signed-in:not(.operator-mode) .calibrate-open-btn { top: 106px; }
 
             body.calibrate-open:not(.operator-mode) #calibrate-tab .calibrate-box {
                 max-width: 800px;
@@ -2552,10 +2571,9 @@
                     <div class="info-block">
                         <h3>Getting Started</h3>
                         <ol>
-                            <li><strong>Add Questions:</strong> Go to the Questions tab to add your own questions with numerical answers, or import them from a spreadsheet/CSV file.</li>
-                            <li><strong>Organize by Category:</strong> Use the Categories tab to create categories (like "Science", "Geography", "History") and organize your questions.</li>
-                            <li><strong>Take the Test:</strong> Enter your name, optionally select specific categories, and answer up to 20 randomly selected questions.</li>
-                            <li><strong>View Records:</strong> Compare your scores with others on the leaderboard, filtered by category combination.</li>
+                            <li><strong>Daily Quiz:</strong> 5 questions, the same for everyone each day. One try, and your score goes on that day's leaderboard. Missed a day? Play it under Past quizzes.</li>
+                            <li><strong>Practice test:</strong> Enter your name and answer randomly picked questions.</li>
+                            <li><strong>Records:</strong> Leaderboards for each day, the all-time average and practice tests. Tap a player to see their answers.</li>
                         </ol>
                     </div>
 
@@ -2575,10 +2593,8 @@
                             <h4>What This Means</h4>
                             <ul>
                                 <li><span class="score-good">1000 points</span> - Perfect answer (x = U)</li>
-                                <li><span class="score-good">~800+ points</span> - Within ~25% of correct answer</li>
-                                <li><span class="score-medium">~400-800 points</span> - Within same order of magnitude</li>
-                                <li><span class="score-bad">&lt;400 points</span> - Off by more than 2x</li>
-                                <li><span class="score-bad">~0 points</span> - Off by 10x or more</li>
+                                <li><span class="score-medium">~500 points</span> - A typical guess (each question's B is set for this)</li>
+                                <li><span class="score-bad">Fewer points</span> - The further off you are, by ratio</li>
                             </ul>
                         </div>
 
@@ -2600,7 +2616,6 @@
                             <li>If players score <strong>lower than 500</strong>, its multiplier increases (making it easier)</li>
                             <li>This helps ensure all questions contribute similarly to overall scores</li>
                         </ul>
-                        <p>You can manually adjust any question's multiplier in the Questions tab. Manual changes reset the question's average tracking.</p>
                     </div>
 
                     <div class="info-block">
@@ -2609,7 +2624,6 @@
                             <li>Think in orders of magnitude - is the answer in the hundreds, thousands, or millions?</li>
                             <li>Use reference points you know to estimate unknowns</li>
                             <li>Don't leave questions blank - even a rough guess can earn some points!</li>
-                            <li>Practice with specific categories to improve in areas you're weak</li>
                         </ul>
                     </div>
                 </div>
@@ -2842,11 +2856,12 @@ Population of Tokyo?, 13960000"></textarea>
 
             <!-- Past daily quizzes -->
             <div class="test-intro" id="daily-archive" style="display: none;">
-                <h2>Past quizzes</h2>
-                <ul class="daily-archive-list" id="daily-archive-list"></ul>
-                <div class="test-intro-buttons">
+                <!-- Back on top (like the daily's Done) so it's on screen however long the list gets -->
+                <div style="display: flex;">
                     <button class="btn btn-secondary" onclick="resetTest()">Back</button>
                 </div>
+                <h2>Past quizzes</h2>
+                <ul class="daily-archive-list" id="daily-archive-list"></ul>
             </div>
 
             <!-- Estimation Test Intro -->
@@ -3990,7 +4005,9 @@ Population of Tokyo?, 13960000"></textarea>
                 } else if (entry && entry.pts && entry.pts.length > 0) {
                     status = '<span class="archive-play">Continue</span>';
                 }
-                rows.push(`<li onclick="openDaily('${date}', 'archive')"><span>${dailyLabel(date)}</span>${status}</li>`);
+                // This year's dates drop the year so a played row (score + squares) fits on one line
+                const label = date.slice(0, 4) === today.slice(0, 4) ? dailyLabel(date).replace(/, \d{4}$/, '') : dailyLabel(date);
+                rows.push(`<li onclick="openDaily('${date}', 'archive')"><span class="archive-date">${label}</span>${status}</li>`);
             }
             document.getElementById('daily-archive-list').innerHTML = rows.join('') || '<li>No past quizzes yet</li>';
             document.getElementById('daily-archive').style.display = 'block';
@@ -4833,9 +4850,10 @@ Population of Tokyo?, 13960000"></textarea>
                 }));
             }
 
-            // Every guess is kept (number, time, points, daily or not) for the operator's charts
+            // Every guess is kept (number, time, points, daily or not, and the answer it was scored
+            // against, since a question can be reworded later) for the operator's charts
             if (question._key !== undefined) {
-                const guess = { g: userAnswer, t: Date.now(), p: points };
+                const guess = { g: userAnswer, t: Date.now(), p: points, a: question.answer };
                 if (testState.isDaily) guess.d = true;
                 database.ref('guesses/' + question._key).push(guess)
                     .catch(err => console.warn('Guess not logged:', err));
@@ -5228,7 +5246,10 @@ Population of Tokyo?, 13960000"></textarea>
             const boxes = guessChartBoxes(key);
             boxes.forEach(box => { box.innerHTML = '<div class="guess-chart-note">Loading…</div>'; });
             database.ref('guesses/' + key).once('value').then(snapshot => {
-                guessData[key] = Object.values(snapshot.val() || {}).map(row => row && row.g).filter(g => typeof g === 'number');
+                // Guesses made before a rewording (answer in other units) are scaled to today's answer
+                const question = questions.find(q => String(q._key) === String(key));
+                guessData[key] = Object.values(snapshot.val() || {}).filter(row => row && typeof row.g === 'number')
+                    .map(row => (question && typeof row.a === 'number' && row.a && row.a !== question.answer ? row.g * question.answer / row.a : row.g));
                 renderGuessChart(key);
             }).catch(err => {
                 boxes.forEach(box => { box.innerHTML = '<div class="guess-chart-note">Could not load guesses.</div>'; });
@@ -5312,10 +5333,16 @@ Population of Tokyo?, 13960000"></textarea>
             });
         }
 
-        // Points a logged guess earned: stored since 2026-10-14, otherwise scored at today's multiplier
+        // Points a logged guess earned: stored with it (every row has p since 2026-10-15),
+        // otherwise scored at today's multiplier against the answer it was given
         function guessPoints(question, row) {
             if (typeof row.p === 'number') return row.p;
-            return question ? calculatePoints(row.g, question.answer, question.multiplier || 1, question.text) : null;
+            return question ? calculatePoints(row.g, guessAnswer(question, row), question.multiplier || 1, question.text) : null;
+        }
+
+        // The answer a guess was made against (stored since 2026-10-15; a question may be reworded later)
+        function guessAnswer(question, row) {
+            return typeof row.a === 'number' ? row.a : Number(question.answer);
         }
 
         function statsSummary(values, digits = 0) {
@@ -5421,7 +5448,7 @@ Population of Tokyo?, 13960000"></textarea>
                     const daily = !!row.d || (question && question.pool !== 'practice');
                     if (!mode || (mode === 'daily') === daily) answerPoints.push(p * scale);
                     if (question && (!sideMode || (sideMode === 'daily') === daily)) {
-                        const over = Number(row.g) > Number(question.answer);
+                        const over = Number(row.g) > guessAnswer(question, row);
                         if (over) overCount++;
                         sidePoints.push(over ? 2000 - p * scale : p * scale);
                     }

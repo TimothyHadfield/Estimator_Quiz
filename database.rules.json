@@ -345,6 +345,9 @@
           "d": {
             ".validate": "newData.isBoolean()"
           },
+          "a": {
+            ".validate": "newData.isNumber()"
+          },
           "$other": {
             ".validate": false
           }
