@@ -2720,6 +2720,18 @@ Population of Tokyo?, 13960000"></textarea>
                 </div>
                 <div class="form-section stats-panel">
                     <div class="stats-head">
+                        <h2>Under / over</h2>
+                        <select id="stats-side-mode" onchange="renderStats()">
+                            <option value="">All answers</option>
+                            <option value="daily">Daily only</option>
+                            <option value="practice">Practice only</option>
+                        </select>
+                    </div>
+                    <div class="stats-summary" id="stats-side-summary"></div>
+                    <div id="stats-side-chart"></div>
+                </div>
+                <div class="form-section stats-panel">
+                    <div class="stats-head">
                         <h2>Questions</h2>
                         <select id="stats-min-guesses" onchange="renderStats()">
                             <option value="1">1+ guesses</option>
@@ -5257,8 +5269,9 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         // One-series histogram: bars from min to max in equal bins, a dashed line at the mean
-        // and (optionally) a green line at the target
-        function histogramSvg(values, min, max, bins, target) {
+        // and (optionally) a green line at the target (a number or a list). label turns an
+        // axis value into its printed number (the under/over chart folds 0–2000 into 0–1000–0)
+        function histogramSvg(values, min, max, bins, target, label) {
             const W = 400, H = 130, left = 28, right = 18, top = 8, bottom = 106;
             const counts = new Array(bins).fill(0);
             const step = (max - min) / bins;
@@ -5269,7 +5282,7 @@ Population of Tokyo?, 13960000"></textarea>
             const peak = Math.max(1, ...counts);
             const x = v => left + (v - min) / (max - min) * (W - left - right);
             const y = c => bottom - c / peak * (bottom - top);
-            const fmt = v => Math.round(v).toLocaleString('en-US');
+            const fmt = v => Math.round(label ? label(v) : v).toLocaleString('en-US');
 
             let svg = `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Histogram">`;
             [0.5, 1].forEach(f => {
@@ -5286,9 +5299,9 @@ Population of Tokyo?, 13960000"></textarea>
                 const v = min + (max - min) * k / 4;
                 svg += `<text x="${x(v)}" y="${bottom + 15}" class="st-xlabel"${k === 4 ? ' style="text-anchor: end"' : ''}>${fmt(v)}</text>`;
             }
-            if (target !== undefined) {
-                svg += `<line x1="${x(target)}" x2="${x(target)}" y1="${top}" y2="${bottom}" class="st-target"><title>Target ${fmt(target)}</title></line>`;
-            }
+            [].concat(target === undefined ? [] : target).forEach(t => {
+                svg += `<line x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${bottom}" class="st-target"><title>Target ${fmt(t)}</title></line>`;
+            });
             if (values.length) {
                 const mean = values.reduce((s, v) => s + v, 0) / values.length;
                 svg += `<line x1="${x(mean)}" x2="${x(mean)}" y1="${top}" y2="${bottom}" class="st-mean"><title>Mean ${fmt(mean)}</title></line>`;
@@ -5324,13 +5337,18 @@ Population of Tokyo?, 13960000"></textarea>
             const questionsNote = document.getElementById('stats-questions-summary');
             const list = document.getElementById('stats-question-list');
             if (!statsGuesses) {
-                answersNote.textContent = questionsNote.textContent = 'Loading…';
+                answersNote.textContent = questionsNote.textContent = document.getElementById('stats-side-summary').textContent = 'Loading…';
                 return;
             }
 
             // Every logged answer (percentage questions scaled to 1,000)
             const mode = document.getElementById('stats-answers-mode').value;
+            const sideMode = document.getElementById('stats-side-mode').value;
             const answerPoints = [];
+            // Same points on a 0–2000 axis: underestimates at their points (0 on the left),
+            // overestimates mirrored to 2000 − points, so 1,000 sits in the middle
+            const sidePoints = [];
+            let overCount = 0;
             const perQuestion = [];
             Object.entries(statsGuesses).forEach(([key, rows]) => {
                 const question = questions.find(q => String(q._key) === key);
@@ -5344,6 +5362,11 @@ Population of Tokyo?, 13960000"></textarea>
                     // the daily flag existed are still sorted right
                     const daily = !!row.d || (question && question.pool !== 'practice');
                     if (!mode || (mode === 'daily') === daily) answerPoints.push(p * scale);
+                    if (question && (!sideMode || (sideMode === 'daily') === daily)) {
+                        const over = Number(row.g) > Number(question.answer);
+                        if (over) overCount++;
+                        sidePoints.push(over ? 2000 - p * scale : p * scale);
+                    }
                 });
                 if (question && points.length) {
                     perQuestion.push({ key, question, n: points.length, avg: points.reduce((s, p) => s + p, 0) / points.length });
@@ -5351,6 +5374,12 @@ Population of Tokyo?, 13960000"></textarea>
             });
             answersNote.textContent = statsSummary(answerPoints) + (answerPoints.length ? ' (target 500)' : '');
             document.getElementById('stats-answers-chart').innerHTML = histogramSvg(answerPoints, 0, 1000, 20, 500);
+
+            const sideNote = document.getElementById('stats-side-summary');
+            sideNote.textContent = sidePoints.length
+                ? `${sidePoints.length.toLocaleString('en-US')} · ${Math.round((sidePoints.length - overCount) / sidePoints.length * 100)}% under · ${Math.round(overCount / sidePoints.length * 100)}% over`
+                : 'No data yet';
+            document.getElementById('stats-side-chart').innerHTML = histogramSvg(sidePoints, 0, 2000, 40, [500, 1500], v => (v > 1000 ? 2000 - v : v));
 
             // Each question's average; the list shows the ones furthest from 500
             const minGuesses = Number(document.getElementById('stats-min-guesses').value) || 1;
