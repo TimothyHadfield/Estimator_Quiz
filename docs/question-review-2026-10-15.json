@@ -1,0 +1,758 @@
+[
+ {
+  "k": "1210",
+  "type": "AMBIGUOUS",
+  "text": "About how many posts (tweets) are sent on X, formerly Twitter, every day?",
+  "answer": 500000000,
+  "why": "500M is an old Twitter-era figure (about 2013) that counts replies and reposts; Musk has said only about 100M a day are original posts, a 5x gap, and no year is pinned. Checked by web search.",
+  "fix": "Pin it to the source year and say what counts: 'In 2013, about how many tweets (including replies) were sent on Twitter each day?', or remove",
+  "severity": "high"
+ },
+ {
+  "k": "4830",
+  "type": "AMBIGUOUS",
+  "text": "How many fully electric cars and trucks were registered in the US in 2025?",
+  "answer": 5689100,
+  "why": "'Registered in 2025' reads naturally as newly registered that year (about 1.3M sales), but the answer is the total on the road (about 5.7M), a gap of more than 4x.",
+  "fix": "How many fully electric cars and trucks were on the road (registered) in the US at the end of 2025, counting all of them, not just new ones?",
+  "severity": "high"
+ },
+ {
+  "k": "4804",
+  "type": "ANSWER_DOUBT",
+  "text": "The Netherlands still makes its traditional wooden shoes, many of them as souvenirs for tourists. About how many pairs are made each year?",
+  "answer": 3000000,
+  "why": "Checked by web search: Wikipedia and iAmExpat say about 3M, but Smithsonian/AFP and DutchNews say about 300,000 a year with only about 30 makers left, a 10x conflict. B=4.9 is also the widest in the chunk, so the score is close to a lottery either way.",
+  "fix": "remove",
+  "severity": "high"
+ },
+ {
+  "k": "2595",
+  "type": "ANSWER_DOUBT",
+  "text": "About how many days does it take a sloth to fully digest a single meal?",
+  "answer": 30,
+  "why": "30 days is the popular upper figure; Sloth Sanctuary marker trials found 11-30 days with an average of 16 (web-checked), so a player who knows the real average scores badly.",
+  "fix": "Change answer to 16, or reword: 'At most, about how many days can it take a sloth to digest a single meal?'",
+  "severity": "high"
+ },
+ {
+  "k": "5026",
+  "type": "DUPLICATE",
+  "text": "In 1876 a special express train raced from New York to San Francisco to show how fast the new railroad was. About how many hours did the trip take?",
+  "answer": 84,
+  "why": "Same question and answer as 4230 (1876 Express Train, 84 hours), both in the daily pool.",
+  "fix": "remove (keep 4230)",
+  "severity": "high"
+ },
+ {
+  "k": "3927",
+  "type": "DUPLICATE",
+  "text": "What is the fastest speed, in miles per hour, that a person has ever been clocked running?",
+  "answer": 27.8,
+  "why": "Same question and same answer (27.8 mph) as 3888 'Usain Bolt Speed'; both are daily Science, so a player can get it twice.",
+  "fix": "remove (keep 3888)",
+  "severity": "high"
+ },
+ {
+  "k": "4057",
+  "type": "UNGUESSABLE",
+  "text": "James Dyson spent five years building test versions of his bagless vacuum cleaner before he had one that worked well enough to sell. How many test versions did he build?",
+  "answer": 5127,
+  "why": "The 'five years' framing pushes reasonable guesses toward tens or hundreds; the answer is 3.4x above even the high end of the guess spread (1,488), so only people who already know the trivia score well.",
+  "fix": "Remove, or add an anchor such as 'He built roughly one every working hour or so...' / keep only if meant as a known-trivia question",
+  "severity": "high"
+ },
+ {
+  "k": 3176,
+  "type": "AMBIGUOUS",
+  "text": "About how many people around the world play soccer regularly?",
+  "answer": 250000000,
+  "why": "\"Play soccer regularly\" has no definition; FIFA's 265M counts registered plus regular players, while casual-player estimates run 1B+ (spread high 4.4B shows players read it widely).",
+  "fix": "\"FIFA's 2006 Big Count tallied players who play regularly in organized or casual teams. About how many did it count?\" or remove.",
+  "severity": "medium"
+ },
+ {
+  "k": "1554",
+  "type": "AMBIGUOUS",
+  "text": "About how many cocoa beans does it take to make one pound of chocolate?",
+  "answer": 400,
+  "why": "Depends heavily on the kind of chocolate: milk chocolate (~30% cocoa) needs well under half the beans of dark chocolate, so the 400 folklore figure only fits one reading.",
+  "fix": "About how many cocoa beans does it take to make one pound of dark chocolate?",
+  "severity": "medium"
+ },
+ {
+  "k": "4786",
+  "type": "AMBIGUOUS",
+  "text": "When a health group had movie theater popcorn tested in a lab in 2009, how many calories were in a large popcorn from AMC theaters?",
+  "answer": 1030,
+  "why": "Doesn't say with or without the butter topping, which adds several hundred calories, so careful players may add it.",
+  "fix": "...how many calories were in a large popcorn from AMC theaters, before any butter topping was added?",
+  "severity": "medium"
+ },
+ {
+  "k": "2729",
+  "type": "AMBIGUOUS",
+  "text": "On Apollo 11, how many minutes did Neil Armstrong and Buzz Aldrin spend outside walking on the Moon?",
+  "answer": 151,
+  "why": "\"Armstrong and Aldrin spend\" can be read as their combined person-minutes (about 2x the answer) instead of how long the moonwalk lasted.",
+  "fix": "On Apollo 11, how many minutes long was the moonwalk, from the hatch opening to closing?",
+  "severity": "medium"
+ },
+ {
+  "k": "3472",
+  "type": "AMBIGUOUS",
+  "text": "How many eggs were used for the White House Easter Egg Roll in 2025?",
+  "answer": 30000,
+  "why": "'Used' could mean the real dyed eggs rolled (30,000 donated) or include the wooden souvenir eggs handed out; checked by web search: 30,000 is the American Egg Board's donation of real eggs, not a count of eggs used, and there is no anchor for a guess.",
+  "fix": "How many real hard-boiled eggs were donated and dyed for the 2025 White House Easter Egg Roll? (or remove)",
+  "severity": "medium"
+ },
+ {
+  "k": "3773",
+  "type": "AMBIGUOUS",
+  "text": "About how many people can one narrow escalator (one person per step) carry in an hour when it is busy?",
+  "answer": 2000,
+  "why": "Checked by web search: rated (theoretical) capacity for a 600 mm escalator is 4,500/hour, while practical/marketed figures are about 1,800-2,000; a player reasoning from step spacing and speed lands near 4,500, 2.25x off.",
+  "fix": "'In real-world busy use (not its rated maximum), about how many people does one narrow escalator carry in an hour?' or switch the answer to the rated 4,500",
+  "severity": "medium"
+ },
+ {
+  "k": "4939",
+  "type": "AMBIGUOUS",
+  "text": "On average, how many dollars did an American homeowner spend on home improvements in 2023?",
+  "answer": 4700,
+  "why": "The question doesn't say whether homeowners who spent nothing count; the average among those who did projects is roughly double (about $9-10k in common surveys).",
+  "fix": "Averaged over all US homeowners, including those who spent nothing, how many dollars went on home improvements in 2023?",
+  "severity": "medium"
+ },
+ {
+  "k": "2594",
+  "type": "AMBIGUOUS",
+  "text": "Sloths are famously slow. How many feet does a sloth usually move in one minute?",
+  "answer": 13,
+  "why": "13 ft/min is close to the top speed in trees (about 15); Guinness gives an average ground speed of 6-8 ft/min (web-checked), so 'usually' and the answer don't match.",
+  "fix": "'How many feet can a sloth move in one minute when it is climbing through the trees?' (answer about 15), or keep 'usually' and change the answer to about 7.",
+  "severity": "medium"
+ },
+ {
+  "k": "3261",
+  "type": "AMBIGUOUS",
+  "text": "At about what temperature does a Crayola crayon start to melt, in °F?",
+  "answer": 105,
+  "why": "Crayola says crayons SOFTEN at 105°F and MELT at 120-147°F (web-checked); 'start to melt' reads like the melting point, and the guess spread (low 113.6) sits above the answer.",
+  "fix": "'At about what temperature does a Crayola crayon start to go soft, in °F?'",
+  "severity": "medium"
+ },
+ {
+  "k": "2985",
+  "type": "AMBIGUOUS",
+  "text": "How many gallons of water does a standard washing machine use for one load of laundry?",
+  "answer": 20,
+  "why": "'Standard' could mean a modern high-efficiency washer (about 13-15 gal) or an old top-loader (about 30-40 gal); the readings differ by about 2-3x.",
+  "fix": "'How many gallons does a new high-efficiency washing machine use per load?' (and re-check the answer), or name the machine type.",
+  "severity": "medium"
+ },
+ {
+  "k": "3961",
+  "type": "AMBIGUOUS",
+  "text": "When coffee beans are roasted, about how hot in degrees Fahrenheit does the inside of a bean get before it starts to turn brown?",
+  "answer": 400,
+  "why": "'Before it starts to turn brown' reads as the browning-start temperature (~300-350°F), not 400°F; with the tight multiplier (B 0.39) a careful player loses noticeably.",
+  "fix": "About how hot in °F does the inside of a coffee bean get during a typical roast?",
+  "severity": "medium"
+ },
+ {
+  "k": "3680",
+  "type": "AMBIGUOUS",
+  "text": "How many bones were there in the skeleton of a T. rex?",
+  "answer": 380,
+  "why": "Players who know the famous Sue skeleton (about 250 bones found) can read this as the bones in a displayed skeleton; that is a 1.5x gap.",
+  "fix": "How many bones were in a complete T. rex skeleton?",
+  "severity": "medium"
+ },
+ {
+  "k": "4467",
+  "type": "AMBIGUOUS",
+  "text": "How many times were pages on the English Wikipedia viewed in 2024?",
+  "answer": 130000000000,
+  "why": "Unclear whether bot/automated views count; human-only views are roughly 90 billion, about 1.4-1.5x lower.",
+  "fix": "Say 'counting views by people and by automated programs' or switch to human-only views",
+  "severity": "medium"
+ },
+ {
+  "k": 3642,
+  "type": "ANSWER_DOUBT",
+  "text": "About how many people walk across Shibuya Crossing in Tokyo (the world's busiest pedestrian crossing) on a normal weekday?",
+  "answer": 260000,
+  "why": "Answer is a 2014 weekday survey figure; widely cited figures are 500,000 to 1 million (Guinness says ~1M/day), so an informed player is punished 2-4x. Checked by web search.",
+  "fix": "Pin it: \"A 2014 survey counted pedestrians on a normal weekday. About how many crossed?\" or use a mid figure with source.",
+  "severity": "medium"
+ },
+ {
+  "k": "3941",
+  "type": "ANSWER_DOUBT",
+  "text": "... How many bombers did it build in its best month, April 1944?",
+  "answer": 428,
+  "why": "Checked by web search: the 428 record month was August 1944, not April; some sources also cite a 650 per month capacity.",
+  "fix": "Change 'April 1944' to 'August 1944'",
+  "severity": "medium"
+ },
+ {
+  "k": "4797",
+  "type": "ANSWER_DOUBT",
+  "text": "In 1918 the US military began giving a Gillette shaving kit to every serviceman. How many razors did Gillette sell that year?",
+  "answer": 3500000,
+  "why": "Checked by web search: sources disagree on whether 3.5 million is Gillette's 1918 sales or the government's purchases over the whole war, so the question asks for something the source doesn't pin down.",
+  "fix": "By the end of World War I, how many Gillette razors had the US government bought for its troops?",
+  "severity": "medium"
+ },
+ {
+  "k": "5045",
+  "type": "ANSWER_DOUBT",
+  "text": "On average, how many prescriptions did one independent (non-chain) US pharmacy fill in the whole of 2023?",
+  "answer": 59644,
+  "why": "The metadata doesn't match: the text says 2023 but asOf is 2014, so it's unclear which year's figure the answer is.",
+  "fix": "Check the year in the NCPA 2024 Digest and set asOf to match.",
+  "severity": "medium"
+ },
+ {
+  "k": "3919",
+  "type": "ANSWER_DOUBT",
+  "text": "About how many quarts of blood do your two kidneys filter in a day? (The same blood passes through many times.)",
+  "answer": 150,
+  "why": "The 150 figure is filtrate (fluid squeezed out of plasma), not blood; the blood that actually flows through the kidneys is ~1,700 quarts a day, so a player who reasons from blood flow is ~10x off.",
+  "fix": "About how many quarts of fluid do your kidneys filter out of your blood each day? (answer ~150-190)",
+  "severity": "medium"
+ },
+ {
+  "k": "4045",
+  "type": "ANSWER_DOUBT",
+  "text": "In 1879 Thomas Edison finally got a light bulb to stay lit long enough to be useful. How many hours did that first successful bulb burn before it went out?",
+  "answer": 13.5,
+  "why": "Popular sources widely give 40 hours (or 14.5) for Edison's first successful bulb, so an informed player is about 3x off. Not web-checked; answer matches the Wikipedia source.",
+  "fix": "Add the date: 'In his first successful test, on October 22, 1879, ...' or remove",
+  "severity": "medium"
+ },
+ {
+  "k": 4617,
+  "type": "COMPLICATED",
+  "text": "Each winter a 4.8-mile stretch of the Rideau Canal in Ottawa, Canada freezes and is opened for skating. Its ice surface is as big as how many Olympic hockey rinks?",
+  "answer": 90,
+  "why": "Two-step estimate: player must guess the canal width and the size of an Olympic hockey rink, a unit most people cannot picture.",
+  "fix": "Ask the area directly in a familiar unit (e.g. football fields) or ask the length in miles, or remove.",
+  "severity": "medium"
+ },
+ {
+  "k": 4592,
+  "type": "COMPLICATED",
+  "text": "The rock band U2 toured stadiums from 2009 to 2011 with the biggest stage ever built, a four-legged \"claw\" about 165 feet tall. How many dollars did it cost per day to keep the tour on the road (not counting building the stage)?",
+  "answer": 750000,
+  "why": "Long backstory with an irrelevant number (165 feet) and an exclusion clause (\"not counting building the stage\") before the actual question.",
+  "fix": "\"U2's 360 Tour (2009-2011) used the biggest stage ever built. About how many dollars did it cost per day to keep the tour on the road?\"",
+  "severity": "medium"
+ },
+ {
+  "k": 4616,
+  "type": "COMPLICATED",
+  "text": "In the Netherlands, a skating tour through eleven towns is held on natural ice only in winters cold enough to freeze the whole route, most recently in 1997. About how many skaters take part?",
+  "answer": 16000,
+  "why": "Long setup about conditions, and the present tense \"take part\" for an event last held in 1997 leaves unclear which edition is meant.",
+  "fix": "\"The Elfstedentocht, a 125-mile skating tour on Dutch canals, was last held in 1997. About how many skaters took part that year?\"",
+  "severity": "medium"
+ },
+ {
+  "k": "5036",
+  "type": "COMPLICATED",
+  "text": "In 2025, how many minutes a day did Americans aged 15 to 19 spend playing games (video games and others) and using a computer for fun on average, counting those who did none?",
+  "answer": 92,
+  "why": "Three qualifiers in one sentence (age band, a two-part activity with a parenthetical, and the averaging rule); players have to re-read it.",
+  "fix": "In 2025, how many minutes a day did the average American teenager (15 to 19) spend gaming or on a computer for fun? (The average includes teens who did none.)",
+  "severity": "medium"
+ },
+ {
+  "k": "3940",
+  "type": "COMPLICATED",
+  "text": "Liberty ships were the cargo ships the US mass-produced during World War II. The first ones took about 230 days each to build. By 1943, what was the median (the middle one) number of days to build one?",
+  "answer": 39,
+  "why": "It defines 'median' in the middle of the question and stacks three facts; a player has to re-read it to find what is being asked.",
+  "fix": "Liberty ships were US cargo ships of World War II. The first ones took about 230 days to build. By 1943, about how many days did a typical one take?",
+  "severity": "medium"
+ },
+ {
+  "k": "4575",
+  "type": "COMPLICATED",
+  "text": "In the 1960s, a new dam in Egypt was about to flood the ancient temples of Abu Simbel, with their four 66-foot statues of a pharaoh. The temples were sawn into blocks and rebuilt on higher ground. How many blocks were they cut into?",
+  "answer": 1036,
+  "why": "The 66-foot statue figure is an extra number that doesn't help the estimate and makes the question longer.",
+  "fix": "In the 1960s the ancient temples of Abu Simbel in Egypt were sawn into blocks and rebuilt on higher ground to save them from a new dam's lake. How many blocks were they cut into?",
+  "severity": "medium"
+ },
+ {
+  "k": "5048",
+  "type": "COMPLICATED",
+  "text": "Recruits in the ancient Roman army first had to manage a march at the regular pace, carrying a 45-pound pack for about five to six hours. How many miles (in today's miles) did they have to cover?",
+  "answer": 18.4,
+  "why": "Awkward wording ('first had to manage', 'regular pace', 'in today's miles') plus two numbers; the answer is a converted 20 Roman miles, which invites confusion.",
+  "fix": "Roman army recruits had to march with a 45-pound pack for about five hours. About how many miles did they have to cover?",
+  "severity": "medium"
+ },
+ {
+  "k": "5022",
+  "type": "COMPLICATED",
+  "text": "In 1935 an airline began carrying passengers from London to Brisbane, Australia, in small planes that landed dozens of times along the way (with one stretch by overnight train). How many days did the trip take?",
+  "answer": 12.5,
+  "why": "The aside about the train is noise for the estimate, and the question runs long.",
+  "fix": "Drop '(with one stretch by overnight train)'",
+  "severity": "medium"
+ },
+ {
+  "k": "2519",
+  "type": "COMPLICATED",
+  "text": "For a woman with health insurance through her job, how many dollars do pregnancy, childbirth and the care after birth cost on average, counting what the insurer pays and what she pays?",
+  "answer": 20416,
+  "why": "There are four qualifying clauses, so players must re-read to work out whose cost counts.",
+  "fix": "'On average, what is the total cost in dollars of having a baby in the US (pregnancy, birth and aftercare), counting what insurance pays?'",
+  "severity": "medium"
+ },
+ {
+  "k": "3106",
+  "type": "COMPLICATED",
+  "text": "In 2024, among US workers with single health coverage through an employer whose plan had a yearly deductible, what was the average deductible in dollars?",
+  "answer": 1787,
+  "why": "Nested qualifiers (single coverage, through an employer, plan with a deductible) make it hard to parse.",
+  "fix": "'In 2024, what was the average yearly deductible, in dollars, on a single-person health plan from an employer?'",
+  "severity": "medium"
+ },
+ {
+  "k": "3108",
+  "type": "COMPLICATED",
+  "text": "In 2024, how much did it cost a US community hospital (not counting federal ones like VA hospitals) on average to care for one patient for one day, in dollars?",
+  "answer": 3297,
+  "why": "The parenthetical exclusion is unneeded detail that slows reading, and 'cost to the hospital' is easy to confuse with the price billed.",
+  "fix": "'In 2024, what did it cost a US hospital, on average, to care for one patient for one day, in dollars?'",
+  "severity": "medium"
+ },
+ {
+  "k": "1142",
+  "type": "COMPLICATED",
+  "text": "In 2023, the carbon dioxide (CO2) the United States gave off from burning fossil fuels and making cement came to about how many pounds per person?",
+  "answer": 31000,
+  "why": "The sentence order is awkward (subject clause first, question last), and pounds of a gas per person is a hard unit to estimate.",
+  "fix": "'In 2023, about how many pounds of CO2 did the US emit per person from burning fossil fuels?'",
+  "severity": "medium"
+ },
+ {
+  "k": "3444",
+  "type": "COMPLICATED",
+  "text": "Before Thanksgiving 2023, the auto club AAA forecast how many Americans would travel at least 50 miles from home over the five-day holiday (Wednesday to Sunday). How many people was that?",
+  "answer": 55400000,
+  "why": "Forecast-of-a-count framing plus three qualifiers (50 miles, five days, Wed-Sun) and a split two-sentence question makes players re-read.",
+  "fix": "'AAA expected about how many Americans to travel 50+ miles from home over Thanksgiving weekend 2023 (Wednesday to Sunday)?'",
+  "severity": "medium"
+ },
+ {
+  "k": "3515",
+  "type": "COMPLICATED",
+  "text": "In a 2024 study that timed 1,651 visits to ten big US fast-food chains, how many seconds did the drive-through take on average, from joining the line to driving away with the food?",
+  "answer": 329,
+  "why": "The irrelevant numbers 1,651 and ten clutter the question and can be mistaken for anchors.",
+  "fix": "'In 2024, how many seconds did a fast-food drive-through take on average at big US chains, from joining the line to driving away with the food?'",
+  "severity": "medium"
+ },
+ {
+  "k": "3564",
+  "type": "COMPLICATED",
+  "text": "Counting all the stone, sand, gravel, cement, coal, oil, salt and metals dug up on their behalf, how many pounds of new minerals are needed per person in the United States each year, on average?",
+  "answer": 38155,
+  "why": "Long list up front and the abstract 'on their behalf' concept bury the actual question; players must re-read to see what is being asked.",
+  "fix": "'On average, how many pounds of newly mined materials (stone, sand, coal, oil, metals and so on) does each American use per year?'",
+  "severity": "medium"
+ },
+ {
+  "k": "5035",
+  "type": "COMPLICATED",
+  "text": "In 2025, how many minutes a day did American adults (18 and older) living in a home with a child under 6 spend directly caring for the children (feeding, bathing, playing with them) on average, counting adults who did none that day?",
+  "answer": 138,
+  "why": "Four qualifying clauses in one sentence, so a player has to re-read it.",
+  "fix": "Parents of children under 6: about how many minutes a day did the average one spend directly caring for the kids (feeding, bathing, playing) in 2025?",
+  "severity": "medium"
+ },
+ {
+  "k": "4216",
+  "type": "COMPLICATED",
+  "text": "In 2025, how many minutes a day did Americans aged 15 and over spend cooking and cleaning up after meals on average, counting those who did none?",
+  "answer": 43,
+  "why": "The age cutoff and the 'counting those who did none' caveat both come from the survey and get in the player's way.",
+  "fix": "Averaged over everyone, including people who don't cook, how many minutes a day does an American spend cooking and cleaning up after meals?",
+  "severity": "medium"
+ },
+ {
+  "k": "5037",
+  "type": "COMPLICATED",
+  "text": "Among Americans aged 16 and older who did volunteer work for an organization, what was the median number of hours they volunteered over a year? (Figure for the year ending September 2015.)",
+  "answer": 52,
+  "why": "The survey-style qualifiers, the median and an odd fiscal-year date make it heavy to read.",
+  "fix": "Americans who volunteer for an organization: how many hours a year does the typical one volunteer? (2015)",
+  "severity": "medium"
+ },
+ {
+  "k": "4463",
+  "type": "COMPLICATED",
+  "text": "Not counting the land or design fees, what was the median (the middle one) cost in dollars to build one parking space in a new above-ground parking garage in the US in 2024?",
+  "answer": 29900,
+  "why": "It opens with an exclusion clause and explains 'median' in the middle of the sentence, so it reads awkwardly.",
+  "fix": "About how many dollars did it cost to build one parking space in a new above-ground US parking garage in 2024 (construction only, not land)?",
+  "severity": "medium"
+ },
+ {
+  "k": "4996",
+  "type": "COMPLICATED",
+  "text": "California has about how many times as many people as Wyoming?",
+  "answer": 67,
+  "why": "It needs two remembered populations plus a division; this is the multi-step arithmetic the rubric flags, although the numbers are well known.",
+  "fix": "Keep it, or ask for Wyoming's population directly.",
+  "severity": "medium"
+ },
+ {
+  "k": "2859",
+  "type": "COMPLICATED",
+  "text": "How many average American homes can one wind turbine of average size (among those that started running in 2020) supply with electricity?",
+  "answer": 940,
+  "why": "Stacked qualifiers ('average' twice plus a parenthetical about 2020) make the player re-read it.",
+  "fix": "'How many American homes can one typical new land-based wind turbine (built in 2020) power?'",
+  "severity": "medium"
+ },
+ {
+  "k": "5034",
+  "type": "COMPLICATED",
+  "text": "In 2025, on days when Americans aged 15 and older did any sports, exercise or active recreation, how many minutes did they spend on it on average?",
+  "answer": 88,
+  "why": "The 'only on days they exercised' condition is easy to miss, and the everyday average across all days is ~20 minutes (4x lower).",
+  "fix": "On a day when an American adult does exercise or sports, about how many minutes do they spend on it?",
+  "severity": "medium"
+ },
+ {
+  "k": "5044",
+  "type": "COMPLICATED",
+  "text": "In the Physicians Foundation's 2018 survey of about 8,800 US doctors of all kinds, how many patients did they say they see per day on average?",
+  "answer": 20.2,
+  "why": "The 8,800 survey size is a distracting extra number in a question about patients per doctor.",
+  "fix": "On average, how many patients does a US doctor see in a day? (2018 survey)",
+  "severity": "medium"
+ },
+ {
+  "k": "3926",
+  "type": "COMPLICATED",
+  "text": "In a study of 150 adults in Scotland, about how many calories a day did the body burn on average just to stay alive, before any moving around?",
+  "answer": 1500,
+  "why": "The study backstory and the extra number 150 add nothing and make players re-read; the answer is the general adult resting burn.",
+  "fix": "About how many calories a day does an average adult's body burn just to stay alive, at complete rest?",
+  "severity": "medium"
+ },
+ {
+  "k": "2908",
+  "type": "DUPLICATE",
+  "text": "How many convenience stores are there in the United States?",
+  "answer": 151975,
+  "why": "Near-duplicate of 2804 (convenience stores that sell gas, 122,620). It uses the same NACS store count, so knowing one gives away the other.",
+  "fix": "Keep one; remove 2804 or 2908",
+  "severity": "medium"
+ },
+ {
+  "k": "2894",
+  "type": "DUPLICATE",
+  "text": "How many homes are there in the United States, counting every house, apartment and mobile home?",
+  "answer": 149454000,
+  "why": "Overlaps 2967 (US households, 134.8M). Players who see both get nearly the same number twice, and the difference between them (vacant homes) is subtle.",
+  "fix": "Keep one, or reword 2894 so it is clear that empty homes count too",
+  "severity": "medium"
+ },
+ {
+  "k": 2136,
+  "type": "STALE",
+  "text": "About how many new songs are uploaded to music streaming services like Spotify every day?",
+  "answer": 100000,
+  "why": "Daily song uploads grow fast (about 20k/day in 2018 to 100k+ now) and the question has no year.",
+  "fix": "Add \"in 2024\".",
+  "severity": "medium"
+ },
+ {
+  "k": 3026,
+  "type": "STALE",
+  "text": "How many videos are uploaded to YouTube on an average day?",
+  "answer": 20000000,
+  "why": "YouTube upload counts change fast and vary wildly by source and whether Shorts count; no year in text.",
+  "fix": "\"In 2025 YouTube said how many videos (including Shorts) were uploaded each day?\"",
+  "severity": "medium"
+ },
+ {
+  "k": 2196,
+  "type": "STALE",
+  "text": "How many pieces are in the largest jigsaw puzzle you can buy?",
+  "answer": 60000,
+  "why": "\"Largest jigsaw puzzle you can buy\" changes as new record puzzles are released; no date.",
+  "fix": "Add \"as of 2024\".",
+  "severity": "medium"
+ },
+ {
+  "k": 3412,
+  "type": "STALE",
+  "text": "How many roller coasters are there in the world?",
+  "answer": 6323,
+  "why": "Count of roller coasters in the world changes yearly; no date in text, and the answer depends on one database's count.",
+  "fix": "\"How many operating roller coasters were there in the world in 2026?\"",
+  "severity": "medium"
+ },
+ {
+  "k": "1018",
+  "type": "STALE",
+  "text": "About how many iPhones has Apple sold in total since the first one in 2007?",
+  "answer": 3000000000,
+  "why": "A running total that grows by about 230 million a year, with no date in the question and no asOf.",
+  "fix": "By mid-2025, about how many iPhones had Apple sold in total since the first one in 2007?",
+  "severity": "medium"
+ },
+ {
+  "k": "1012",
+  "type": "STALE",
+  "text": "About how many Boeing 737 airplanes have been built since the model first flew in 1967?",
+  "answer": 12700,
+  "why": "A running total that grows every year, with no date and no asOf.",
+  "fix": "Add 'as of 2025' (or the year the source used)",
+  "severity": "medium"
+ },
+ {
+  "k": "1000",
+  "type": "STALE",
+  "text": "About how many people work for Walmart worldwide?",
+  "answer": 2100000,
+  "why": "No year and asOf is undefined; it changes slowly, but every other dated question in the set pins its year.",
+  "fix": "About how many people worked for Walmart worldwide in 2025?",
+  "severity": "medium"
+ },
+ {
+  "k": "2533",
+  "type": "STALE",
+  "text": "How many cans of Red Bull were sold around the world in 2025?",
+  "answer": 13969000000,
+  "why": "The question asks about 2025 but asOf is 2023, so the year in the text and the data year may not match (the gap is under 1.5x).",
+  "fix": "Confirm the 2025 figure from Red Bull's company profile, or change the text to the data year",
+  "severity": "medium"
+ },
+ {
+  "k": "4526",
+  "type": "STALE",
+  "text": "Little Free Libraries are the small boxes of free books that people put up in front yards and parks. About how many are there around the world?",
+  "answer": 200000,
+  "why": "The count grows fast (about 100k in 2020, 200k now) and the question gives no date.",
+  "fix": "Add 'in 2026' to the question.",
+  "severity": "medium"
+ },
+ {
+  "k": "5056",
+  "type": "STALE",
+  "text": "About how many elephants live in the wild in the whole of Africa?",
+  "answer": 415000,
+  "why": "The answer is a 2016 estimate of a declining population, but the text gives no year.",
+  "fix": "Add 'in 2016' to the text",
+  "severity": "medium"
+ },
+ {
+  "k": "4104",
+  "type": "STALE",
+  "text": "About how many bison live in Yellowstone National Park?",
+  "answer": 5300,
+  "why": "The herd swings between about 4,000 and 6,000 from year to year, and the text gives no year (asOf 2025).",
+  "fix": "Add 'in 2025' to the text",
+  "severity": "medium"
+ },
+ {
+  "k": 2016,
+  "type": "TOO_EASY",
+  "text": "How many feet is it from the pitcher's mound to home plate in Major League Baseball?",
+  "answer": 60.5,
+  "why": "60 feet 6 inches is a widely memorized baseball fact in the US; many players will hit it exactly.",
+  "fix": "Remove or swap for a less-known baseball dimension (e.g. distance from home to second base).",
+  "severity": "medium"
+ },
+ {
+  "k": "602",
+  "type": "TOO_EASY",
+  "text": "How many men signed the US Declaration of Independence?",
+  "answer": 56,
+  "why": "Widely taught and memorized US school fact.",
+  "fix": "remove from scoring pool or swap for a less memorized Declaration fact",
+  "severity": "medium"
+ },
+ {
+  "k": "548",
+  "type": "TOO_EASY",
+  "text": "How many passengers sailed to America on the Mayflower in 1620?",
+  "answer": 102,
+  "why": "102 Mayflower passengers is a commonly taught Thanksgiving fact.",
+  "fix": "remove, or keep the voyage-length question (2841) instead",
+  "severity": "medium"
+ },
+ {
+  "k": "4077",
+  "type": "TOO_EASY",
+  "text": "How tall is the Gateway Arch in St. Louis, Missouri, in feet?",
+  "answer": 630,
+  "why": "630 feet is the Arch's headline number, printed on most descriptions of it.",
+  "fix": "remove, or ask something less famous (e.g. how many people fit in one tram capsule)",
+  "severity": "medium"
+ },
+ {
+  "k": "1599",
+  "type": "TOO_EASY",
+  "text": "How many grams of sugar are in a 12-ounce can of Coca-Cola?",
+  "answer": 39,
+  "why": "Printed on every can and a frequently quoted health-campaign number.",
+  "fix": "keep only if easy questions are wanted; otherwise remove",
+  "severity": "medium"
+ },
+ {
+  "k": "100",
+  "type": "TOO_EASY",
+  "text": "How many countries are members of the United Nations?",
+  "answer": 193,
+  "why": "Widely memorized number (the task's own example).",
+  "fix": "remove",
+  "severity": "medium"
+ },
+ {
+  "k": "5102",
+  "type": "TOO_EASY",
+  "text": "A sleeping adult goes round and round through light sleep, deep sleep and dreaming. How many minutes does one of these cycles last on average?",
+  "answer": 90,
+  "why": "'90-minute sleep cycle' is a widely repeated fact and the multiplier is tight (B 0.40), so this mostly tests recall.",
+  "fix": "remove, or move to practice only",
+  "severity": "medium"
+ },
+ {
+  "k": 4503,
+  "type": "UNGUESSABLE",
+  "text": "A famous golf hole in Florida has its green on a tiny island, surrounded by water. About how many golf balls are fished out of the water around it each year?",
+  "answer": 100000,
+  "why": "Course is not even named and guesses span 1,000x (125 to 159,000); no anchor to reason from.",
+  "fix": "Name it (17th hole at TPC Sawgrass) and give an anchor like rounds played per year, or remove.",
+  "severity": "medium"
+ },
+ {
+  "k": 4325,
+  "type": "UNGUESSABLE",
+  "text": "Miniatur Wunderland in Hamburg, Germany, is the largest model railway in the world. How many feet of model train track does it have?",
+  "answer": 54104,
+  "why": "Feet of model track in one Hamburg attraction; guesses span 200x with nothing to reason from.",
+  "fix": "Give an anchor (e.g. \"it fills a warehouse floor of about 80,000 square feet\") or remove.",
+  "severity": "medium"
+ },
+ {
+  "k": 4322,
+  "type": "UNGUESSABLE",
+  "text": "The Honus Wagner card of about 1910 is the most famous rare baseball card. About how many real ones are known to exist?",
+  "answer": 60,
+  "why": "Number of surviving copies of one card is pure trivia; guess spread 2 to 734.",
+  "fix": "Remove, or keep only as a practice item.",
+  "severity": "medium"
+ },
+ {
+  "k": "4951",
+  "type": "UNGUESSABLE",
+  "text": "Visitors to Oktoberfest in Munich often try to sneak a glass beer mug home as a souvenir. How many mugs did security guards take back from people at the exits in 2024?",
+  "answer": 98000,
+  "why": "No anchor at all (visitor count or mugs in use not given); the guessed spread runs from about 100 to 340,000, so it is a lottery.",
+  "fix": "Add an anchor, e.g. 'About 6.7 million people visited Oktoberfest in 2024. How many beer mugs did security take back...', or remove.",
+  "severity": "medium"
+ },
+ {
+  "k": "3032",
+  "type": "UNGUESSABLE",
+  "text": "The first telephone cable under the Atlantic Ocean opened in 1956. How many phone calls could it carry at the same time?",
+  "answer": 35,
+  "why": "Ordinary players have no basis to estimate 1950s cable capacity; guesses span 3 to 3,000.",
+  "fix": "remove, or add context (e.g. it replaced radio links that carried only a handful of calls)",
+  "severity": "medium"
+ },
+ {
+  "k": "4963",
+  "type": "UNGUESSABLE",
+  "text": "When a candidate accepts the nomination at a US political convention, balloons pour down from the arena ceiling. About how many balloons were dropped at the 2024 Democratic National Convention?",
+  "answer": 100000,
+  "why": "Most people have no anchor at all; the guessed spread runs from 672 to 297,600.",
+  "fix": "remove, or give an anchor (for example the arena's seat count)",
+  "severity": "medium"
+ },
+ {
+  "k": "4148",
+  "type": "UNGUESSABLE",
+  "text": "Visitors to the Western Wall in Jerusalem write prayers on slips of paper and tuck them into the cracks between the stones. How many notes are left there each year?",
+  "answer": 1000000,
+  "why": "No anchor (visitor numbers aren't given), and the guessed spread runs from 528 to 9.5 million, so scoring is luck.",
+  "fix": "Add an anchor such as 'The wall gets about 10 million visitors a year', or remove",
+  "severity": "medium"
+ },
+ {
+  "k": "2551",
+  "type": "UNGUESSABLE",
+  "text": "About how many pieces of candy corn are made in the US each year?",
+  "answer": 9000000000,
+  "why": "No anchor at all: the guess spread is 2.5M to 100B (B=4.2, one of the widest in the chunk), so the score is a lottery.",
+  "fix": "Remove, or ask in pounds (about 35 million lb), which a player can reason toward",
+  "severity": "medium"
+ },
+ {
+  "k": "2781",
+  "type": "UNGUESSABLE",
+  "text": "How many pencils are made in the world each year?",
+  "answer": 14000000000,
+  "why": "The widest spread in the chunk (2.4M to 210B, B=4.5), so players have no basis to estimate.",
+  "fix": "Remove, or give an anchor (e.g. 'about 2 per person on Earth?' style hint is too revealing; better remove)",
+  "severity": "medium"
+ },
+ {
+  "k": "2999",
+  "type": "UNGUESSABLE",
+  "text": "The Bic Cristal (the clear plastic Bic pen) is the best-selling pen in the world. About how many are sold every second?",
+  "answer": 57,
+  "why": "A per-second rate of a single product has no anchor: guesses run from 0.5 to 20,000 (B=3.4).",
+  "fix": "Remove, or ask the total sold since 1950 (over 100 billion)",
+  "severity": "medium"
+ },
+ {
+  "k": "3063",
+  "type": "UNGUESSABLE",
+  "text": "How many sets of the Encyclopaedia Britannica were sold in 1990, its best year ever?",
+  "answer": 120000,
+  "why": "This is pure trivia that most players under about 45 have no feel for (B=2.4).",
+  "fix": "Remove",
+  "severity": "medium"
+ },
+ {
+  "k": "3474",
+  "type": "UNGUESSABLE",
+  "text": "Sweethearts are the little candy hearts with messages like \"Be Mine\" sold for Valentine's Day. About how many did their long-time maker produce each year?",
+  "answer": 8000000000,
+  "why": "No usable anchor (guess spread runs from 500,000 to 20 billion and B is 5.4, the loosest in the chunk), so scoring is close to a lottery.",
+  "fix": "Add an anchor, e.g. 'Each small box holds about 20 hearts...' or remove",
+  "severity": "medium"
+ },
+ {
+  "k": "3953",
+  "type": "UNGUESSABLE",
+  "text": "Victorinox, the Swiss company behind the red Swiss Army knife, makes them at its factory in Switzerland. About how many Swiss Army knives did it make per day in 2006?",
+  "answer": 34000,
+  "why": "Per-day factory output in an arbitrary year with no anchor; guess spread is 63 to 80,000 (B 3.4).",
+  "fix": "Ask per year with an anchor, or remove",
+  "severity": "medium"
+ },
+ {
+  "k": "4069",
+  "type": "UNGUESSABLE",
+  "text": "Swanson started selling frozen 'TV dinners' in the US in 1953. About how many had it sold one year later?",
+  "answer": 10000000,
+  "why": "No anchor for 1950s frozen-food volumes; guess spread is 5,000 to 200 million (B 3.9), and 'one year later' could be read as sales in 1954 alone vs cumulative.",
+  "fix": "'In its first year on sale (1953-54), about how many TV dinners did Swanson sell?' and consider an anchor (US had about 160 million people)",
+  "severity": "medium"
+ }
+]
