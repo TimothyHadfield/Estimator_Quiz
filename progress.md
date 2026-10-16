@@ -33,7 +33,8 @@ _Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clea
 | Calibrate | live, all signed-in accounts | see Traps |
 | Operator mode | live | Owner's Google login only. Tabs: Info, Types, Questions (+ Daily schedule), Stats (+ Feedback, Players list, Download backup), Calibrate, Test, Records |
 | Firebase RTDB | live | project `estimator-quiz`, free plan |
-| Handoff files | current 2026-10-15 night | `progress.md`, `chat.md` |
+| Handoff files | current 2026-10-15 night | `progress.md`, `chat.md`; `CLAUDE.md` added 2026-10-16 (sweep) |
+| Sweep 2026-10-16 | done | Report viewer no longer crashes on a report without reasons; operator Questions list built only for the signed-in owner (player page 52,000 → ~700 elements); preconnect + meta description. Report: laptop-ops `coding-and-claude/reports/sweep-2026-10-16/Estimator_Quiz.md` |
 
 ## Authorized next steps
 - 2026-10-09 · A further question-removal pass fits Tim's go; rewording, adding questions or scoring changes need a new go.
@@ -86,6 +87,7 @@ _Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clea
 - `.gitignore` ignores `/.claude` (covers `.claude/test/` and worktrees).
 
 ## Decisions
+- D15 · 2026-10-16 · Sweep builder: `renderQuestions` returns early unless `operatorSignedIn` (players never see the list; it cost ~50,000 elements and a rebuild on every question-stat change). `setOperatorMode` builds it on sign-in and clears it on sign-out.
 - D14 · 2026-10-15 · Operator wave split into two builder agents (feedback/pool/backup; schedule/players) in worktrees, merged cleanly; Swap picks a random valid spare rather than a chooser (builder's call, flagged).
 - D13 · 2026-10-14 · B floor 0.3 and 15% wider ranges (first 35 answers: 69% inside range vs 80% expected). Questions ask for plain numbers.
 - D12 · 2026-10-14 · Multipliers from guessed crowd ranges (log-normal, expected 500); daily reads live multipliers.
