@@ -1,7 +1,7 @@
 # Estimator Quiz — progress (handoff for Claude)
 
 ## START HERE
-_Last updated 2026-10-15 night (clickable You stats `af74a8a`, operator wave merged `5aa80f4`, live; nothing in progress; no agents running). Full detail of every earlier Goal block: `docs/archive/progress-2026-10-15.md` (snapshot before this trim) and `docs/archive/progress-2026-10-14.md`. For Claude only; Tim doesn't read this. Catch-up authorizes nothing: only "Authorized next steps" below is approved work._
+_Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clean; clickable You stats `af74a8a`, operator wave merged `5aa80f4`; nothing in progress; no agents running; Tim was given an ideas list and hasn't picked yet). Full detail of every earlier Goal block: `docs/archive/progress-2026-10-15.md` (snapshot before this trim) and `docs/archive/progress-2026-10-14.md`. For Claude only; Tim doesn't read this. Catch-up authorizes nothing: only "Authorized next steps" below is approved work._
 1. Read this file.
 2. Read `direction.md` if it exists (it overrules everything). It does not exist yet.
 3. Skim the last 3 entries of `chat.md`.
@@ -12,6 +12,7 @@ _Last updated 2026-10-15 night (clickable You stats `af74a8a`, operator wave mer
 - **Operator wave A (builder, `8ddf07f`):** Questions rows show a feedback chip + pool chip, feedback filter (any kind / "Has feedback") and "Most feedback" sort; Stats "Feedback" panel (bars per kind, top 15 → opens in Questions; `loadStatsFeedback`); Pool select on add/edit (new = practice), import 5th column `daily`; "Download backup" button (`downloadBackup`, 9 nodes, never `users`, names skipped nodes). Questions with no pool show a grey "No pool" chip.
 - **Operator wave B (builder, `b8889c0`):** Questions | Daily schedule switch (`showOpQuestionsView`): header "Schedule ends … · N spare", day list with titles/players/avg, day detail with every player's guesses, **Swap** for future days only (random valid spare, confirm first; writes `daily/<date>/q/<i>`). Stats Players panel gets a searchable list (`renderPlayersList`, reads `dailyScores` + `records` only) with per-player day breakdowns + practice tests.
 - **Open (Tim's calls, flagged):** only **1 spare daily-pool question**, so Swap rarely finds one; changing a scheduled question to Practice doesn't unschedule it.
+- **Ideas offered 2026-10-16 (Tim: "what are additional features or additions you think we could add to the cite?"), NONE authorized, waiting for his pick:** 1 write more daily questions (recommended first; agents to the rubric) · 2 friend groups (code → group-only leaderboard) · 3 "Practice my weak spots" from a Strengths row · 4 one-line fact after each answer · 5 Add to Home Screen + daily reminder · 6 operator feedback fix list (suggested rewrites/B changes to approve) · 7 compare with a friend per daily · 8 weekly recap. Said #2 and #3 are the most fun to keep using.
 **Earlier goals, one line each (details in the archive snapshot):**
 - 2026-10-15 · stats feature (`190e5ad`): kind+subject tags on all questions (`QUESTION_KINDS`/`QUESTION_SUBJECTS`; new questions need both), Records Leaderboard | You, Info scoring curve, operator Types tab, Questions filters, Stats By type + Players. Plan `docs/stats-plan.md`.
 - 2026-10-15 · scroll bars (`9bf24ea`), answer feedback buttons (`c9774c3`), names fix (`c5345e8`): see Traps.
