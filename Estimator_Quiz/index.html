@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="Test your estimation skills with numerical questions">
     <title>Estimator Quiz</title>
+    <!-- The database connection starts while the page is still loading -->
+    <link rel="preconnect" href="https://estimator-quiz-default-rtdb.firebaseio.com">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" type="image/svg+xml" href="icon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -3664,9 +3667,13 @@ Population of Tokyo?, 13960000"></textarea>
         // anyone else, and the sign-in listener below turns operator mode on for that account.
 
         function setOperatorMode(on) {
+            const was = operatorSignedIn;
             operatorSignedIn = on;
             if (!on) playerView = false;
             applyOperatorView();
+            if (on && !was) renderQuestions();
+            // Signed out: drop the owner's list so it isn't left in the page
+            if (!on && was) document.getElementById('questions-list').innerHTML = '';
         }
 
         // Player view: the signed-in operator sees the site exactly as a player does
@@ -4964,8 +4971,13 @@ Population of Tokyo?, 13960000"></textarea>
                 const date = new Date(report.date).toLocaleDateString();
                 reportSummary += `--- Report ${index + 1} (${date}) ---\n`;
                 reportSummary += `From: ${report.playerName || 'Anonymous'}\n`;
-                if (report.reasons.length > 0) {
-                    reportSummary += `Reasons: ${report.reasons.map(r => reasonLabels[r] || r).join(', ')}\n`;
+                // The rules don't require reasons (a report can be a comment only), and Firebase
+                // can hand a list back as an array or a keyed object
+                const reasons = report.reasons && typeof report.reasons === 'object'
+                    ? Object.values(report.reasons).filter(Boolean)
+                    : (report.reasons ? [String(report.reasons)] : []);
+                if (reasons.length > 0) {
+                    reportSummary += `Reasons: ${reasons.map(r => reasonLabels[r] || r).join(', ')}\n`;
                 }
                 if (report.comment) {
                     reportSummary += `Comment: ${report.comment}\n`;
@@ -5783,7 +5795,11 @@ Population of Tokyo?, 13960000"></textarea>
             renderQuestionsTimer = setTimeout(renderQuestions, 150);
         }
 
+        // Players never see this list, and it is 2,000+ rows (~50,000 elements) that the questions
+        // listener rebuilt on every page load and every practice answer anyone made. It is built
+        // only for the signed-in owner (setOperatorMode builds it when they sign in).
         function renderQuestions() {
+            if (!operatorSignedIn) return;
             const list = document.getElementById('questions-list');
             const count = document.getElementById('question-count');
             const search = document.getElementById('questions-search').value.trim().toLowerCase();
