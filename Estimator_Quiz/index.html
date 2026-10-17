@@ -3033,6 +3033,7 @@
                         </ul>
                     </div>
                 </div>
+                <div class="player-note" id="app-version"></div>
             </div>
         </div>
 
@@ -3603,6 +3604,69 @@ Population of Tokyo?, 13960000"></textarea>
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+
+        // ===== NEW BUILDS WITHOUT A HARD REFRESH =====
+        // GitHub Pages lets a phone keep the page for 10 minutes (and Safari often longer), so a
+        // new build could take a hard refresh to show up. On load and whenever the page comes back
+        // into view (at most once a minute) ask the server when the page was last published; if
+        // that's newer than this copy, refresh the cache and reload, but only from a resting screen
+        // (home, Records, Info), never during a quiz, an open panel or while typing. Any missing
+        // header or error: do nothing. Only on github.io, or with ?fresh for local tests
+        // (tools/fresh-check.mjs).
+        (function () {
+            const testing = /[?&]fresh\b/.test(location.search);
+            if (!/\.github\.io$/.test(location.hostname) && !testing) return;
+            const THROTTLE_MS = testing ? 1000 : 60000;
+            const pageUrl = location.pathname + location.search;
+            const pageTime = Date.parse(document.lastModified);
+            let lastCheck = 0;
+            let waiting = null;   // newer Last-Modified seen while the player was busy
+
+            function resting() {
+                if (testState.isActive || operatorSignedIn) return false;
+                if (document.querySelector('.login-modal.show, .report-modal.show')) return false;
+                if (document.body.classList.contains('calibrate-open')) return false;
+                const focused = document.activeElement;
+                if (focused && /^(INPUT|TEXTAREA|SELECT)$/.test(focused.tagName)) return false;
+                const tab = document.querySelector('.tab-content.active');
+                if (!tab) return false;
+                if (tab.id === 'test-tab') return document.getElementById('test-mode-selection').style.display !== 'none';
+                return tab.id === 'records-tab' || tab.id === 'info-tab';
+            }
+
+            function reloadFor(live) {
+                try {
+                    if (sessionStorage.getItem('estimatorQuizFreshReload') === live) return;  // once per build
+                    sessionStorage.setItem('estimatorQuizFreshReload', live);
+                } catch (e) { return; }
+                fetch(pageUrl, { cache: 'reload' }).then(() => location.reload(), () => {});
+            }
+
+            function check() {
+                if (Date.now() - lastCheck < THROTTLE_MS || !isFinite(pageTime)) return;
+                lastCheck = Date.now();
+                fetch(pageUrl, { method: 'HEAD', cache: 'no-store' }).then(response => {
+                    const live = response.ok && response.headers.get('Last-Modified');
+                    const liveTime = live ? Date.parse(live) : NaN;
+                    if (!isFinite(liveTime) || liveTime <= pageTime) return;
+                    if (resting()) reloadFor(live);
+                    else waiting = live;
+                }).catch(() => {});
+            }
+
+            // A newer build seen during a quiz waits until the player is back on a resting screen
+            setInterval(() => { if (waiting && resting()) { const live = waiting; waiting = null; reloadFor(live); } }, 2000);
+            document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+            setTimeout(check, 0);
+        })();
+
+        // Bottom of Info: when this copy of the page was published ("Version Oct 17, 2026, 6:52 PM")
+        (function () {
+            const published = new Date(document.lastModified);
+            if (isNaN(published)) return;
+            document.getElementById('app-version').textContent = 'Version ' + published.toLocaleString('en-US',
+                { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+        })();
 
         // ===== DATA STRUCTURES =====
 
