@@ -4533,6 +4533,21 @@ Population of Tokyo?, 13960000"></textarea>
             }
         }
 
+        // A page left open past midnight: the home card and the leaderboard's "Today" move to the
+        // new day when the player comes back (never in the middle of a quiz)
+        let dailyCardDay = dailyToday();
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState !== 'visible' || testState.isActive) return;
+            const today = dailyToday();
+            if (dailyCardDay !== today) {
+                const select = document.getElementById('leaderboard-view');
+                if (select.value === dailyCardDay) select.value = '';
+                renderRecords();
+            }
+            dailyCardDay = today;
+            renderDailyCard();
+        });
+
         // Date-seeded pick, used only when the server says this date has no schedule
         function seededDailyPick(date) {
             let seed = 2166136261;
@@ -5610,12 +5625,14 @@ Population of Tokyo?, 13960000"></textarea>
                     adjustQuestionMultiplier(originalQuestion);
                 }
 
-                // Save only this question's three stat fields
-                dbWrite(questionRef(originalQuestion).update({
+                // Save only this question's three stat fields. Quietly: when two players answer the
+                // same question at once the rules refuse the second write, and the player's own
+                // score isn't affected, so there's nothing to tell them.
+                questionRef(originalQuestion).update({
                     avgPoints: originalQuestion.avgPoints,
                     avgCount: originalQuestion.avgCount,
                     multiplier: originalQuestion.multiplier
-                }));
+                }).catch(err => console.warn('Question stats not saved:', err));
             }
 
             // Every guess is kept (number, time, points, daily or not, and the answer it was scored
