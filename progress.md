@@ -1,7 +1,7 @@
 # Estimator Quiz — progress (handoff for Claude)
 
 ## START HERE
-_Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clean; clickable You stats `af74a8a`, operator wave merged `5aa80f4`; nothing in progress; no agents running; Tim was given an ideas list and hasn't picked yet). Full detail of every earlier Goal block: `docs/archive/progress-2026-10-15.md` (snapshot before this trim) and `docs/archive/progress-2026-10-14.md`. For Claude only; Tim doesn't read this. Catch-up authorizes nothing: only "Authorized next steps" below is approved work._
+_Last updated 2026-10-17 (batch 1 merged to main and live: new builds reach phones without a hard refresh, Info version line, quiet stat refusals, midnight rollover; nothing in progress; Tim's ideas list still unpicked). Full detail of every earlier Goal block: `docs/archive/progress-2026-10-15.md` (snapshot before this trim) and `docs/archive/progress-2026-10-14.md`. For Claude only; Tim doesn't read this. Catch-up authorizes nothing: only "Authorized next steps" below is approved work._
 1. Read this file.
 2. Read `direction.md` if it exists (it overrules everything). It does not exist yet.
 3. Skim the last 3 entries of `chat.md`.
@@ -14,6 +14,7 @@ _Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clea
 - **Open (Tim's calls, flagged):** only **1 spare daily-pool question**, so Swap rarely finds one; changing a scheduled question to Practice doesn't unschedule it.
 - **Ideas offered 2026-10-16 (Tim: "what are additional features or additions you think we could add to the cite?"), NONE authorized, waiting for his pick:** 1 write more daily questions (recommended first; agents to the rubric) · 2 friend groups (code → group-only leaderboard) · 3 "Practice my weak spots" from a Strengths row · 4 one-line fact after each answer · 5 Add to Home Screen + daily reminder · 6 operator feedback fix list (suggested rewrites/B changes to approve) · 7 compare with a friend per daily · 8 weekly recap. Said #2 and #3 are the most fun to keep using.
 **Earlier goals, one line each (details in the archive snapshot):**
+- 2026-10-17 · batch 1 (`c7ad7d5`, `5732c46`): auto-reload to new builds from resting screens (see Traps "Freshness"), "Version …" line at the bottom of Info, refused practice question-stat writes are quiet (`.catch` → console.warn, no notification), page open past midnight shows the new day on return. Checks `tools/fresh-check.mjs` (9) and `tools/daily-check.mjs` (13).
 - 2026-10-15 · stats feature (`190e5ad`): kind+subject tags on all questions (`QUESTION_KINDS`/`QUESTION_SUBJECTS`; new questions need both), Records Leaderboard | You, Info scoring curve, operator Types tab, Questions filters, Stats By type + Players. Plan `docs/stats-plan.md`.
 - 2026-10-15 · scroll bars (`9bf24ea`), answer feedback buttons (`c9774c3`), names fix (`c5345e8`): see Traps.
 - 2026-10-15 · question review: 84 flagged (`docs/question-review-2026-10-15.json`), applied 19 removed + 48 reworded (`backups/qfix-2026-10-15/`). Live 2,335 = 1,826 daily + 509 practice. Scoring re-fit measured as noise (`tools/scoring-check.cjs`; rerun at ~300+ daily answers, act only if range excludes 1).
@@ -53,6 +54,7 @@ _Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clea
 - Global `~/.claude/CLAUDE.md` rules apply.
 
 ## Traps / rules that bite
+- **Freshness (2026-10-17):** on load and on each return to the page (≤1/min) a no-store HEAD of the page compares `Last-Modified` with `document.lastModified`; newer → `fetch(cache:'reload')` then `location.reload()`, once per build (`sessionStorage estimatorQuizFreshReload`), only from home/Records/Info with no panel open and nothing focused; a build seen mid-quiz waits. Runs only on `*.github.io` or with `?fresh`. Tests: `node tools/fresh-check.mjs` (serves like Pages, stubs all writes; `--serve` for manual use, `?denystats` makes question-stat updates fail) and `node tools/daily-check.mjs`. Both need Playwright from `~/.claude/tools`.
 - **Clickable You charts (2026-10-15):** SVG bars are wrapped in `<g class="you-tap" data-you="type:id">` with a transparent full-height hit rect; `renderYouDetails()` toggles `.you-picked`. `renderYou` must set `youAnswers` before `renderYouDetails()`. Headless click tests: a "Scoring updated" `.report-modal.show` appears a few seconds after load and swallows clicks; remove `.show` right before each click. Test scripts `yt.mjs` (You taps) and `op.mjs` (operator smoke) were in the session scratchpad.
 - **Operator screens without Tim's login:** `guesses`, `feedback`, `calibration` are owner-read, so Stats panels show "Loading…" / "Could not load feedback" in headless runs. Expected, not a bug.
 - **Names (2026-10-15, `c5345e8`):** password autofill put the sign-in email into `#account-name` (reasoned). Now `autocomplete="nickname"`, maxlength 20, `cleanName`/`nameProblem` reject "@", `NAME_MAX = 20`, bad account names rewritten on load (`defaultAccountName`). Rules cap names at 20.
@@ -108,7 +110,7 @@ _Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clea
 - 2026-10-15 stats: practice-log write in `finishTest` not run; the local practice log isn't updated by `tools/rescore.cjs`.
 - 2026-10-14: signed-in notice/links only under claude-test; titles not read by a person; multiplier ranges are an AI's guess.
 - Calibrate saving under Tim's login; Google sign-in for a normal player; phone share sheet; password-reset email; real iPhone behaviour.
-- Half-finished daily continued after reload; midnight rollover with the page open.
+- 2026-10-17: auto-reload on a real iPhone (Safari's own cache rules); checked only in headless WebKit against a Pages-like local server. Daily resume + midnight checked headlessly with the date override, not a real clock past midnight.
 - No person has read the full question set; many sources are Wikipedia only; `question-banks/*.csv` differ from live.
 
 ## Rejected / parked
@@ -121,7 +123,7 @@ _Last updated 2026-10-16 (checkpoint for chat reset; live = `1dc0adb`, tree clea
 ## Map
 - `Estimator_Quiz/index.html` · the whole app (~7,500 lines). Firebase compat SDK 9.22.0. Tabs via `switchTab()`: info, types, questions, stats, calibrate (operator/accounts), test, records. Sections marked `// ===== NAME =====`.
 - `database.rules.json` · RTDB rules (deploy separately). `firebase.json`, `.firebaserc`.
-- `tools/` · `make-daily-schedule.mjs`, `rescore.cjs`, `scoring-check.cjs`, `verify-live.mjs`.
+- `tools/` · `make-daily-schedule.mjs`, `rescore.cjs`, `scoring-check.cjs`, `verify-live.mjs`, `fresh-check.mjs`, `daily-check.mjs` (headless checks, writes stubbed).
 - `docs/` · plans (`daily-and-accounts-plan.md`, `stats-plan.md`), `question-rubric.md`, `question-review-2026-10-15.json`, `archive/`.
 - Tests: no test suite. Headless checks with Playwright (WebKit + Chrome) and `~/.claude/tools/phone-view.mjs`.
 - Live: https://timothyhadfield.github.io/Estimator_Quiz/ (forwards to `/Estimator_Quiz/Estimator_Quiz/`) · GitHub Pages, push redeploys.

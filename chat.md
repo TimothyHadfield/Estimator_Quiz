@@ -168,3 +168,9 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Verified how:** headless WebKit 393×659 + Chrome 1440×900: You taps (day/group/bin/Best/close) show the right answers, no exceptions, page 659/900; operator smoke with forced operator mode: 2,335 question rows, schedule header + days, 7 players, backup button, no overflow, no exceptions. REST rule tests for feedback/names (test row removed).
 - **Open:** operator features never run under Tim's login; only 1 spare daily question (Swap rarely works); progress.md trimmed to the archive snapshot `docs/archive/progress-2026-10-15.md`.
 - **Then (2026-10-16):** "what are additional features or additions you think we could add to the cite?" → 8 ideas, ranked (list in progress.md Goal right now); nothing built. "prepare md files for chat reset." → this checkpoint.
+
+## 2026-10-17 · Batch 1: new builds without hard refresh, quiet stat refusals, midnight (portfolio builder)
+- **Asked (via portfolio manager):** "any fixes or improvements you feel confident about go ahead and do, pretty much always. You don't have to ask me."
+- **Built:** `c7ad7d5` (lead's WIP) + `5732c46`: phones reload to a new build from resting screens (Last-Modified vs no-store HEAD, once per build, never mid-quiz/panel/typing); "Version <deploy time>" line at the bottom of Info; refused practice question-stat write is quiet; page left open past midnight moves home card + leaderboard "Today" to the new day on return. Checks `tools/fresh-check.mjs`, `tools/daily-check.mjs`.
+- **Verified how:** fresh-check 3/9 FAIL on `9a931f1`, 9/9 PASS now; daily-check 4/13 FAIL on `c7ad7d5`, 13/13 PASS now (WebKit 393×659, all writes stubbed, 0 write frames on the socket). Home 659/659 at 393 (phone-view). Half-finished daily resumes at question 3 with answers kept after a reload (already worked).
+- **Open:** real iPhone Safari behaviour of the auto-reload not seen.
