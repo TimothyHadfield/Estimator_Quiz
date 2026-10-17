@@ -6,20 +6,19 @@
       ".read": true,
       "$q": {
         "avgPoints": {
-          ".write": true,
+          ".write": "newData.exists() && newData.parent().child('avgPoints').isNumber() && newData.parent().child('avgCount').isNumber() && newData.parent().child('multiplier').isNumber() && ((newData.parent().child('avgCount').val() === (data.parent().child('avgCount').exists() ? data.parent().child('avgCount').val() : 0) + 1 && newData.parent().child('avgCount').val() <= 4 && newData.parent().child('avgPoints').val() >= (data.parent().child('avgPoints').exists() ? data.parent().child('avgPoints').val() : 0) && newData.parent().child('avgPoints').val() <= (data.parent().child('avgPoints').exists() ? data.parent().child('avgPoints').val() : 0) + 1000.01 && newData.parent().child('multiplier').val() === (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1)) || ((data.parent().child('avgCount').exists() ? data.parent().child('avgCount').val() : 0) >= 4 && newData.parent().child('avgCount').val() === 0 && newData.parent().child('avgPoints').val() === 0 && (newData.parent().child('multiplier').val() >= (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1) * 0.67 - 0.001 || newData.parent().child('multiplier').val() >= 10) && (newData.parent().child('multiplier').val() <= (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1) * 1.492 + 0.001 || newData.parent().child('multiplier').val() <= 0.3)))",
           ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000 && newData.parent().child('text').exists()"
         },
         "avgCount": {
-          ".write": true,
+          ".write": "newData.exists() && newData.parent().child('avgPoints').isNumber() && newData.parent().child('avgCount').isNumber() && newData.parent().child('multiplier').isNumber() && ((newData.parent().child('avgCount').val() === (data.parent().child('avgCount').exists() ? data.parent().child('avgCount').val() : 0) + 1 && newData.parent().child('avgCount').val() <= 4 && newData.parent().child('avgPoints').val() >= (data.parent().child('avgPoints').exists() ? data.parent().child('avgPoints').val() : 0) && newData.parent().child('avgPoints').val() <= (data.parent().child('avgPoints').exists() ? data.parent().child('avgPoints').val() : 0) + 1000.01 && newData.parent().child('multiplier').val() === (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1)) || ((data.parent().child('avgCount').exists() ? data.parent().child('avgCount').val() : 0) >= 4 && newData.parent().child('avgCount').val() === 0 && newData.parent().child('avgPoints').val() === 0 && (newData.parent().child('multiplier').val() >= (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1) * 0.67 - 0.001 || newData.parent().child('multiplier').val() >= 10) && (newData.parent().child('multiplier').val() <= (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1) * 1.492 + 0.001 || newData.parent().child('multiplier').val() <= 0.3)))",
           ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10 && newData.parent().child('text').exists()"
         },
         "multiplier": {
-          ".write": true,
+          ".write": "newData.exists() && newData.parent().child('avgPoints').isNumber() && newData.parent().child('avgCount').isNumber() && newData.parent().child('multiplier').isNumber() && ((newData.parent().child('avgCount').val() === (data.parent().child('avgCount').exists() ? data.parent().child('avgCount').val() : 0) + 1 && newData.parent().child('avgCount').val() <= 4 && newData.parent().child('avgPoints').val() >= (data.parent().child('avgPoints').exists() ? data.parent().child('avgPoints').val() : 0) && newData.parent().child('avgPoints').val() <= (data.parent().child('avgPoints').exists() ? data.parent().child('avgPoints').val() : 0) + 1000.01 && newData.parent().child('multiplier').val() === (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1)) || ((data.parent().child('avgCount').exists() ? data.parent().child('avgCount').val() : 0) >= 4 && newData.parent().child('avgCount').val() === 0 && newData.parent().child('avgPoints').val() === 0 && (newData.parent().child('multiplier').val() >= (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1) * 0.67 - 0.001 || newData.parent().child('multiplier').val() >= 10) && (newData.parent().child('multiplier').val() <= (data.parent().child('multiplier').exists() ? data.parent().child('multiplier').val() : 1) * 1.492 + 0.001 || newData.parent().child('multiplier').val() <= 0.3)))",
           ".validate": "newData.isNumber() && newData.val() >= 0.3 && newData.val() <= 10 && newData.parent().child('text').exists()"
         },
         "goodMarks": {
           "$g": {
-            ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
             ".validate": "newData.hasChildren(['date']) && newData.child('date').isNumber() && (!newData.child('playerName').exists() || (newData.child('playerName').isString() && newData.child('playerName').val().length <= 200))",
             "date": {
               ".validate": true
@@ -34,7 +33,6 @@
         },
         "reports": {
           "$r": {
-            ".write": "!data.exists() && newData.exists() && root.child('questions').child($q).child('text').exists()",
             ".validate": "newData.hasChildren(['id', 'date']) && newData.child('id').isString() && newData.child('id').val().length <= 40 && newData.child('date').isNumber() && (!newData.child('comment').exists() || (newData.child('comment').isString() && newData.child('comment').val().length <= 1000)) && (!newData.child('playerName').exists() || (newData.child('playerName').isString() && newData.child('playerName').val().length <= 200))",
             "reasons": {
               "$i": {
@@ -62,7 +60,7 @@
     },
     "trueAverage": {
       ".read": true,
-      ".write": true,
+      ".write": "newData.exists()",
       ".validate": "newData.hasChildren(['totalPoints', 'totalAnswers']) && newData.child('totalPoints').isNumber() && newData.child('totalAnswers').isNumber() && ((!data.exists() && newData.child('totalAnswers').val() === 1 && newData.child('totalPoints').val() >= 0 && newData.child('totalPoints').val() <= 1000.01) || (data.exists() && newData.child('totalAnswers').val() === data.child('totalAnswers').val() + 1 && newData.child('totalPoints').val() >= data.child('totalPoints').val() && newData.child('totalPoints').val() <= data.child('totalPoints').val() + 1000.01))",
       "totalPoints": {
         ".validate": true
@@ -138,7 +136,7 @@
           "score"
         ],
         "$id": {
-          ".write": "(!data.exists() && newData.exists() && $date.matches(/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/) && (!$id.beginsWith('u_') || (auth != null && $id === 'u_' + auth.uid))) || (data.exists() && newData.exists() && auth != null && $id === 'u_' + auth.uid && newData.child('score').val() === data.child('score').val()) || (data.exists() && !data.child('g').exists() && newData.child('g').exists() && newData.child('pts').exists() && newData.child('name').val() === data.child('name').val() && newData.child('score').val() - (newData.child('pts/0').val() + newData.child('pts/1').val() + newData.child('pts/2').val() + newData.child('pts/3').val() + newData.child('pts/4').val()) < 0.5 && (newData.child('pts/0').val() + newData.child('pts/1').val() + newData.child('pts/2').val() + newData.child('pts/3').val() + newData.child('pts/4').val()) - newData.child('score').val() < 0.5)",
+          ".write": "(!data.exists() && newData.exists() && $date.matches(/^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/) && (!$id.beginsWith('u_') || (auth != null && $id === 'u_' + auth.uid))) || (data.exists() && newData.exists() && auth != null && $id === 'u_' + auth.uid && newData.child('score').val() === data.child('score').val()) || (data.exists() && !data.child('g').exists() && newData.child('g').exists() && newData.child('pts').exists() && newData.child('name').val() === data.child('name').val() && (!$id.beginsWith('u_') || (auth != null && $id === 'u_' + auth.uid)) && newData.child('score').val() - data.child('score').val() <= 1000 && data.child('score').val() - newData.child('score').val() <= 1000 &&newData.child('score').val() - (newData.child('pts/0').val() + newData.child('pts/1').val() + newData.child('pts/2').val() + newData.child('pts/3').val() + newData.child('pts/4').val()) < 0.5 && (newData.child('pts/0').val() + newData.child('pts/1').val() + newData.child('pts/2').val() + newData.child('pts/3').val() + newData.child('pts/4').val()) - newData.child('score').val() < 0.5)",
           ".validate": "newData.hasChildren(['name', 'score']) && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 20 && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 5000",
           "name": {
             ".validate": true
@@ -167,7 +165,7 @@
         ".read": "auth != null",
         "$round": {
           "$q": {
-            ".write": "auth != null && !data.exists() && newData.val() === auth.uid && $round.matches(/^r[0-9]+$/) && root.child('questions').child($q).child('text').exists()"
+            ".write": "auth != null && !data.exists() && newData.val() === auth.uid && $round.matches(/^r([1-9]|1[0-9]|20)$/) && root.child('questions').child($q).child('text').exists()"
           }
         }
       },
