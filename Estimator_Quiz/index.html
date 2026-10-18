@@ -2043,6 +2043,33 @@
             background: #1a1a2e;
         }
 
+        /* Operator: View as <player> */
+        .records-as {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: -6px 0 12px;
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .records-as select {
+            -webkit-appearance: none;
+            appearance: none;
+            max-width: 200px;
+            padding: 4px 28px 4px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            background: #2a2f52 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 10px center;
+            color: white;
+            font-family: inherit;
+            font-size: 16px;   /* under 16px, iPhone Safari zooms in when it's tapped */
+            cursor: pointer;
+        }
+
+        .records-as select option { background: #1a1a2e; }
+
         /* A day's leaderboard: average points per question, Q1–Q5 */
         .day-q-avgs {
             display: grid;
@@ -2634,6 +2661,25 @@
         }
 
         /* Accounts */
+        .signin-warning {
+            position: fixed;
+            left: 50%;
+            bottom: 6px;
+            transform: translateX(-50%);
+            max-width: calc(100vw - 16px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: none;
+            border: none;
+            padding: 2px 4px;
+            color: #ffc107;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 5;
+        }
+
         .profile-btn {
             position: absolute;
             top: 15px;
@@ -3474,6 +3520,11 @@ Population of Tokyo?, 13960000"></textarea>
                     <button class="active" id="records-switch-board" onclick="showRecordsView('board')">Leaderboard</button>
                     <button id="records-switch-you" onclick="showRecordsView('you')">You</button>
                 </div>
+                <!-- Operator only: whose Records these are (display only) -->
+                <div class="records-as" id="records-as" style="display: none;">
+                    <label for="records-as-select">View as</label>
+                    <select id="records-as-select" onchange="setRecordsAs(this.value)"></select>
+                </div>
                 <!-- Your own numbers: dailies on this device and in your account, practice answers -->
                 <div id="you-view" style="display: none;">
                     <div class="you-numbers" id="you-numbers"></div>
@@ -3524,6 +3575,9 @@ Population of Tokyo?, 13960000"></textarea>
     <!-- Laptop player view only: opens the Info details over the page -->
     <button class="info-open-btn" onclick="openInfo()">Learn about the quiz</button>
     <button class="calibrate-open-btn" onclick="openCalibrate()">Calibrate questions</button>
+
+    <!-- Signed-out players, on home and Records: pinned to the bottom so nothing moves when it goes -->
+    <button class="signin-warning" id="signin-warning" style="display: none;" onclick="openAccountModal()">Not signed in — your results won't be saved to an account. <u>Sign in</u></button>
 
     <!-- Profile button and Account panel -->
     <button class="profile-btn" id="profile-btn" onclick="openAccountModal()" aria-label="Account">
@@ -3747,6 +3801,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (!on) playerView = false;
             applyOperatorView();
             if (on && !was) renderQuestions();
+            if (on !== was) renderRecords();   // the operator's "View as" picker
             // Signed out: drop the owner's list so it isn't left in the page
             if (!on && was) document.getElementById('questions-list').innerHTML = '';
         }
@@ -4051,6 +4106,7 @@ Population of Tokyo?, 13960000"></textarea>
             accountRef = null;
             currentUser = user || null;
             accountData = null;
+            syncSigninWarning();
             setCalibrationListener(currentUser);
 
             if (!user) {
@@ -4130,6 +4186,7 @@ Population of Tokyo?, 13960000"></textarea>
 
             renderDailyCard();
             renderRecords();
+            syncSigninWarning();
         }
 
         function openAccountModal() {
@@ -4620,6 +4677,20 @@ Population of Tokyo?, 13960000"></textarea>
                 document.body.classList.toggle('compact-header', !home);
                 requestAnimationFrame(fitLeaderboard);
             }
+            syncSigninWarning();
+        }
+
+        // "Not signed in" line: signed-out players (once that's known), on home or Records only
+        function syncSigninWarning() {
+            const box = document.getElementById('signin-warning');
+            if (!box) return;
+            const home = document.getElementById('test-tab').classList.contains('active')
+                && document.getElementById('test-mode-selection').style.display !== 'none';
+            const records = document.getElementById('records-tab').classList.contains('active');
+            const show = accountReady && !currentUser && (home || records);
+            if ((box.style.display !== 'none') === show) return;
+            box.style.display = show ? '' : 'none';
+            requestAnimationFrame(fitLeaderboard);
         }
         new MutationObserver(syncCompactHeader).observe(document.querySelector('.container'),
             { attributes: true, subtree: true, attributeFilter: ['style', 'class'] });
@@ -6568,12 +6639,18 @@ Population of Tokyo?, 13960000"></textarea>
         let dailyScoresAll = {};   // dailyScores/<date>/<id> = {name, score}
 
         // The Records list ends at the bottom of the screen and scrolls inside itself, so the page doesn't
+        // Room kept at the bottom for the "Not signed in" line, so the panel ends above it
+        function signinWarningSpace() {
+            const w = document.getElementById('signin-warning');
+            return w && w.style.display !== 'none' ? 24 : 0;
+        }
+
         function fitLeaderboard() {
             fitYouView();
             const list = document.getElementById('leaderboard');
             if (!list || !list.offsetParent) return;
             const top = list.getBoundingClientRect().top + window.scrollY;
-            list.style.maxHeight = Math.max(200, window.innerHeight - top - 40) + 'px';
+            list.style.maxHeight = Math.max(200, window.innerHeight - top - 40 - signinWarningSpace()) + 'px';
             // Whatever sits below the list (panel padding) differs by width: trim any page scroll left
             const over = document.documentElement.scrollHeight - window.innerHeight;
             if (over > 0 && list.scrollHeight > list.clientHeight) list.style.maxHeight = Math.max(200, list.clientHeight - over) + 'px';
@@ -6616,6 +6693,78 @@ Population of Tokyo?, 13960000"></textarea>
             requestAnimationFrame(fitLeaderboard);
         }
 
+        // ----- Operator: see Records as any player -----
+        // Only for the signed-in owner. Display only: the pick changes which player is "you"
+        // (highlighted rows, the You view) and nothing is written anywhere but this device.
+        const RECORDS_AS_KEY = 'estimatorQuizRecordsAs';
+        let recordsAs = '';
+        try { recordsAs = localStorage.getItem(RECORDS_AS_KEY) || ''; } catch (e) {}
+
+        // One key per player, as the all-time average groups them: accounts by id, others by name
+        function playerKey(id, row) {
+            return String(id).startsWith('u_') ? String(id) : 'n_' + String((row && row.name) || '').trim().toLowerCase();
+        }
+
+        function recordKey(record) {
+            return record.uid ? 'u_' + record.uid : 'n_' + String(record.name || '').trim().toLowerCase();
+        }
+
+        // The picked player's key, or null when Records shows the signed-in player
+        function recordsAsKey() {
+            const self = currentUser ? 'u_' + currentUser.uid : null;
+            return operatorSignedIn && recordsAs && recordsAs !== self ? recordsAs : null;
+        }
+
+        // The dailies behind the You view: this device's, or the picked player's leaderboard rows
+        function youDaily() {
+            const as = recordsAsKey();
+            if (!as) return dailyLocal;
+            const out = {};
+            Object.entries(dailyScoresAll).forEach(([date, rows]) => {
+                Object.entries(rows || {}).forEach(([id, row]) => {
+                    if (!row || typeof row.score !== 'number' || playerKey(id, row) !== as) return;
+                    if (out[date] && out[date].score >= row.score) return;
+                    const pts = row.pts ? Object.values(row.pts) : null;
+                    out[date] = { done: true, score: row.score, max: pts && pts.length ? pts.length * 1000 : 5000,
+                        pts, guesses: Array.isArray(row.g) ? row.g : null, id };
+                });
+            });
+            return out;
+        }
+
+        function setRecordsAs(key) {
+            recordsAs = key;
+            try { if (key) localStorage.setItem(RECORDS_AS_KEY, key); else localStorage.removeItem(RECORDS_AS_KEY); } catch (e) {}
+            youOpen = null;
+            leaderboardFocus = null;
+            renderRecords();
+        }
+
+        // Every player in the leaderboards (latest name, A–Z); the operator's own entry is "Me"
+        function renderRecordsAsPicker() {
+            const box = document.getElementById('records-as');
+            if (!box) return;
+            if (!operatorSignedIn) { box.style.display = 'none'; return; }
+            const self = currentUser ? 'u_' + currentUser.uid : null;
+            const players = {};
+            const add = (key, name, when) => {
+                if (!key || key === 'n_' || key === self) return;
+                const p = players[key] || (players[key] = { name, when: '' });
+                if (when >= p.when) { p.when = when; p.name = name; }
+            };
+            Object.entries(dailyScoresAll).forEach(([date, rows]) =>
+                Object.entries(rows || {}).forEach(([id, row]) => { if (row && row.name) add(playerKey(id, row), String(row.name), date); }));
+            records.forEach(r => add(recordKey(r), String(r.name || ''), ''));
+            const list = Object.entries(players).sort((a, b) => a[1].name.localeCompare(b[1].name, 'en', { sensitivity: 'base' }));
+            const select = document.getElementById('records-as-select');
+            select.innerHTML = '<option value="">Me</option>' + list.map(([key, p]) =>
+                `<option value="${escapeHtml(key)}">${escapeHtml(p.name)}${key.startsWith('n_') ? ' (no account)' : ''}</option>`).join('');
+            // A pick that's no longer in the data (or is the operator) falls back to Me
+            if (recordsAs && !players[recordsAs] && Object.keys(dailyScoresAll).length) recordsAs = '';
+            select.value = recordsAs;
+            box.style.display = '';
+        }
+
         function setStrengthGroup(group) {
             strengthGroup = group;
             if (youOpen && youOpen.type === 'group') youOpen = null;
@@ -6629,33 +6778,37 @@ Population of Tokyo?, 13960000"></textarea>
             if (!box || !box.offsetParent) return;
             box.style.maxHeight = '';
             const top = box.getBoundingClientRect().top + window.scrollY;
-            box.style.maxHeight = Math.max(200, window.innerHeight - top - 40) + 'px';
+            box.style.maxHeight = Math.max(200, window.innerHeight - top - 40 - signinWarningSpace()) + 'px';
             const over = document.documentElement.scrollHeight - window.innerHeight;
             if (over > 0) box.style.maxHeight = Math.max(200, box.clientHeight - over) + 'px';
         }
 
         // Every answer this player has made: {k, g, p (0–1000), a}
         function collectYourAnswers() {
-            const dates = Object.keys(dailyLocal).filter(d => dailyLocal[d] && dailyLocal[d].done && Array.isArray(dailyLocal[d].guesses));
+            const daily = youDaily();
+            const dates = Object.keys(daily).filter(d => daily[d] && daily[d].done && Array.isArray(daily[d].guesses));
             return Promise.all(dates.map(date => loadDailyQuestions(date).then(list => ({ date, list })).catch(() => null))).then(days => {
                 const answers = [];
                 days.forEach(day => {
                     if (!day) return;
-                    const entry = dailyLocal[day.date];
+                    const entry = daily[day.date];
                     day.list.forEach((item, i) => {
-                        if (typeof entry.pts[i] !== 'number') return;
+                        if (!entry.pts || typeof entry.pts[i] !== 'number') return;
                         const max = (entry.maxes && entry.maxes[i]) || dailyQuestionMax(item.text);
                         answers.push({ k: String(item.key), g: Number(entry.guesses[i]), p: entry.pts[i] * 1000 / max, raw: entry.pts[i], a: Number(item.answer), pct: max === 100, text: item.text, date: day.date, i });
                     });
                 });
                 // Practice: the account's tests, plus this device's log (skipping answers the account already has)
                 const seen = new Set();
-                const tests = Object.values((currentUser && accountData && accountData.tests) || {});
+                const as = recordsAsKey();
+                const tests = as
+                    ? records.filter(r => recordKey(r) === as).map(r => ({ answers: r.answers ? listFromSnapshot(r.answers) : [] }))
+                    : Object.values((currentUser && accountData && accountData.tests) || {});
                 tests.forEach(t => (t.answers || []).forEach(a => {
                     seen.add(`${a.k}|${a.g}`);
                     answers.push(practiceAnswer(a));
                 }));
-                loadPracticeLog().forEach(a => { if (!seen.has(`${a.k}|${a.g}`)) answers.push(practiceAnswer(a)); });
+                (as ? [] : loadPracticeLog()).forEach(a => { if (!seen.has(`${a.k}|${a.g}`)) answers.push(practiceAnswer(a)); });
                 return answers.filter(a => a && isFinite(a.p));
             });
         }
@@ -6675,6 +6828,7 @@ Population of Tokyo?, 13960000"></textarea>
         function toggleYouDetail(type, id) {
             youOpen = youOpen && youOpen.type === type && String(youOpen.id) === String(id) ? null : { type, id };
             renderYouDetails();
+            requestAnimationFrame(fitLeaderboard);   // an open panel could push the page 6px past the screen
             if (youOpen) {
                 const box = document.getElementById(`you-${type}-detail`);
                 requestAnimationFrame(() => box.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
@@ -6704,11 +6858,12 @@ Population of Tokyo?, 13960000"></textarea>
         function youDetailHtml(type, id) {
             const close = `<button class="you-detail-close" onclick="toggleYouDetail('${type}', '${id}')" aria-label="Close">✕</button>`;
             if (type === 'day') {
-                const entry = dailyLocal[id];
+                const entry = youDaily()[id];
                 const rows = youAnswers.filter(a => a.date === id).sort((a, b) => a.i - b.i);
                 const head = `<div class="you-detail-head"><span>${dailyLabel(id)} · <strong style="color: ${scoreColor(entry.score / (entry.max || 5000))}">${Math.round(entry.score).toLocaleString('en-US')}</strong></span>${close}</div>`;
                 const board = entry.late ? '' : `<button class="you-detail-link" onclick="showOnLeaderboard('${id}')">That day's leaderboard</button>`;
-                return head + (rows.length ? youAnswerRows(rows, false) : '<p class="detail-note">Loading…</p>') + board;
+                const empty = Array.isArray(entry.guesses) ? 'Loading…' : 'Answers weren\'t saved for this score.';
+                return head + (rows.length ? youAnswerRows(rows, false) : `<p class="detail-note">${empty}</p>`) + board;
             }
             if (type === 'group') {
                 const labels = strengthGroup === 'kind' ? QUESTION_KINDS : QUESTION_SUBJECTS;
@@ -6744,14 +6899,15 @@ Population of Tokyo?, 13960000"></textarea>
 
         function renderYou() {
             if (recordsView !== 'you') return;
-            const done = Object.keys(dailyLocal).filter(d => dailyLocal[d] && dailyLocal[d].done).sort();
-            const scores = done.map(d => dailyLocal[d].score);
+            const daily = youDaily();
+            const done = Object.keys(daily).filter(d => daily[d] && daily[d].done).sort();
+            const scores = done.map(d => daily[d].score);
             const avg = scores.length ? scores.reduce((s, v) => s + v, 0) / scores.length : null;
             const best = scores.length ? Math.max(...scores) : null;
-            const streak = dailyStreak(done.filter(d => !dailyLocal[d].late));
+            const streak = dailyStreak(done.filter(d => !daily[d].late));
             const num = (value, label, color, onclick) => `<div${onclick ? ` class="you-num-tap" onclick="${onclick}"` : ''}><div class="you-num"${color ? ` style="color: ${color}"` : ''}>${value}</div><div class="you-num-label">${label}</div></div>`;
             // Best opens that day's answers
-            const bestDate = best === null ? null : done.find(d => dailyLocal[d].score === best);
+            const bestDate = best === null ? null : done.find(d => daily[d].score === best);
             document.getElementById('you-numbers').innerHTML =
                 num(done.length, 'Dailies') +
                 num(avg === null ? '–' : Math.round(avg).toLocaleString('en-US'), 'Average', avg === null ? '' : scoreColor(avg / 5000)) +
@@ -6782,8 +6938,9 @@ Population of Tokyo?, 13960000"></textarea>
             [2500, 5000].forEach(v => {
                 svg += `<text x="${left - 5}" y="${y(v) + 4}" class="st-ylabel">${v.toLocaleString('en-US')}</text>`;
             });
+            const daily = youDaily();
             dates.forEach((date, i) => {
-                const e = dailyLocal[date];
+                const e = daily[date];
                 const x = left + i * slot + slot * 0.15;
                 // The whole column is the tap target, so short bars are easy to hit
                 svg += `<g class="you-tap" data-you="day:${date}" onclick="toggleYouDetail('day', '${date}')">`
@@ -7045,11 +7202,14 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function renderRecords() {
+            renderRecordsAsPicker();
             renderYou();
             const list = document.getElementById('leaderboard');
             const select = document.getElementById('leaderboard-view');
             const today = dailyToday();
-            const myId = currentUser ? 'u_' + currentUser.uid : null;
+            // The operator can pick any player to be "you" here (display only)
+            const as = recordsAsKey();
+            const myId = as || (currentUser ? 'u_' + currentUser.uid : null);
 
             // Days that have scores, newest first, with today always on top
             const dates = Object.keys(dailyScoresAll)
@@ -7086,10 +7246,10 @@ Population of Tokyo?, 13960000"></textarea>
             }
 
             if (view !== 'practice') {
-                const mine = [myId, (dailyLocal[view] || {}).id].filter(Boolean);
+                const mine = as ? [] : [myId, (dailyLocal[view] || {}).id].filter(Boolean);
                 const rows = Object.entries(dailyScoresAll[view] || {})
                     .filter(([, row]) => row && typeof row.score === 'number')
-                    .map(([id, row]) => ({ name: row.name, score: row.score, mine: mine.includes(id),
+                    .map(([id, row]) => ({ name: row.name, score: row.score, mine: as ? playerKey(id, row) === as : mine.includes(id),
                         detail: { date: view, pts: row.pts || null, g: row.g || null } }))
                     .sort((a, b) => b.score - a.score).slice(0, 50);
                 list.innerHTML = leaderboardRows(rows, 'No scores yet', 'Play the daily quiz to appear here.');
@@ -7115,7 +7275,7 @@ Population of Tokyo?, 13960000"></textarea>
                 max: record.questionsAnswered * 1000,
                 meta: `${record.questionsAnswered} questions`,
                 n: record.questionsAnswered,
-                mine: !!(currentUser && record.uid === currentUser.uid),
+                mine: as ? recordKey(record) === as : !!(currentUser && record.uid === currentUser.uid),
                 detail: { answers: record.answers ? listFromSnapshot(record.answers) : null }
             })), '', '');
         }
