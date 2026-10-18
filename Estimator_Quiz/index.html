@@ -2080,6 +2080,69 @@
 
         .day-q-avg { font-size: 1.2em; font-weight: 700; }
 
+        .day-q-cell { cursor: pointer; border-radius: 8px; padding: 2px 0; }
+        .day-q-avgs.open-ok .day-q-avg { text-decoration: underline dotted rgba(255,255,255,0.35); text-underline-offset: 4px; }
+        .day-q-avgs.open-ok .day-q-cell:hover { background: rgba(255,255,255,0.05); }
+
+        /* Question breakdown */
+        .records-as.qb-hide { display: none !important; }
+
+        .qb-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .qb-back {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95em;
+            padding: 6px 14px;
+            cursor: pointer;
+        }
+
+        .qb-title { color: #667eea; font-weight: 700; }
+        .qb-question { color: white; line-height: 1.4; margin: 0 0 6px; }
+        .qb-answer { color: #999; font-size: 0.9em; margin: 0 0 10px; }
+        .qb-answer strong { color: white; }
+
+        .qb-scroll { overflow-y: auto; scrollbar-gutter: stable; }
+
+        .qb-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .qb-table th {
+            position: sticky;
+            top: 0;
+            background: #232846;
+            color: #999;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-align: right;
+            padding: 6px 6px;
+        }
+
+        .qb-table td {
+            text-align: right;
+            padding: 8px 6px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #ddd;
+        }
+
+        .qb-table th:first-child, .qb-table td.qb-name { text-align: left; }
+        .qb-table td.qb-name { color: white; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .qb-table td.qb-pts { font-weight: 700; }
+        .qb-table tr.mine td { background: rgba(102,126,234,0.18); }
+        .qb-table td.detail-note { text-align: center; }
+
         /* Leaderboard | You */
         .records-switch, .you-group-switch {
             display: flex;
@@ -3516,7 +3579,7 @@ Population of Tokyo?, 13960000"></textarea>
         <div id="records-tab" class="tab-content">
             <!-- Estimation Records -->
             <div class="records-section" id="estimation-records-section">
-                <div class="records-switch" role="tablist">
+                <div class="records-switch" id="records-switch" role="tablist">
                     <button class="active" id="records-switch-board" onclick="showRecordsView('board')">Leaderboard</button>
                     <button id="records-switch-you" onclick="showRecordsView('you')">You</button>
                 </div>
@@ -3560,6 +3623,21 @@ Population of Tokyo?, 13960000"></textarea>
                 <div class="admin-only" style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                     <button class="btn btn-danger btn-small" onclick="resetAllRecords()">Reset All Records</button>
                 </div>
+                </div>
+                <!-- One question of one day: every player's guess and points (opened from a Q cell) -->
+                <div id="q-breakdown" style="display: none;">
+                    <div class="qb-head">
+                        <button class="qb-back" onclick="closeQuestionBreakdown()">‹ Back</button>
+                        <span class="qb-title" id="qb-title"></span>
+                    </div>
+                    <p class="qb-question" id="qb-question"></p>
+                    <p class="qb-answer" id="qb-answer"></p>
+                    <div class="qb-scroll" id="qb-scroll">
+                        <table class="qb-table">
+                            <thead><tr><th>Name</th><th>Guess</th><th>Answer</th><th>Points</th></tr></thead>
+                            <tbody id="qb-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -6647,6 +6725,7 @@ Population of Tokyo?, 13960000"></textarea>
 
         function fitLeaderboard() {
             fitYouView();
+            fitScrollBox(document.getElementById('qb-scroll'));
             const list = document.getElementById('leaderboard');
             if (!list || !list.offsetParent) return;
             const top = list.getBoundingClientRect().top + window.scrollY;
@@ -6684,6 +6763,7 @@ Population of Tokyo?, 13960000"></textarea>
         }
 
         function showRecordsView(view) {
+            if (qbOpen) closeQuestionBreakdown();
             recordsView = view;
             document.getElementById('records-switch-board').classList.toggle('active', view === 'board');
             document.getElementById('records-switch-you').classList.toggle('active', view === 'you');
@@ -6774,7 +6854,10 @@ Population of Tokyo?, 13960000"></textarea>
 
         // The You panel scrolls inside itself so the page doesn't
         function fitYouView() {
-            const box = document.getElementById('you-scroll');
+            fitScrollBox(document.getElementById('you-scroll'));
+        }
+
+        function fitScrollBox(box) {
             if (!box || !box.offsetParent) return;
             box.style.maxHeight = '';
             const top = box.getBoundingClientRect().top + window.scrollY;
@@ -7195,15 +7278,98 @@ Population of Tokyo?, 13960000"></textarea>
             const avgs = view === 'average' || view === 'practice' ? [] : dailyQuestionAverages(dailyScoresAll[view]);
             if (!avgs.some(q => q.n)) { box.style.display = 'none'; box.innerHTML = ''; return; }
             box.style.gridTemplateColumns = `repeat(${avgs.length}, 1fr)`;
-            box.innerHTML = avgs.map((q, i) => `<div title="${q.n} player${q.n !== 1 ? 's' : ''}">`
+            // Each cell opens that question's breakdown (once you've finished this day's quiz)
+            box.classList.toggle('open-ok', breakdownAllowed(dailyLocal[view], operatorSignedIn));
+            box.innerHTML = avgs.map((q, i) => `<div class="day-q-cell" title="${q.n} player${q.n !== 1 ? 's' : ''}" onclick="openQuestionBreakdown('${view}', ${i})">`
                 + `<div class="day-q-avg" style="color: ${q.n ? scoreColor(q.avg / 1000) : '#999'}">${q.n ? Math.round(q.avg).toLocaleString('en-US') : '–'}</div>`
                 + `<div class="you-num-label">Q${i + 1}</div></div>`).join('');
             box.style.display = '';
         }
 
+        // ----- Question breakdown: one question of one day, every player's guess and points -----
+        // Only for players who've submitted that day's quiz (the same check as a leaderboard
+        // row's answers), and the operator. Uses the day's leaderboard rows already loaded.
+        let qbOpen = null;   // {date, i}
+
+        function breakdownAllowed(own, isOperatorSignedIn) {
+            return !!isOperatorSignedIn || !!(own && own.done);
+        }
+
+        // [{name, g, p, mine}] for question i, highest points first; rows without points are left out.
+        // mineKey: the "you" player's key (account or View as pick); deviceIds: this device's own row ids
+        function questionBreakdownRows(rows, i, mineKey, deviceIds) {
+            const out = [];
+            Object.entries(rows || {}).forEach(([id, row]) => {
+                if (!row || !row.pts || typeof row.pts[i] !== 'number') return;
+                const g = row.g && typeof row.g[i] === 'number' ? row.g[i] : null;
+                out.push({ name: String(row.name || ''), g, p: row.pts[i],
+                    mine: (!!mineKey && playerKey(id, row) === mineKey) || (deviceIds || []).includes(id) });
+            });
+            return out.sort((a, b) => b.p - a.p || a.name.localeCompare(b.name));
+        }
+
+        function openQuestionBreakdown(date, i) {
+            if (!breakdownAllowed(dailyLocal[date], operatorSignedIn)) {
+                showNotification('Finish this day\'s quiz to see the breakdown', 'info');
+                return;
+            }
+            qbOpen = { date, i };
+            renderQuestionBreakdown();
+        }
+
+        function closeQuestionBreakdown() {
+            qbOpen = null;
+            renderQuestionBreakdown();
+        }
+
+        function renderQuestionBreakdown() {
+            const box = document.getElementById('q-breakdown');
+            const open = !!qbOpen && recordsView === 'board';
+            ['records-switch', 'board-view'].forEach(id => { document.getElementById(id).style.display = open ? 'none' : ''; });
+            document.getElementById('records-as').classList.toggle('qb-hide', open);
+            box.style.display = open ? '' : 'none';
+            if (!open) { requestAnimationFrame(fitLeaderboard); return; }
+            const { date, i } = qbOpen;
+            const title = document.getElementById('qb-title');
+            const fresh = title.dataset.for !== `${date}|${i}`;
+            title.dataset.for = `${date}|${i}`;
+            title.textContent = `Q${i + 1} · ${dailyLabel(date)}`;
+            if (fresh) {
+                document.getElementById('qb-question').textContent = '';
+                document.getElementById('qb-answer').textContent = '';
+                document.getElementById('qb-body').innerHTML = '<tr><td colspan="4" class="detail-note">Loading…</td></tr>';
+            }
+            const as = recordsAsKey();
+            const mineKey = as || (currentUser ? 'u_' + currentUser.uid : null);
+            const rows = questionBreakdownRows(dailyScoresAll[date], i, mineKey, as ? [] : [(dailyLocal[date] || {}).id].filter(Boolean));
+            const body = document.getElementById('qb-body');
+            const want = `${date}|${i}`;
+            body.dataset.want = want;
+            loadDailyQuestions(date).then(list => {
+                if (body.dataset.want !== want) return;
+                const item = list[i];
+                const max = dailyQuestionMax(item.text);
+                const num = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
+                document.getElementById('qb-question').textContent = item.text;
+                document.getElementById('qb-answer').innerHTML = `Answer <strong>${num(item.answer)}</strong>`;
+                body.innerHTML = rows.length ? rows.map(r => `<tr class="${r.mine ? 'mine' : ''}">`
+                    + `<td class="qb-name">${escapeHtml(r.name)}</td>`
+                    + `<td>${r.g === null ? '–' : num(r.g)}</td>`
+                    + `<td>${num(item.answer)}</td>`
+                    + `<td class="qb-pts" style="color: ${scoreColor(r.p / max)}">${Math.round(r.p).toLocaleString('en-US')}</td></tr>`).join('')
+                    : '<tr><td colspan="4" class="detail-note">No answers saved for this day.</td></tr>';
+                requestAnimationFrame(fitLeaderboard);
+            }).catch(() => {
+                if (body.dataset.want !== want) return;
+                body.innerHTML = '<tr><td colspan="4" class="detail-note">Couldn\'t load the question.</td></tr>';
+            });
+            requestAnimationFrame(fitLeaderboard);
+        }
+
         function renderRecords() {
             renderRecordsAsPicker();
             renderYou();
+            if (qbOpen) renderQuestionBreakdown();   // live updates while a breakdown is open
             const list = document.getElementById('leaderboard');
             const select = document.getElementById('leaderboard-view');
             const today = dailyToday();
