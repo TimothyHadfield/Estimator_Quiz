@@ -2043,6 +2043,16 @@
             background: #1a1a2e;
         }
 
+        /* A day's leaderboard: average points per question, Q1–Q5 */
+        .day-q-avgs {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .day-q-avg { font-size: 1.2em; font-weight: 700; }
+
         /* Leaderboard | You */
         .records-switch, .you-group-switch {
             display: flex;
@@ -3490,6 +3500,7 @@ Population of Tokyo?, 13960000"></textarea>
                 <div id="board-view">
                 <div class="records-filter">
                     <select id="leaderboard-view" onchange="leaderboardFocus = null; renderRecords()" aria-label="Leaderboard to show"></select>
+                    <div class="day-q-avgs" id="day-q-avgs" style="display: none;"></div>
                     <button class="past-quizzes-btn" id="leaderboard-day-link" style="display: none; margin: 8px auto 0;"></button>
                 </div>
                 <ul class="leaderboard" id="leaderboard">
@@ -7003,6 +7014,36 @@ Population of Tokyo?, 13960000"></textarea>
             }).join('');
         }
 
+        // Average points per question over a day's scores ({id: {pts: [...]}}): [{avg, n}, …].
+        // Rows saved before points were stored (no pts) and missing slots are left out, not counted as 0
+        function dailyQuestionAverages(rows) {
+            const sums = [], counts = [];
+            Object.values(rows || {}).forEach(row => {
+                if (!row || !row.pts || typeof row.pts !== 'object') return;
+                Object.keys(row.pts).forEach(k => {
+                    const i = Number(k), p = row.pts[k];
+                    if (!Number.isInteger(i) || i < 0 || typeof p !== 'number' || !isFinite(p)) return;
+                    sums[i] = (sums[i] || 0) + p;
+                    counts[i] = (counts[i] || 0) + 1;
+                });
+            });
+            const out = [];
+            for (let i = 0; i < counts.length; i++) out.push({ avg: counts[i] ? sums[i] / counts[i] : 0, n: counts[i] || 0 });
+            return out;
+        }
+
+        // Above a day's leaderboard: one cell per question, average points in the score colours
+        function renderDayQuestionAverages(view) {
+            const box = document.getElementById('day-q-avgs');
+            const avgs = view === 'average' || view === 'practice' ? [] : dailyQuestionAverages(dailyScoresAll[view]);
+            if (!avgs.some(q => q.n)) { box.style.display = 'none'; box.innerHTML = ''; return; }
+            box.style.gridTemplateColumns = `repeat(${avgs.length}, 1fr)`;
+            box.innerHTML = avgs.map((q, i) => `<div title="${q.n} player${q.n !== 1 ? 's' : ''}">`
+                + `<div class="day-q-avg" style="color: ${q.n ? scoreColor(q.avg / 1000) : '#999'}">${q.n ? Math.round(q.avg).toLocaleString('en-US') : '–'}</div>`
+                + `<div class="you-num-label">Q${i + 1}</div></div>`).join('');
+            box.style.display = '';
+        }
+
         function renderRecords() {
             renderYou();
             const list = document.getElementById('leaderboard');
@@ -7022,6 +7063,7 @@ Population of Tokyo?, 13960000"></textarea>
             select.value = wanted === 'average' || wanted === 'practice' || dates.includes(wanted) ? wanted : today;
             const view = select.value;
             leaderboardDayLink(view);
+            renderDayQuestionAverages(view);
 
             if (view === 'average') {
                 // One row per player: accounts by their id, name-only players by the name they typed
