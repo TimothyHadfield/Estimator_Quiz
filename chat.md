@@ -174,3 +174,9 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** `c7ad7d5` (lead's WIP) + `5732c46`: phones reload to a new build from resting screens (Last-Modified vs no-store HEAD, once per build, never mid-quiz/panel/typing); "Version <deploy time>" line at the bottom of Info; refused practice question-stat write is quiet; page left open past midnight moves home card + leaderboard "Today" to the new day on return. Checks `tools/fresh-check.mjs`, `tools/daily-check.mjs`.
 - **Verified how:** fresh-check 3/9 FAIL on `9a931f1`, 9/9 PASS now; daily-check 4/13 FAIL on `c7ad7d5`, 13/13 PASS now (WebKit 393×659, all writes stubbed, 0 write frames on the socket). Home 659/659 at 393 (phone-view). Half-finished daily resumes at question 3 with answers kept after a reload (already worked).
 - **Open:** real iPhone Safari behaviour of the auto-reload not seen.
+
+## 2026-10-21 · Calibrate for the owner only (portfolio manager), PAUSED
+- **Asked:** "let's remove the calibrate questions tab from ordinary players for the estimator quiz." Then "quit all agents now" and a chat reset.
+- **Built (uncommitted, working tree):** Calibrate tab `admin-only`; laptop button needs `operator-signed-in`; no calibration listener for non-owner accounts. Data + rules untouched.
+- **Verified how:** not yet (code read only).
+- **Open:** headless check (signed out + claude-test, 393 + laptop), commit, push, live-check; steps in progress.md Goal.
