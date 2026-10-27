@@ -180,3 +180,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built (uncommitted, working tree):** Calibrate tab `admin-only`; laptop button needs `operator-signed-in`; no calibration listener for non-owner accounts. Data + rules untouched.
 - **Verified how:** not yet (code read only).
 - **Open:** headless check (signed out + claude-test, 393 + laptop), commit, push, live-check; steps in progress.md Goal.
+
+## 2026-10-26 · Calibrate owner only, finished and live (portfolio builder)
+- **Asked:** "continue working" (finish the 2026-10-21 change).
+- **Reviewed:** branch `8aba72c` covers the tab button, laptop button, listener; no hash/URL entry exists; `switchTab('calibrate')` is only on the admin-only button. No extra code change.
+- **Verified how:** scratchpad Playwright check (WebKit 393×659, Chrome 1440×900, writes stubbed, ref paths logged), signed out + claude-test: main FAIL (tab/button shown, calibration listeners attached), branch PASS (none, Test/Records work, 0 console errors, no overflow). Forced operator mode still gets the tab. Re-checked live after deploy.
+- **Cleanup:** claude-test's leftover `calibration/users/<uid>` (`{name}` only, 0 claims) removed via Firebase CLI.
+- **Open:** Tim's real owner login not tested headlessly.
