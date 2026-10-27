@@ -2874,7 +2874,7 @@
             }
 
             body:not(.operator-mode) .info-open-btn,
-            body.account-signed-in:not(.operator-mode) .calibrate-open-btn {
+            body.operator-signed-in:not(.operator-mode) .calibrate-open-btn {
                 /* Top-left of the page, beside the title, so it never sits on the leaderboard */
                 display: block;
                 position: absolute;
@@ -2897,13 +2897,10 @@
                 color: #fff;
             }
 
-            body.account-signed-in:not(.operator-mode) .calibrate-open-btn {
-                top: 62px;
-            }
-
             /* The operator's "Player view" button already sits top-left */
             body.operator-signed-in:not(.operator-mode) .info-open-btn { top: 64px; }
-            body.operator-signed-in.account-signed-in:not(.operator-mode) .calibrate-open-btn { top: 106px; }
+            /* Calibrate is the owner's only (Tim, 2026-10-21: remove it for ordinary players) */
+            body.operator-signed-in:not(.operator-mode) .calibrate-open-btn { top: 106px; }
 
             body.calibrate-open:not(.operator-mode) #calibrate-tab .calibrate-box {
                 max-width: 800px;
@@ -3075,7 +3072,7 @@
             <button class="tab-btn admin-only" onclick="switchTab('types')">Types</button>
             <button class="tab-btn admin-only" onclick="switchTab('questions')">Questions</button>
             <button class="tab-btn admin-only" onclick="switchTab('stats')">Stats</button>
-            <button class="tab-btn account-only" onclick="switchTab('calibrate')">Calibrate</button>
+            <button class="tab-btn admin-only" onclick="switchTab('calibrate')">Calibrate</button>
             <button class="tab-btn active" onclick="switchTab('test')">Test</button>
             <button class="tab-btn" onclick="switchTab('records')">Records</button>
         </div>
@@ -3385,7 +3382,7 @@ Population of Tokyo?, 13960000"></textarea>
             </div>
         </div>
 
-        <!-- Calibrate Tab (anyone signed in): rate every question good / alright / bad -->
+        <!-- Calibrate Tab (owner only since 2026-10-21): rate every question good / alright / bad -->
         <div id="calibrate-tab" class="tab-content" onclick="if(event.target===this)closeCalibrate()">
             <button class="btn btn-secondary info-close" onclick="closeCalibrate()">Close</button>
             <div class="calibrate-box">
@@ -3941,7 +3938,7 @@ Population of Tokyo?, 13960000"></textarea>
             });
         }
 
-        // ===== CALIBRATE (anyone signed in) =====
+        // ===== CALIBRATE (owner only since 2026-10-21; was anyone signed in) =====
         // Signed-in people share the work of rating questions good / alright / bad (or skip),
         // ten at a time. Nobody is handed a question someone else already has until every
         // question has been taken once; then a second round starts, and so on.
@@ -3976,10 +3973,10 @@ Population of Tokyo?, 13960000"></textarea>
             calibration = { chunk: null, ratings: {} };
             calibrationClaims = {};
             calibrateKey = null;
-            if (!user) {
+            // Only the owner calibrates now (Tim, 2026-10-21); other accounts' old ratings stay saved
+            if (!user || !operatorSignedIn) {
                 closeCalibrate();
-                const tab = document.querySelector('.tab-btn.active');
-                if (tab && tab.classList.contains('account-only')) switchTab('test');
+                if (document.body.classList.contains('calibrating')) switchTab('test');
                 return;
             }
             calibrationOwn = operatorSignedIn;
