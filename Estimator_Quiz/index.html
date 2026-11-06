@@ -40,6 +40,12 @@
             scrollbar-gutter: stable;
         }
 
+        /* Lists scroll up and down only: never sideways, so a slightly slanted swipe can't drag them */
+        #leaderboard, .leaderboard, .you-scroll, .questions-list, .daily-archive-list, .daily-board, .account-list, .qb-scroll {
+            overflow-x: hidden;
+            overscroll-behavior-x: none;
+        }
+
         /* The solid colour is what iPhone Safari paints its top and bottom bars with (a
            gradient alone leaves them white). overscroll-behavior stops the page bouncing. */
         html {
@@ -1913,7 +1919,18 @@
             color: #888;
             font-size: 0.85em;
             margin-top: 6px;
+            overflow-wrap: anywhere;
         }
+
+        /* Always shown under the title: the player's guess (accent) and the answer (white) */
+        .breakdown-nums {
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 3px;
+        }
+
+        .breakdown-nums .bn-guess { color: #8fa2ff; font-weight: 600; }
+        .breakdown-nums .bn-answer { color: white; font-weight: 600; }
 
         .breakdown-item.open .breakdown-detail {
             display: block;
@@ -1979,9 +1996,10 @@
             white-space: nowrap;
         }
 
+        /* Score and squares go to a second line rather than past the edge on a narrow phone */
         .daily-archive-list li > span:last-child {
             text-align: right;
-            white-space: nowrap;
+            min-width: 0;
         }
 
         .breakdown-item:last-child {
@@ -2080,9 +2098,42 @@
 
         .day-q-avg { font-size: 1.2em; font-weight: 700; }
 
-        .day-q-cell { cursor: pointer; border-radius: 8px; padding: 2px 0; }
+        .day-q-cell { cursor: pointer; border-radius: 8px; padding: 2px 0; touch-action: manipulation; }
         .day-q-avgs.open-ok .day-q-avg { text-decoration: underline dotted rgba(255,255,255,0.35); text-underline-offset: 4px; }
         .day-q-avgs.open-ok .day-q-cell:hover { background: rgba(255,255,255,0.05); }
+        /* Q1–Q5 look like links once they open something */
+        .day-q-avgs.open-ok .you-num-label { color: #8fa2ff; text-decoration: underline; text-underline-offset: 2px; }
+        .day-q-hint { grid-column: 1 / -1; color: #888; font-size: 0.75em; }
+
+        /* Leaderboard: Day | All-time | Practice, then ‹ date › for the day boards */
+        .records-filter .lb-mode { margin: 0 auto 10px; }
+        .records-filter .lb-mode button { font-size: 0.9em; padding: 5px 14px; }
+
+        .lb-day {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lb-day select { min-width: 0; padding: 8px 32px 8px 14px; background-position: right 12px center; }
+
+        .lb-step {
+            flex: none;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            background: none;
+            color: white;
+            font-family: inherit;
+            font-size: 1.4em;
+            line-height: 1;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .lb-step:disabled { opacity: 0.25; cursor: default; }
 
         /* Question breakdown */
         .records-as.qb-hide { display: none !important; }
@@ -2103,6 +2154,7 @@
             font-size: 0.95em;
             padding: 6px 14px;
             cursor: pointer;
+            touch-action: manipulation;
         }
 
         .qb-title { color: #667eea; font-weight: 700; }
@@ -2144,7 +2196,7 @@
         .qb-table td.detail-note { text-align: center; }
 
         /* Leaderboard | You */
-        .records-switch, .you-group-switch {
+        .records-switch, .you-group-switch, .lb-mode {
             display: flex;
             justify-content: center;
             margin: 0 auto 16px;
@@ -2154,7 +2206,7 @@
             overflow: hidden;
         }
 
-        .records-switch button, .you-group-switch button {
+        .records-switch button, .you-group-switch button, .lb-mode button {
             background: transparent;
             border: none;
             color: #aaa;
@@ -2166,7 +2218,7 @@
             transition: background 0.2s, color 0.2s;
         }
 
-        .records-switch button.active, .you-group-switch button.active {
+        .records-switch button.active, .you-group-switch button.active, .lb-mode button.active {
             background: #667eea;
             color: white;
         }
@@ -2321,6 +2373,8 @@
         .leaderboard-info {
             flex: 1;
             margin-left: 15px;
+            min-width: 0;
+            overflow-wrap: anywhere;
         }
 
         .leaderboard-name {
@@ -3685,7 +3739,16 @@ Population of Tokyo?, 13960000"></textarea>
                 </div>
                 <div id="board-view">
                 <div class="records-filter">
-                    <select id="leaderboard-view" onchange="leaderboardFocus = null; renderRecords()" aria-label="Leaderboard to show"></select>
+                    <div class="lb-mode" id="lb-mode" role="tablist">
+                        <button class="active" data-mode="day" onclick="setLeaderboardMode('day')">Day</button>
+                        <button data-mode="average" onclick="setLeaderboardMode('average')">All-time</button>
+                        <button data-mode="practice" onclick="setLeaderboardMode('practice')">Practice</button>
+                    </div>
+                    <div class="lb-day" id="lb-day">
+                        <button class="lb-step" id="lb-prev" onclick="stepLeaderboardDay(1)" aria-label="Earlier day">‹</button>
+                        <select id="leaderboard-view" onchange="leaderboardFocus = null; renderRecords()" aria-label="Day to show"></select>
+                        <button class="lb-step" id="lb-next" onclick="stepLeaderboardDay(-1)" aria-label="Later day">›</button>
+                    </div>
                     <div class="day-q-avgs" id="day-q-avgs" style="display: none;"></div>
                     <button class="past-quizzes-btn" id="leaderboard-day-link" style="display: none; margin: 8px auto 0;"></button>
                 </div>
@@ -3706,7 +3769,7 @@ Population of Tokyo?, 13960000"></textarea>
                     <p class="qb-answer" id="qb-answer"></p>
                     <div class="qb-scroll" id="qb-scroll">
                         <table class="qb-table">
-                            <thead><tr><th>Name</th><th>Guess</th><th>Answer</th><th>Points</th></tr></thead>
+                            <thead><tr><th>Name</th><th>Guess</th><th>Points</th></tr></thead>
                             <tbody id="qb-body"></tbody>
                         </table>
                     </div>
@@ -4826,7 +4889,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (document.body.classList.contains('board-beside')) {
                 document.body.classList.remove('board-beside');
                 leaderboardFocus = null;
-                document.getElementById('leaderboard-view').value = '';
+                setLeaderboardView('');
                 renderRecords();
             }
         }
@@ -5078,7 +5141,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (window.matchMedia('(min-width: 900px)').matches && !document.body.classList.contains('operator-mode')) {
                 const select = document.getElementById('leaderboard-view');
                 if ([...select.options].some(o => o.value === date)) {
-                    select.value = date;
+                    setLeaderboardView(date);
                     leaderboardFocus = { view: date };
                     document.body.classList.add('board-beside');
                     showRecordsView('board');
@@ -5119,21 +5182,51 @@ Population of Tokyo?, 13960000"></textarea>
         function breakdownItemHtml(i, text, guess, answer, points, key, meta) {
             const fraction = points / dailyQuestionMax(text);
             const pointsClass = fraction >= 0.8 ? 'good' : fraction >= 0.4 ? 'medium' : 'bad';
-            const commas = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
-            const guessText = typeof guess === 'number' ? commas(guess) : '–';
+            const hasGuess = typeof guess === 'number';
             const title = questionTitle(key);
+            // Guess and answer always show under the title (short form for millions and up);
+            // tapped open: the full question, the exact numbers if they were shortened, how far off
+            const shortened = (hasGuess && Math.abs(guess) >= 1e6) || Math.abs(Number(answer)) >= 1e6;
+            const miss = missText(guess, Number(answer), text);
+            const extra = [shortened ? `Guess ${hasGuess ? fullNumber(guess) : '–'} · Answer ${fullNumber(answer)}` : '', miss, meta || '']
+                .filter(Boolean).join(' · ');
             return `
                 <div class="breakdown-item" onclick="this.classList.toggle('open')">
                     <div class="breakdown-row">
                         <span class="breakdown-question">${i + 1}. ${escapeHtml(title || text)}</span>
                         <span class="breakdown-points ${pointsClass}">+${Math.round(points).toLocaleString('en-US')}</span>
                     </div>
+                    <div class="breakdown-nums">Guess <span class="bn-guess">${hasGuess ? shortNumber(guess) : '–'}</span> · Answer <span class="bn-answer">${shortNumber(answer)}</span></div>
                     <div class="breakdown-detail">
                         ${title ? `<div class="breakdown-full">${escapeHtml(text)}</div>` : ''}
-                        Guess ${guessText} · Answer ${commas(answer)}${missText(guess, Number(answer), text) ? ` · ${missText(guess, Number(answer), text)}` : ''}${meta ? ` · ${meta}` : ''}
+                        ${extra}
                     </div>
                 </div>
             `;
+        }
+
+        function fullNumber(n) {
+            return Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
+        }
+
+        // Long numbers made short where width is tight: 13,430,000,000,000 → "13 tril.",
+        // 2,450,000,000 → "2.5 bil.", 345,600,000 → "346 mil." (2 significant figures, 3 from 100 up).
+        // Under a million the full number shows.
+        function shortNumber(n) {
+            const v = Number(n);
+            if (!isFinite(v)) return '–';
+            const units = [[1e12, 'tril.'], [1e9, 'bil.'], [1e6, 'mil.']];
+            const a = Math.abs(v);
+            for (let u = 0; u < units.length; u++) {
+                const [size, word] = units[u];
+                if (a < size) continue;
+                const x = a / size;
+                let r = x >= 10 ? Math.round(x) : Math.round(x * 10) / 10;
+                // 999.6 mil. rounds to 1,000 mil.: say 1 bil. instead
+                if (r >= 1000 && u > 0) { r = Math.round(x / 100) / 10; return `${v < 0 ? '-' : ''}${r} ${units[u - 1][1]}`; }
+                return `${v < 0 ? '-' : ''}${r.toLocaleString('en-US')} ${word}`;
+            }
+            return fullNumber(v);
         }
 
         // A question's 2–3 word title (questions/<key>/title), or '' when it has none
@@ -7249,9 +7342,51 @@ Population of Tokyo?, 13960000"></textarea>
         // The highlight stays (through live re-renders) until the player picks another leaderboard
         let leaderboardFocus = null;
 
+        // Which leaderboard shows: Day (the date picker's day), All-time or Practice
+        let leaderboardMode = 'day';
+
+        // A date, 'average' or 'practice'
+        function leaderboardView() {
+            if (leaderboardMode !== 'day') return leaderboardMode;
+            return document.getElementById('leaderboard-view').value || dailyToday();
+        }
+
+        // Show a date, 'average' or 'practice' ('' = today); the caller re-renders
+        function setLeaderboardView(view) {
+            if (view === 'average' || view === 'practice') { leaderboardMode = view; return; }
+            leaderboardMode = 'day';
+            document.getElementById('leaderboard-view').value = view || '';
+        }
+
+        function setLeaderboardMode(mode) {
+            if (qbOpen) closeQuestionBreakdown();
+            leaderboardMode = mode;
+            leaderboardFocus = null;
+            renderRecords();
+        }
+
+        // ‹ › beside the date: step = 1 goes one day earlier, -1 one day later (days with scores only)
+        function stepLeaderboardDay(step) {
+            const select = document.getElementById('leaderboard-view');
+            const next = select.selectedIndex + step;
+            if (next < 0 || next >= select.options.length) return;
+            select.selectedIndex = next;
+            leaderboardFocus = null;
+            renderRecords();
+        }
+
+        // The switch and the ‹ date › row follow the mode; arrows go grey at the ends
+        function syncLeaderboardMode(dates) {
+            document.querySelectorAll('#lb-mode button').forEach(b => b.classList.toggle('active', b.dataset.mode === leaderboardMode));
+            document.getElementById('lb-day').style.display = leaderboardMode === 'day' ? '' : 'none';
+            const i = dates.indexOf(document.getElementById('leaderboard-view').value);
+            document.getElementById('lb-prev').disabled = i < 0 || i >= dates.length - 1;
+            document.getElementById('lb-next').disabled = i <= 0;
+        }
+
         function leaderboardFocusIndex(rows) {
             const f = leaderboardFocus;
-            if (!f || document.getElementById('leaderboard-view').value !== f.view) return -1;
+            if (!f || leaderboardView() !== f.view) return -1;
             return rows.findIndex(row => row.mine &&
                 (f.view !== 'practice' || (Math.abs(Number(row.score) - f.score) < 0.05 && row.n === f.n)));
         }
@@ -7262,14 +7397,13 @@ Population of Tokyo?, 13960000"></textarea>
             if (testState.isActive) resetTest();
             switchTab('records');
             showRecordsView('board');
-            const select = document.getElementById('leaderboard-view');
-            select.value = view;
+            setLeaderboardView(view);
             leaderboardFocus = { view, score, n };
             renderRecords();
             const items = document.querySelectorAll('#leaderboard .leaderboard-item');
             const i = leaderboardFocusIndex(leaderboardShown);
             if (i < 0 || !items[i]) {
-                if (view !== 'practice' && select.value !== view) showNotification('Not on the leaderboard (played later)', 'info');
+                if (view !== 'practice' && leaderboardView() !== view) showNotification('Not on the leaderboard (played later)', 'info');
                 return;
             }
             items[i].scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -7368,11 +7502,16 @@ Population of Tokyo?, 13960000"></textarea>
             if (!avgs.some(q => q.n)) { box.style.display = 'none'; box.innerHTML = ''; return; }
             box.style.gridTemplateColumns = `repeat(${avgs.length}, 1fr)`;
             // Each cell opens that question's breakdown (once you've finished this day's quiz)
-            box.classList.toggle('open-ok', breakdownAllowed(dailyLocal[view], operatorSignedIn));
+            const openOk = breakdownAllowed(dailyLocal[view], operatorSignedIn);
+            box.classList.toggle('open-ok', openOk);
             box.innerHTML = avgs.map((q, i) => `<div class="day-q-cell" title="${q.n} player${q.n !== 1 ? 's' : ''}" onclick="openQuestionBreakdown('${view}', ${i})">`
                 + `<div class="day-q-avg" style="color: ${q.n ? scoreColor(q.avg / 1000) : '#999'}">${q.n ? Math.round(q.avg).toLocaleString('en-US') : '–'}</div>`
-                + `<div class="you-num-label">Q${i + 1}</div></div>`).join('');
+                + `<div class="you-num-label">Q${i + 1}</div></div>`).join('')
+                + (openOk ? '<div class="day-q-hint">Tap a question to see everyone\'s guesses</div>' : '');
             box.style.display = '';
+            // Fetch the day's questions now, so tapping a Q number opens at once
+            // (measured: the first tap used to wait for this download)
+            if (openOk) loadDailyQuestions(view).catch(() => {});
         }
 
         // ----- Question breakdown: one question of one day, every player's guess and points -----
@@ -7426,7 +7565,7 @@ Population of Tokyo?, 13960000"></textarea>
             if (fresh) {
                 document.getElementById('qb-question').textContent = '';
                 document.getElementById('qb-answer').textContent = '';
-                document.getElementById('qb-body').innerHTML = '<tr><td colspan="4" class="detail-note">Loading…</td></tr>';
+                document.getElementById('qb-body').innerHTML = '<tr><td colspan="3" class="detail-note">Loading…</td></tr>';
             }
             const as = recordsAsKey();
             const mineKey = as || (currentUser ? 'u_' + currentUser.uid : null);
@@ -7434,24 +7573,30 @@ Population of Tokyo?, 13960000"></textarea>
             const body = document.getElementById('qb-body');
             const want = `${date}|${i}`;
             body.dataset.want = want;
-            loadDailyQuestions(date).then(list => {
+            // The answer is at the top, so rows are Name | Guess | Points (long guesses shortened, exact on hover)
+            const fill = list => {
                 if (body.dataset.want !== want) return;
                 const item = list[i];
                 const max = dailyQuestionMax(item.text);
-                const num = n => Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
                 document.getElementById('qb-question').textContent = item.text;
-                document.getElementById('qb-answer').innerHTML = `Answer <strong>${num(item.answer)}</strong>`;
+                document.getElementById('qb-answer').innerHTML = `Answer <strong>${fullNumber(item.answer)}</strong>`;
                 body.innerHTML = rows.length ? rows.map(r => `<tr class="${r.mine ? 'mine' : ''}">`
                     + `<td class="qb-name">${escapeHtml(r.name)}</td>`
-                    + `<td>${r.g === null ? '–' : num(r.g)}</td>`
-                    + `<td>${num(item.answer)}</td>`
+                    + (r.g === null ? '<td>–</td>' : `<td title="${fullNumber(r.g)}">${shortNumber(r.g)}</td>`)
                     + `<td class="qb-pts" style="color: ${scoreColor(r.p / max)}">${Math.round(r.p).toLocaleString('en-US')}</td></tr>`).join('')
-                    : '<tr><td colspan="4" class="detail-note">No answers saved for this day.</td></tr>';
+                    : '<tr><td colspan="3" class="detail-note">No answers saved for this day.</td></tr>';
                 requestAnimationFrame(fitLeaderboard);
-            }).catch(() => {
-                if (body.dataset.want !== want) return;
-                body.innerHTML = '<tr><td colspan="4" class="detail-note">Couldn\'t load the question.</td></tr>';
-            });
+            };
+            // The day's questions are usually fetched already (see renderDayQuestionAverages): fill in
+            // right away instead of waiting a turn, so the tap shows the question with no "Loading…"
+            if (dailyQuestionCache[date]) {
+                fill(dailyQuestionCache[date]);
+            } else {
+                loadDailyQuestions(date).then(fill).catch(() => {
+                    if (body.dataset.want !== want) return;
+                    body.innerHTML = '<tr><td colspan="3" class="detail-note">Couldn\'t load the question.</td></tr>';
+                });
+            }
             requestAnimationFrame(fitLeaderboard);
         }
 
@@ -7473,10 +7618,10 @@ Population of Tokyo?, 13960000"></textarea>
             dates.unshift(today);
             const wanted = select.value || today;
             select.innerHTML = dates.map(date =>
-                `<option value="${date}">${date === today ? 'Today · ' : ''}${dailyLabel(date)}</option>`).join('') +
-                '<option value="average">All-time average</option><option value="practice">Practice tests</option>';
-            select.value = wanted === 'average' || wanted === 'practice' || dates.includes(wanted) ? wanted : today;
-            const view = select.value;
+                `<option value="${date}">${date === today ? 'Today · ' : ''}${dailyLabel(date)}</option>`).join('');
+            select.value = dates.includes(wanted) ? wanted : today;
+            syncLeaderboardMode(dates);
+            const view = leaderboardView();
             leaderboardDayLink(view);
             renderDayQuestionAverages(view);
 
