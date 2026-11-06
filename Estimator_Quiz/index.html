@@ -2566,7 +2566,7 @@
             background: rgba(255,255,255,0.08);
             border: 2px solid rgba(255,255,255,0.1);
             border-radius: 15px;
-            padding: 30px;
+            padding: 16px 20px;
             width: 250px;
             cursor: pointer;
             transition: all 0.3s;
@@ -2583,16 +2583,11 @@
             border-color: #667eea;
         }
 
-        .mode-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
         .mode-name {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #fff;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
         .mode-desc {
@@ -2741,6 +2736,81 @@
             font-size: 12px;
             cursor: pointer;
             z-index: 5;
+        }
+
+        /* Home note: at most one short note under the practice test; gone entirely when none applies */
+        .home-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px auto 0;
+            max-width: 520px;
+            padding: 8px 6px 8px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            text-align: left;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        .home-note[hidden] {
+            display: none;
+        }
+
+        .home-note-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .home-note-action {
+            background: none;
+            border: none;
+            color: #8fa2ff;
+            font-family: inherit;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 6px 4px;
+            white-space: nowrap;
+        }
+
+        .home-note-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.1em;
+            line-height: 1;
+            cursor: pointer;
+            padding: 6px 8px;
+        }
+
+        /* In-site yes/no dialog (askConfirm), same look as the other pop-ups */
+        #ask-dialog {
+            z-index: 2600;
+        }
+
+        #ask-dialog .report-modal-content {
+            max-width: 380px;
+        }
+
+        #ask-dialog-text {
+            color: #ccc;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        #ask-dialog-text:empty {
+            display: none;
+        }
+
+        #ask-dialog button:focus {
+            outline: none;
+        }
+
+        #ask-dialog button:focus-visible {
+            box-shadow: 0 0 0 2px #8fa2ff;
         }
 
         .profile-btn {
@@ -2944,7 +3014,7 @@
             }
 
             .test-mode-option {
-                padding: 20px;
+                padding: 12px 16px;
             }
 
             header h1 {
@@ -3430,10 +3500,15 @@ Population of Tokyo?, 13960000"></textarea>
                 <button class="past-quizzes-btn" onclick="openDailyArchive()">Past quizzes</button>
                 <div class="test-mode-options">
                     <div class="test-mode-option selected" onclick="selectTestMode('estimation', this)">
-                        <div class="mode-icon">🎯</div>
                         <div class="mode-name">Practice test</div>
                         <div class="mode-desc">Enter your best guess for numerical questions</div>
                     </div>
+                </div>
+                <!-- One note at a time (renderHomeNote); hidden when none applies -->
+                <div class="home-note" id="home-note" hidden>
+                    <span class="home-note-text" id="home-note-text"></span>
+                    <button class="home-note-action" id="home-note-action" onclick="homeNoteAction()"></button>
+                    <button class="home-note-close" onclick="dismissHomeNote()" aria-label="Dismiss">&#x2715;</button>
                 </div>
             </div>
 
@@ -3696,6 +3771,18 @@ Population of Tokyo?, 13960000"></textarea>
             <p id="score-notice-change" style="font-size: 1.3em; font-weight: bold; margin-bottom: 20px;"></p>
             <div class="report-modal-buttons" style="justify-content: center;">
                 <button class="btn btn-primary" onclick="document.getElementById('score-notice').classList.remove('show')">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- In-site yes/no (and OK-only) dialog: askConfirm() in place of the browser's confirm/alert -->
+    <div class="report-modal" id="ask-dialog" role="dialog" aria-modal="true" aria-labelledby="ask-dialog-title">
+        <div class="report-modal-content">
+            <h3 id="ask-dialog-title"></h3>
+            <p id="ask-dialog-text"></p>
+            <div class="report-modal-buttons">
+                <button class="btn btn-secondary" id="ask-dialog-cancel"></button>
+                <button class="btn btn-primary" id="ask-dialog-ok"></button>
             </div>
         </div>
     </div>
@@ -4674,6 +4761,7 @@ Population of Tokyo?, 13960000"></textarea>
                 sub.textContent = `${DAILY_LENGTH} questions · same for everyone`;
                 btn.textContent = 'Play';
             }
+            renderHomeNote();
         }
 
         // A page left open past midnight: the home card and the leaderboard's "Today" move to the
@@ -4762,7 +4850,10 @@ Population of Tokyo?, 13960000"></textarea>
             const home = document.getElementById('test-tab').classList.contains('active')
                 && document.getElementById('test-mode-selection').style.display !== 'none';
             const records = document.getElementById('records-tab').classList.contains('active');
-            const show = accountReady && !currentUser && (home || records);
+            renderHomeNote();
+            // On home the note box says it instead (until the player dismisses that note)
+            const noteSays = home && homeNoteShown && homeNoteShown.id === 'signin';
+            const show = accountReady && !currentUser && (home || records) && !noteSays;
             if ((box.style.display !== 'none') === show) return;
             box.style.display = show ? '' : 'none';
             requestAnimationFrame(fitLeaderboard);
@@ -5173,13 +5264,14 @@ Population of Tokyo?, 13960000"></textarea>
                 .catch(err => console.warn('Feedback not saved:', err));
         }
 
-        function clearQuestionReports(questionId, event) {
+        async function clearQuestionReports(questionId, event) {
             if (event) event.stopPropagation();
 
             const question = questions.find(q => q.id === questionId);
             if (!question || !question.reports || question.reports.length === 0) return;
 
-            if (!confirm(`Clear all ${question.reports.length} report(s) for this question?`)) return;
+            const n = question.reports.length;
+            if (!await askConfirm({ title: 'Clear reports?', text: `All ${n} report${n !== 1 ? 's' : ''} for this question.`, ok: 'Clear', danger: true })) return;
 
             question.reports = [];
             dbWrite(questionRef(question).child('reports').remove());
@@ -5201,7 +5293,7 @@ Population of Tokyo?, 13960000"></textarea>
                 'confusing': 'Confusing wording'
             };
 
-            let reportSummary = `Reports for: "${question.text}"\n\n`;
+            let reportSummary = `"${question.text}"\n\n`;
 
             question.reports.forEach((report, index) => {
                 const date = new Date(report.date).toLocaleDateString();
@@ -5221,7 +5313,7 @@ Population of Tokyo?, 13960000"></textarea>
                 reportSummary += '\n';
             });
 
-            alert(reportSummary);
+            askConfirm({ title: 'Reports', text: reportSummary.trim(), ok: 'OK', cancel: null });
         }
 
         // ===== INITIALIZATION =====
@@ -5602,11 +5694,11 @@ Population of Tokyo?, 13960000"></textarea>
         }
         window.addEventListener('resize', () => requestAnimationFrame(fitQuestionsList));
 
-        function deleteQuestion(questionId) {
+        async function deleteQuestion(questionId) {
             const question = questions.find(q => q.id === questionId);
             if (!question) return;
 
-            if (!confirm('Delete this question?')) return;
+            if (!await askConfirm({ title: 'Delete this question?', text: question.text, ok: 'Delete', danger: true })) return;
 
             dbWrite(questionRef(question).remove());
             questions = questions.filter(q => q.id !== questionId);
@@ -5982,13 +6074,13 @@ Population of Tokyo?, 13960000"></textarea>
             });
         }
 
-        function resetAllRecords() {
+        async function resetAllRecords() {
             if (records.length === 0) {
                 showNotification('No records to reset', 'info');
                 return;
             }
 
-            if (!confirm(`Are you sure you want to delete all ${records.length} record${records.length !== 1 ? 's' : ''}? This cannot be undone.`)) return;
+            if (!await askConfirm({ title: `Delete all ${records.length} record${records.length !== 1 ? 's' : ''}?`, text: 'This cannot be undone.', ok: 'Delete', danger: true })) return;
 
             records = [];
             dbWrite(database.ref('records').remove());
@@ -6161,7 +6253,7 @@ Population of Tokyo?, 13960000"></textarea>
                         ${log ? `<span class="q-log" title="From the guess log">${log.n} guess${log.n !== 1 ? 'es' : ''} · avg <b style="color: ${scoreColor(log.frac)}">${Math.round(log.pts)}</b></span>` : ''}
                         ${reportCount > 0 ? `
                         <div class="question-reported" onclick="viewQuestionReports('${question.id}', event)" title="View reports">
-                            <span>⚠ ${reportCount} report${reportCount !== 1 ? 's' : ''}</span>
+                            <span>${reportCount} report${reportCount !== 1 ? 's' : ''}</span>
                             <button onclick="clearQuestionReports('${question.id}', event)" title="Clear reports" style="background: none; border: none; color: #ff9800; cursor: pointer; padding: 0 5px;">✕</button>
                         </div>
                         ` : ''}
@@ -7164,9 +7256,9 @@ Population of Tokyo?, 13960000"></textarea>
                 (f.view !== 'practice' || (Math.abs(Number(row.score) - f.score) < 0.05 && row.n === f.n)));
         }
 
-        function showOnLeaderboard(view, score, n) {
+        async function showOnLeaderboard(view, score, n) {
             closeAccountModal();
-            if (testState.isActive && !testState.isDaily && !confirm('Leave the test? Your progress will be lost.')) return;
+            if (testState.isActive && !testState.isDaily && !await confirmLeaveTest()) return;
             if (testState.isActive) resetTest();
             switchTab('records');
             showRecordsView('board');
@@ -7518,7 +7610,21 @@ Population of Tokyo?, 13960000"></textarea>
             }
         });
 
+        function confirmLeaveTest() {
+            return askConfirm({ title: 'Leave the test?', text: 'Your progress will be lost.', ok: 'Leave', cancel: 'Stay' });
+        }
+
         function switchTab(tabName) {
+            // Leaving a practice test asks first (in-site dialog); the tabs only change once the player says Leave.
+            // A daily quiz keeps its progress and can be continued, so it just goes.
+            if (tabName !== 'test' && testState.isActive && !testState.isDaily) {
+                confirmLeaveTest().then(leave => {
+                    if (!leave || !testState.isActive) return;
+                    resetTest();
+                    switchTab(tabName);
+                });
+                return;
+            }
             closeInfo();
             closeCalibrate();
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -7534,19 +7640,9 @@ Population of Tokyo?, 13960000"></textarea>
             if (tabName === 'questions' && opQuestionsView === 'schedule') openSchedule();
             if (tabName === 'records') requestAnimationFrame(fitLeaderboard);
 
-            // Check if leaving an active test (a daily quiz keeps its progress and can be continued)
+            // Leaving a daily quiz (a practice test was asked about above)
             if (tabName !== 'test' && testState.isActive && testState.isDaily) {
                 resetTest();
-            } else if (tabName !== 'test' && testState.isActive) {
-                if (confirm('Leave the test? Your progress will be lost.')) {
-                    resetTest();
-                } else {
-                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                    document.querySelector(`[onclick="switchTab('test')"]`).classList.add('active');
-                    document.getElementById('test-tab').classList.add('active');
-                    return;
-                }
             }
 
             if (tabName === 'test') {
@@ -7606,6 +7702,126 @@ Population of Tokyo?, 13960000"></textarea>
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
+        }
+
+        // ===== IN-SITE DIALOG =====
+        // askConfirm({title, text, ok, cancel, danger}) → Promise<boolean>, in place of the browser's
+        // confirm(). cancel: null gives an OK-only message (in place of alert()). Enter = the focused
+        // button, Escape or a tap outside = cancel. One at a time: a new ask answers the old one "no".
+        let askResolve = null;
+
+        function askConfirm({ title = '', text = '', ok = 'OK', cancel = 'Cancel', danger = false } = {}) {
+            if (askResolve) closeAsk(false);
+            const box = document.getElementById('ask-dialog');
+            document.getElementById('ask-dialog-title').textContent = title;
+            document.getElementById('ask-dialog-text').textContent = text;
+            const okBtn = document.getElementById('ask-dialog-ok');
+            const cancelBtn = document.getElementById('ask-dialog-cancel');
+            okBtn.textContent = ok;
+            okBtn.className = 'btn ' + (danger ? 'btn-danger' : 'btn-primary');
+            cancelBtn.textContent = cancel || '';
+            cancelBtn.style.display = cancel ? '' : 'none';
+            box.querySelector('.report-modal-buttons').style.justifyContent = cancel ? '' : 'center';
+            box.classList.add('show');
+            if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+            okBtn.focus();
+            return new Promise(resolve => { askResolve = resolve; });
+        }
+
+        function closeAsk(answer) {
+            document.getElementById('ask-dialog').classList.remove('show');
+            const resolve = askResolve;
+            askResolve = null;
+            if (resolve) resolve(answer);
+        }
+
+        document.getElementById('ask-dialog-ok').addEventListener('click', () => closeAsk(true));
+        document.getElementById('ask-dialog-cancel').addEventListener('click', () => closeAsk(false));
+        document.getElementById('ask-dialog').addEventListener('click', event => {
+            if (event.target.id === 'ask-dialog') closeAsk(false);
+        });
+        // Capture phase, so Escape here doesn't also close Info/Calibrate and keys don't reach the quiz
+        document.addEventListener('keydown', event => {
+            if (!askResolve) return;
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closeAsk(false);
+            } else if (event.key === 'Tab') {
+                // Keep focus on the dialog's buttons
+                const buttons = [...document.querySelectorAll('#ask-dialog button')].filter(b => b.offsetParent);
+                const i = buttons.indexOf(document.activeElement);
+                event.preventDefault();
+                buttons[(i + (event.shiftKey ? buttons.length - 1 : 1)) % buttons.length].focus();
+                return;
+            } else if (event.key !== 'Enter' && event.key !== ' ') {
+                event.preventDefault();
+            }
+            event.stopPropagation();
+        }, true);
+
+        // ===== HOME NOTE =====
+        // At most one note under the practice test, the first that applies in this order; nothing
+        // (no box, no space) when none does. ✕ hides that note for good on this device
+        // (localStorage estimatorQuizNotesDismissed = {id: time}). Daily notes are per day.
+        // New feature notes: add {id, text, until} to HOME_NEWS (id must be new; until = last day shown).
+        // (var, not const/let: renderDailyCard can run before this point of the script)
+        var HOME_NEWS = [
+            { id: 'news-you-stats', text: 'New: Records → You shows your scores and strengths.', until: '2026-11-30' }
+        ];
+        var NOTES_DISMISSED_KEY = 'estimatorQuizNotesDismissed';
+        var homeNoteShown = null;
+
+        function notesDismissed() {
+            try { return JSON.parse(localStorage.getItem(NOTES_DISMISSED_KEY)) || {}; } catch (e) { return {}; }
+        }
+
+        function isIosSafariTab() {
+            const ua = navigator.userAgent;
+            return /iP(hone|od|ad)/.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua) && !navigator.standalone
+                && !(window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+        }
+
+        function homeNoteCandidates() {
+            const notes = [];
+            if (!accountReady) return notes;
+            if (!currentUser) notes.push({ id: 'signin', text: 'Make an account to save your results.', action: 'Sign in', run: () => openAccountModal() });
+            const today = dailyToday();
+            const entry = dailyLocal[today];
+            if (!(entry && entry.done)) notes.push({ id: 'daily-' + today, text: "Today's quiz is ready.", action: entry && entry.pts && entry.pts.length ? 'Continue' : 'Play', run: () => openDaily() });
+            HOME_NEWS.forEach(n => { if (!n.until || today <= n.until) notes.push({ id: n.id, text: n.text }); });
+            if (isIosSafariTab()) notes.push({ id: 'homescreen', text: 'Tip: tap Share, then "Add to Home Screen" to keep this one tap away.' });
+            return notes;
+        }
+
+        function renderHomeNote() {
+            const box = document.getElementById('home-note');
+            if (!box || !HOME_NEWS) return;
+            const dismissed = notesDismissed();
+            const note = homeNoteCandidates().find(n => !dismissed[n.id]) || null;
+            const id = note ? note.id : null;
+            homeNoteShown = note;
+            if (box.dataset.id === (id || '') && box.hidden === !note) return;
+            box.dataset.id = id || '';
+            if (note) {
+                document.getElementById('home-note-text').textContent = note.text;
+                const action = document.getElementById('home-note-action');
+                action.textContent = note.action || '';
+                action.style.display = note.action ? '' : 'none';
+            }
+            box.hidden = !note;
+        }
+
+        function homeNoteAction() {
+            if (homeNoteShown && homeNoteShown.run) homeNoteShown.run();
+        }
+
+        function dismissHomeNote() {
+            if (!homeNoteShown) return;
+            const dismissed = notesDismissed();
+            dismissed[homeNoteShown.id] = Date.now();
+            try { localStorage.setItem(NOTES_DISMISSED_KEY, JSON.stringify(dismissed)); } catch (e) {}
+            renderHomeNote();
+            syncSigninWarning();
         }
 
         // ===== OPERATOR: DAILY SCHEDULE =====
@@ -7802,7 +8018,7 @@ Population of Tokyo?, 13960000"></textarea>
                 </div>`;
         }
 
-        function swapScheduleQuestion(date, i) {
+        async function swapScheduleQuestion(date, i) {
             if (!isOperator || !scheduleDays || !scheduleDays[date]) return;
             if (!(date > scheduleLockedThrough())) {
                 showNotification("Today's and past quizzes can't be changed", 'error');
@@ -7821,8 +8037,8 @@ Population of Tokyo?, 13960000"></textarea>
             }
             const pick = choices[Math.floor(Math.random() * choices.length)];
             const item = { key: String(pick._key), text: pick.text, answer: pick.answer };
-            const message = `Swap question ${i + 1} on ${dailyLabel(date)}?\n\nOut: ${current ? current.text : '(empty)'}\n\nIn: ${pick.text} (${scheduleCommas(pick.answer)})`;
-            if (!confirm(message)) return;
+            const message = `Out: ${current ? current.text : '(empty)'}\n\nIn: ${pick.text} (${scheduleCommas(pick.answer)})`;
+            if (!await askConfirm({ title: `Swap question ${i + 1} on ${dailyLabel(date)}?`, text: message, ok: 'Swap' })) return;
             return dbWrite(database.ref(`daily/${date}/q/${i}`).set(item).then(() => {
                 if (!scheduleDays[date].q) scheduleDays[date].q = [];
                 scheduleDays[date].q[i] = item;
