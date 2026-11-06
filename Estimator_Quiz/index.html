@@ -917,6 +917,31 @@
         .player-day-head { display: flex; justify-content: space-between; color: #ccc; font-size: 0.85em; }
         .player-day .breakdown-item { padding: 5px 8px; font-size: 0.9em; }
         .player-note { color: #888; font-size: 0.8em; padding: 2px 8px; }
+        .player-move { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 2px 8px 6px; color: #999; font-size: 0.85em; }
+        .player-move select, .player-move-name {
+            -webkit-appearance: none;
+            appearance: none;
+            min-width: 0;
+            max-width: 100%;
+            padding: 4px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            background: #2a2f52;
+            color: white;
+            font-family: inherit;
+            font-size: 16px;   /* under 16px, iPhone Safari zooms in when it's tapped */
+        }
+        .player-move select {
+            padding-right: 28px;
+            background: #2a2f52 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 10px center;
+            cursor: pointer;
+        }
+        .player-move select option, .player-move select optgroup { background: #1a1a2e; }
+        .player-move-name { width: 9em; }
+        .player-move .btn-small { padding: 5px 14px; }
+
+        /* In-site confirm dialog */
+        #ask-dialog-text p { margin: 0 0 10px; }
 
         .question-stats {
             display: flex;
@@ -3842,7 +3867,7 @@ Population of Tokyo?, 13960000"></textarea>
     <div class="report-modal" id="ask-dialog" role="dialog" aria-modal="true" aria-labelledby="ask-dialog-title">
         <div class="report-modal-content">
             <h3 id="ask-dialog-title"></h3>
-            <p id="ask-dialog-text"></p>
+            <div id="ask-dialog-text"></div>
             <div class="report-modal-buttons">
                 <button class="btn btn-secondary" id="ask-dialog-cancel"></button>
                 <button class="btn btn-primary" id="ask-dialog-ok"></button>
@@ -7853,13 +7878,16 @@ Population of Tokyo?, 13960000"></textarea>
         // askConfirm({title, text, ok, cancel, danger}) → Promise<boolean>, in place of the browser's
         // confirm(). cancel: null gives an OK-only message (in place of alert()). Enter = the focused
         // button, Escape or a tap outside = cancel. One at a time: a new ask answers the old one "no".
+        // html (escaped by the caller) replaces text for a body with markup, e.g. the operator's Move.
         let askResolve = null;
 
-        function askConfirm({ title = '', text = '', ok = 'OK', cancel = 'Cancel', danger = false } = {}) {
+        function askConfirm({ title = '', text = '', html = '', ok = 'OK', cancel = 'Cancel', danger = false } = {}) {
             if (askResolve) closeAsk(false);
             const box = document.getElementById('ask-dialog');
             document.getElementById('ask-dialog-title').textContent = title;
-            document.getElementById('ask-dialog-text').textContent = text;
+            const body = document.getElementById('ask-dialog-text');
+            if (html) body.innerHTML = html.trim(); else body.textContent = text;
+            body.style.whiteSpace = html ? 'normal' : '';
             const okBtn = document.getElementById('ask-dialog-ok');
             const cancelBtn = document.getElementById('ask-dialog-cancel');
             okBtn.textContent = ok;
@@ -8232,7 +8260,7 @@ Population of Tokyo?, 13960000"></textarea>
                 Object.entries(dailyScoresAll[date] || {}).forEach(([rowId, row]) => {
                     if (!row || typeof row.score !== 'number') return;
                     const id = rowId.startsWith('u_') ? rowId : 'n_' + String(row.name).trim().toLowerCase();
-                    player(id, row.name, date).days.push({ date, row });
+                    player(id, row.name, date).days.push({ date, row, rowId });
                 });
             });
             (playersAllRecords || records).forEach(r => {
@@ -8314,7 +8342,133 @@ Population of Tokyo?, 13960000"></textarea>
                         ${body}
                     </div>`;
             });
-            return days.concat(tests).join('') || '<div class="player-note">Nothing yet</div>';
+            return playerMoveHtml(p) + (days.concat(tests).join('') || '<div class="player-note">Nothing yet</div>');
+        }
+
+        // ----- Operator: move a no-account name's results to an account or another name -----
+        // Daily rows go to the account's own row (u_<uid>) and its account copy; practice
+        // records get the account's uid and name. A day both played keeps the target's score
+        // and removes the moved one. Old data stays only in backups, so a confirm comes first.
+        function playerMoveHtml(p) {
+            if (!p.id.startsWith('n_')) return '';
+            const others = buildPlayers().filter(o => o.id !== p.id && o.name)
+                .sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+            const opts = list => list.map(o => `<option value="${escapeHtml(o.id).replace(/"/g, '&quot;')}">${escapeHtml(o.name)}</option>`).join('');
+            return `
+                <div class="player-move">
+                    <span>Move to</span>
+                    <select onchange="this.parentNode.querySelector('input').style.display = this.value === 'new' ? '' : 'none'">
+                        <option value="">Choose…</option>
+                        <optgroup label="Accounts">${opts(others.filter(o => o.id.startsWith('u_')))}</optgroup>
+                        <optgroup label="No account">${opts(others.filter(o => o.id.startsWith('n_')))}</optgroup>
+                        <option value="new">New name…</option>
+                    </select>
+                    <input type="text" class="player-move-name" maxlength="20" placeholder="Name" autocomplete="off" style="display: none">
+                    <button class="btn btn-secondary btn-small" onclick="movePlayerFrom(this)">Move</button>
+                </div>`;
+        }
+
+        // Everything one move writes, as a single multi-path update
+        // account = the target account's {daily, tests} (only for an account target)
+        function playerMovePlan(from, to, account) {
+            const up = {};
+            const kept = [];      // days both played: the target's row stays, the moved one goes
+            let days = 0, tests = 0;
+            const uid = to.id.startsWith('u_') ? to.id.slice(2) : null;
+            from.days.forEach(({ date, row, rowId }) => {
+                const rows = dailyScoresAll[date] || {};
+                const clash = Object.entries(rows).some(([id, r]) => id !== rowId && r && playerKey(id, r) === to.id);
+                if (clash) {
+                    up[`dailyScores/${date}/${rowId}`] = null;
+                    kept.push(date);
+                    return;
+                }
+                days++;
+                if (!uid) {
+                    up[`dailyScores/${date}/${rowId}/name`] = to.name;
+                    return;
+                }
+                const copy = { name: to.name, score: row.score };
+                if (row.pts) copy.pts = row.pts;
+                if (row.g) copy.g = row.g;
+                up[`dailyScores/${date}/u_${uid}`] = copy;
+                up[`dailyScores/${date}/${rowId}`] = null;
+                if (!account.daily[date]) {
+                    const pts = row.pts ? Object.values(row.pts) : [];
+                    const rec = { score: row.score, max: pts.length ? pts.length * 1000 : 5000 };
+                    if (pts.length) { rec.pts = pts; rec.maxes = pts.map(() => 1000); }
+                    if (row.g) rec.guesses = Object.values(row.g);
+                    up[`users/${uid}/daily/${date}`] = rec;
+                }
+            });
+            const accountTests = Object.values(account ? account.tests : {});
+            from.tests.forEach(r => {
+                if (!r._key) return;
+                tests++;
+                up[`records/${r._key}/name`] = to.name;
+                if (!uid) return;
+                up[`records/${r._key}/uid`] = uid;
+                const when = Date.parse(r.date);
+                if (accountTests.some(t => t && Math.abs(t.date - when) < 5000 && t.score === r.score)) return;
+                const test = { mode: 'estimation', score: r.score, n: r.questionsAnswered, category: r.category || 'all', date: when };
+                if (r.answers) test.answers = listFromSnapshot(r.answers).map(a => ({ k: String(a.k), g: a.g, p: a.p }));
+                up[`users/${uid}/tests/${database.ref().push().key}`] = test;
+            });
+            return { up, days, tests, kept };
+        }
+
+        function movePlayerFrom(btn) {
+            if (!operatorSignedIn) return;
+            if (!playersAllRecords) { showNotification('Still loading players', 'info'); return; }
+            const box = btn.parentNode;
+            const pick = box.querySelector('select').value;
+            const players = buildPlayers();
+            const from = players.find(p => p.id === box.closest('li').dataset.id);
+            if (!from || !pick) return;
+            let to;
+            if (pick === 'new') {
+                const name = cleanName(box.querySelector('input').value);
+                const problem = nameProblem(name);
+                if (problem) { showNotification(problem, 'error'); return; }
+                const key = 'n_' + name.toLowerCase();
+                to = Object.assign({}, players.find(p => p.id === key) || { id: key }, { name });
+            } else {
+                to = players.find(p => p.id === pick);
+            }
+            if (!to || (to.id === from.id && to.name === from.name)) return;
+            const uid = to.id.startsWith('u_') ? to.id.slice(2) : null;
+            // An account target: read what its account already has, so nothing is added twice
+            const account = uid
+                ? Promise.all(['daily', 'tests'].map(k => database.ref(`users/${uid}/${k}`).once('value').then(s => s.val() || {})))
+                    .then(([daily, tests]) => ({ daily, tests }))
+                : Promise.resolve(null);
+            account.then(acc => {
+                const plan = playerMovePlan(from, to, acc);
+                const parts = [];
+                if (plan.days) parts.push(`${plan.days} dail${plan.days === 1 ? 'y' : 'ies'}`);
+                if (plan.tests) parts.push(`${plan.tests} practice test${plan.tests === 1 ? '' : 's'}`);
+                const kept = plan.kept.length
+                    ? `<p>Both played ${plan.kept.map(d => dailyLabel(d).replace(/,? \d{4}$/, '')).join(', ')}: keeps ${escapeHtml(to.name)}'s score and removes ${escapeHtml(from.name)}'s.</p>` : '';
+                return askConfirm({
+                    title: 'Move results?',
+                    html: `<p><b>${escapeHtml(from.name)}</b> → <b>${escapeHtml(to.name)}</b>${uid ? ' (account)' : ''}</p>
+                        ${parts.length ? `<p>${parts.join(' and ')}</p>` : kept ? '' : '<p>Nothing to move</p>'}${kept}`,
+                    ok: 'Move'
+                }).then(yes => {
+                    if (!yes) return;
+                    return database.ref().update(plan.up).then(() => {
+                        playersOpen.delete(from.id);
+                        playersOpen.add(to.id);
+                        playersLoading = false;   // reload every record with the new names
+                        playersAllRecords = null;
+                        renderPlayersList();
+                        showNotification(`Moved to ${to.name}`, 'success');
+                    });
+                });
+            }).catch(err => {
+                console.error('Move failed:', err);
+                showNotification('Could not move: ' + (err && err.message ? err.message : err), 'error');
+            });
         }
 
         // ===== DATA PERSISTENCE =====
