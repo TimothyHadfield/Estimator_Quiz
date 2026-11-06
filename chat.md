@@ -194,3 +194,10 @@ _One entry per session, newest at the bottom, capped at 60 KB. Older entries are
 - **Built:** `tools/reweight.cjs`; live `/questions` multiplier update (184) + rescore (`scoring/v` 2, 22 board answers changed, notices for every account with dailies). Backup `backups/rescore-2026-11-05/`.
 - **Verified how:** dry run on copied dumps (only money answers change, 252 others identical) then live; read-back of 176 board/record paths = 0 diffs; live `/questions` vs backup = only the 184 planned multipliers (+ reset avg fields). Live site headless: WebKit 393 claude-test notice "998 → 998" once, not on reload; signed-out device recalculated 3,091 → 3,191 with notice, 0 writes; Chrome 1440 no repeat, 0 console errors.
 - **Open:** question 4527 (Dolly Parton books) looks misread by 3 of 8 players + a "confusing" report: rewording is Tim's call. Rerun `tools/reweight.cjs` when answers roughly double.
+
+## 2026-11-06 · Tim's UX list built (3 builders + name merge)
+- **Asked:** "let's do the estimator quiz. I made a bunch of changes last time. are they pushed to the cite yet?" (they weren't: only discussed 11-05) → built the 11-05 list (verbatim in the progress.md Goal block).
+- **Decided:** names merged by best guess per Tim ("just guess"); kept account row on a same-day clash; latest name used for no-account people; one dialog component (builder C's) for everything.
+- **Built:** ux-home 21446d6, ux-records dc1b671, ux-names 0ef0cb5, merge f41b86a (live); DB rules deployed; live name merge (16 writes).
+- **Verified how:** 8 headless checks all pass on merged main (home-ux 21, records-ux 31, move 24, breakdown 14, records-avg 8, daily 13, fresh 9, sideways sweep 0 at 393/320); new checks failed on old code; live WebKit 393 home shot looked at (659px, no overflow); name merge read-back 0 diffs.
+- **Open:** Nathan Nov 3 kept the account try (1,108) over the earlier 1,717 (swap if Tim prefers); note wording + "New:" entry are Tim's to change; Dolly Parton question rewording.
